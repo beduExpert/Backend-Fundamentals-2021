@@ -1,23 +1,9 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 01: Consola`](../README.md) >[`Ejemplo-03`](../Ejemplo-03) > `Reto 3`
-	
-## Reto 3:
+[`Backend Fundamentals`](../../README.md) > [`Sesión 01`](../README.md) > `Reto 3`
 
-# Instrucciones:
+### Reto 3
 
-1. Instala el paquete `fortune` desde la terminal.
-2. Ejecuta los siguientes comandos y observa lo que sucede.
+En equipos, definan los requerimientos de su proyecto. Para esto determinen el alcance que tendrá su aplicación, quienes son los agentes que intractúan en ella y las funciones de cada uno. Después, escriban un mínimo de **5 historias de usuario** para definir los requerimientos de la aplicación.
 
-    `fortune`
+![https://miro.medium.com/max/2732/1*OXgRHuX1LBXOcWEUL8-oUQ.png](https://miro.medium.com/max/2732/1*OXgRHuX1LBXOcWEUL8-oUQ.png)
 
-    `fortune -s`
-
-    `fortune | cowsay`
-
-    `fortune | cowsay -f tux`
-
-3. Instala el paquete **lolcat**
-4. Ejecuta `fortune | cowsay | lolcat`
-
-<img src="https://i.redd.it/chibzcm23y411.png" width="550">
-
-[`Atrás: Ejemplo 03`](../Ejemplo-03)
+[`Atrás`](../README.md) | [`Siguiente`](../README.md)

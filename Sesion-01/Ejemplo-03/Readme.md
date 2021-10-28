@@ -1,51 +1,54 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 01: Consola`](../README.md) > `Ejemplo 03`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 01`](../README.md) > `Ejemplo 3`
 
-# Requerimientos
+# Ejemplo 3: Casos de Uso
 
-- Tener **instalado** sistema operativo **Linux** o **MacOS**.
+Los diagramas de caso de uso consisten en 4 objetos.
 
-# Desarrollo
+- Actor
+- Caso de uso
+- Sistema
+- Paquete
 
-# Instalando paquetes
+Los objetos se explican con más detalle a continuación.
 
-- Los paquetes en los sitemas operativos unix, son **programas** que han sido empaquetados para su instalación y distribución.
-- Distribuciones de Linux como Ubuntu y Debian cuentan con su gestor de paquetes por defecto.
-- Para MacOs debemos **instalar Brew** siguiendo las instrucciones del [siguiente enlace](https://brew.sh/index_es)
+### Actor
 
-## Actualizando la lista de repositorios
+El actor en un diagrama de caso de uso de es cualquier entidad que desempeñe un papel en un sistema determinado. Puede ser una persona, una organización o un sistema externo y normalmente se dibuja como el esqueleto que se muestra a continuación.
 
-- Para actualizar la fuente oficial de dónde se descargaran los paquetes utilizaremos el **siguiente comando:**
+<img src="https://d3n817fwly711g.cloudfront.net/blog/wp-content/uploads/2014/03/Actor.png">
 
-`sudo apt-get update`
+### Caso de uso
 
-<img src="img/Screen_Shot_2020-03-21_at_16.33.43.png" width="650px">
+Un caso de uso representa una función o una acción dentro del sistema. Está dibujado como un óvalo y nombrado con la función.
 
-Al utilizar el prefijo **sudo**, estamos dando el permiso a nuestro gestor de paquetes de **hacer cambios en nuestro sistema**
-
->💡**Nota:**
->
->Es posible que nos solicite nuestra contraseña.
-
-## Instalando paquetes
+<img src="https://d3n817fwly711g.cloudfront.net/blog/wp-content/uploads/2014/03/Use-Case.png">
 
 
-### Sintaxis:
+### Sistema
 
-`[sudo] apt-get install [nombre del paquete o paquetes separados por espacio]`
+El sistema se utiliza para definir el alcance del caso de uso y se dibuja como un rectángulo. Este es un elemento opcional pero útil cuando se visualizan sistemas grandes. Por ejemplo, puede crear todos los casos de uso y luego utilizar el objeto del sistema para definir el alcance que abarca su proyecto. O incluso puedes usarlo para mostrar las diferentes áreas cubiertas en los diferentes lanzamientos.
 
-**Instalaremos** un paquete simple llamado **cowsay** ejecutando el siguiente comando:
+<img src="https://d3n817fwly711g.cloudfront.net/blog/wp-content/uploads/2014/03/System.png">
 
-`sudo apt-get install cowsay`
+### Paquete
 
-En caso de que nos pida **confirmación para continuar ingresaremos la opción**  `Y` y presionamos **enter.**
+El paquete es otro elemento opcional que es extremadamente útil en diagramas complejos. Los paquetes se utilizan para agrupar los casos de uso. Se dibujan como la imagen que se muestra a continuación.
 
-Si todo ha sido exitoso ahora tendremos un nuevo ***comando*** instalado en nuestra terminal el cual ejecutaremos de la siguiente manera:
+<img src="https://d3n817fwly711g.cloudfront.net/blog/wp-content/uploads/2014/03/Package1.png">
 
-### Sintaxis:
+## Dibujando Casos de Uso
 
-`cowsay [mensaje]`
+Existen muchas herramientas que nos permiten dibujar esta clase de diagramas, para este modulo vamos a utilizar [`draw.io`](draw.io) que tiene un paquete especifico para dibujar diagramas de caso de uso.
 
-<img src="img/Untitled.png" width="650px">
+Vamos a traducir nuestra historia de usuario 
+
+*Como anunciante de adoptPet, quiero agregar nuevas mascotas en adopción, para poder buscar hogar a mas animalitos*
+
+a un caso de uso que quedaría de la siguiente forma:
+
+<img src="img/use_case.jpg">
 
 
-[`Atrás: Reto-02`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-01/Reto-02) | [`Siguiente: Reto-03`](../Reto-03)
+
+[`Atrás: Sesión 03`](../README.md) | [`Siguiente: Reto-04`](../Reto-04)
+

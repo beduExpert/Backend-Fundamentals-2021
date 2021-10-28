@@ -1,22 +1,20 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 01: Consola`](../README.md) >[`Ejemplo-01`](../Ejemplo-01) > `Reto 1`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 01`](../README.md) >[`Ejemplo-01`](../Ejemplo-01) > `Reto 1`
+	
+## Reto 1
 
-# Reto 1
+Llena la siguiente tabla sobre las respuestas a peticiones
 
-# Instrucciones
+| Código | Descripción |
+|--------|-------------|
+| 102    |             |
+| 202    |             |
+| 206    |             |
+| 300    |             |
+| 304    |             |
+| 400    |             |
+| 401    |             |
+| 418    |             |
+| 501    |             |
+| 511    |             |
 
-
-- Dentro de la carpeta **Documents** crea la carpeta **bedu** y dentro de ella crea la siguiente estructura.
-
-
-```terminal
-Documents/
-└──📂bedu/
-   └── index.html
-   └── README.md
-   └── hola.sh
-   └──📂src/
-      └── inicio.sh
-      └── main.js
-```
-
-[`Atrás: Ejemplo 01`](../Ejemplo-01) | [`Siguiente: Ejemplo 02`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-01/Ejemplo-02)
+[`Atrás: Ejemplo 01`](../Ejemplo-01) | [`Siguiente: Ejemplo 02`](../Ejemplo-02)
