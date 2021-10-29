@@ -2,8 +2,20 @@
 
 ### Reto 3
 
-En equipos, definan los requerimientos de su proyecto. Para esto determinen el alcance que tendrá su aplicación, quienes son los agentes que intractúan en ella y las funciones de cada uno. Después, escriban un mínimo de **5 historias de usuario** para definir los requerimientos de la aplicación.
+Llena la siguiente tabla sobre las respuestas a peticiones
 
-![https://miro.medium.com/max/2732/1*OXgRHuX1LBXOcWEUL8-oUQ.png](https://miro.medium.com/max/2732/1*OXgRHuX1LBXOcWEUL8-oUQ.png)
+| Código | Descripción |
+|--------|-------------|
+| 102    |             |
+| 202    |             |
+| 206    |             |
+| 300    |             |
+| 304    |             |
+| 400    |             |
+| 401    |             |
+| 418    |             |
+| 501    |             |
+| 511    |             |
+
 
 [`Atrás`](../README.md) | [`Siguiente`](../README.md)

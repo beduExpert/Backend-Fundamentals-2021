@@ -1,54 +1,57 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 01`](../README.md) > `Ejemplo 3`
 
-# Ejemplo 3: Casos de Uso
+# Ejemplo 3: Modelo Vista Controlador
 
-Los diagramas de caso de uso consisten en 4 objetos.
+**Objetivo:**
 
-- Actor
-- Caso de uso
-- Sistema
-- Paquete
+- Entender la arquitectura Modelo Vista Controlador y su utilidad en la etapa de diseño de una aplicación.
 
-Los objetos se explican con más detalle a continuación.
+**Requerimientos:**
 
-### Actor
+- Navegador web y cuaderno o aplicación para tomar notas.
 
-El actor en un diagrama de caso de uso de es cualquier entidad que desempeñe un papel en un sistema determinado. Puede ser una persona, una organización o un sistema externo y normalmente se dibuja como el esqueleto que se muestra a continuación.
+## Desarrollo
 
-<img src="https://d3n817fwly711g.cloudfront.net/blog/wp-content/uploads/2014/03/Actor.png">
+Una de las maneras para bajar nuestras ideas y comenzar a diseñar la arquitectura de nuestra solución de software es por medio del patrón MVC *(Model View Controller)* 
 
-### Caso de uso
+### ¿Qué es MVC?
 
-Un caso de uso representa una función o una acción dentro del sistema. Está dibujado como un óvalo y nombrado con la función.
+Es un patrón de diseño que separa las partes de nuestra aplicación en tres elementos.
 
-<img src="https://d3n817fwly711g.cloudfront.net/blog/wp-content/uploads/2014/03/Use-Case.png">
+- **Modelo:** Contiene una representación de los datos que maneja el sistema, su lógica de negocio, y sus mecanismos de persistencia.
+- **Vista:**  Compone y presenta la información que se envía al cliente y los mecanismos interacción con éste por medio de una interfaz de usuario.
+- **Controlador:** Actúa como un intermediario entre el Modelo y la Vista, gestionando el flujo de información entre ellos y las transformaciones para adaptar los datos a las necesidades de cada uno.
+
+<img src="https://designlopers.com/views/assets/post/Desarrollo_de_aplicaciones_profesionales_en_PHP_y_MVC.png" width="550">
+
+### Flujo MVC
+
+MVC es un estilo de arquitectura que nos sirve para abstraer el funcionamiento de nuestra aplicación y separar las partes referentes al negocio de la lógica. Actualmente existen varios frameworks que han adaptado este estilo a su manera y que nos ayudan a no perder tiempo y comenzar a desarrollar con reglas preestablecidas. Algunos de estos frameworks son:
+
+- SailJS o Express para NodeJS.
+- Django si lo tuyo es Python.
+- Ruby on Rails para el lenguaje de programación Ruby.
+- Laravel si lo tuyo es PHP.
+
+Los cuales nos permiten entregarle al usuario las vistas (documentos HTML, CSS y Javascript) desde el servidor.
+
+MVC también ha sido adaptado para utilizarse en frontend y en Android.
+
+### Modelo: Identificación de modelos
+
+Continuando con BeduShop, podemos identificar cuatro entidades principales:
+
+1. Producto: Se refiere al producto que registran los vendedores y los usuarios pueden comprar.
+2. Usuario: hay dos tipos de usuarios de nuestra aplicación, el tipo comprador y el tipo vendedor 
+3. Venta: Una venta define el momento en el que un comprador ordena un producto.
+3. Reseña: Una valoración escrita por un usuario sobre un producto. 
+
+Estos cuatro elementos serán nuestros modelos. Y en las sesiones siguiente veremos como se representan programativamente y en una base de datos.
 
 
-### Sistema
-
-El sistema se utiliza para definir el alcance del caso de uso y se dibuja como un rectángulo. Este es un elemento opcional pero útil cuando se visualizan sistemas grandes. Por ejemplo, puede crear todos los casos de uso y luego utilizar el objeto del sistema para definir el alcance que abarca su proyecto. O incluso puedes usarlo para mostrar las diferentes áreas cubiertas en los diferentes lanzamientos.
-
-<img src="https://d3n817fwly711g.cloudfront.net/blog/wp-content/uploads/2014/03/System.png">
-
-### Paquete
-
-El paquete es otro elemento opcional que es extremadamente útil en diagramas complejos. Los paquetes se utilizan para agrupar los casos de uso. Se dibujan como la imagen que se muestra a continuación.
-
-<img src="https://d3n817fwly711g.cloudfront.net/blog/wp-content/uploads/2014/03/Package1.png">
-
-## Dibujando Casos de Uso
-
-Existen muchas herramientas que nos permiten dibujar esta clase de diagramas, para este modulo vamos a utilizar [`draw.io`](draw.io) que tiene un paquete especifico para dibujar diagramas de caso de uso.
-
-Vamos a traducir nuestra historia de usuario 
-
-*Como anunciante de adoptPet, quiero agregar nuevas mascotas en adopción, para poder buscar hogar a mas animalitos*
-
-a un caso de uso que quedaría de la siguiente forma:
-
-<img src="img/use_case.jpg">
+-------
 
 
 
-[`Atrás: Sesión 03`](../README.md) | [`Siguiente: Reto-04`](../Reto-04)
+[`Atrás: Sesión 03`](../Ejemplo-03) | [`Siguiente: Reto-04`](../README.md)
 

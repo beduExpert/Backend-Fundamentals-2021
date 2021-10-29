@@ -53,7 +53,8 @@ En el diagrama se puede observar la estructura completa que tendrá nuestro proy
 5. Para descargar el diagrama y guardarlo como parte de la documentación, damos click en el menú de hamburguesa > Export y luego seleccionamos la opción a la cuál queramos exportarlo.
 
 <img src="img/img6.png" alt="mission" >
+
 -------
 
-[`Atrás: Sesión 03`](../README.md) | [`Siguiente: Reto-02`](../Reto-02)
+[`Atrás: Reto 01`](../Reto-01) | [`Siguiente: Sesión`](../README.md)
 
