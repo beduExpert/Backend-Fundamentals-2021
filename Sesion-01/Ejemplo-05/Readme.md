@@ -14,7 +14,6 @@
 
 ## 👾 Servidor web
 
-<img src="img/server.png" align="right" width="250">
 
 Un servidor web es un conjunto de software y hardware que responden las peticiones que los clientes hacen sobre *World Wide Web*.
 
@@ -57,19 +56,6 @@ El cliente se ocupa de hacer peticiones, recibir respuestas y presentarlas al us
 Es un sistema diseñado específicamente para satisfacer las demandas de información de los clientes. El servidor recibe las peticiones del cliente, las procesa y responde la información solicitada.
 
 Los servidores suelen realizar tareas complejas y especializadas, comúnmente también hacen peticiones a otros sistemas como a servidores de bases de datos o servicios externos e internos *(micro-servicios)*.
-
-Algunos ejemplos de servidores son:
-
-- Servidores de base de datos.
-- Servidores de correo electrónico.
-- Servidores de imágenes.
-- Servidores WEB.
-
-<img src="img/Untitled.png" width="500">
-
-Tomando esto en cuenta es común dividir las responsabilidades y los equipos de desarrollo en ***Frontend developers*** y ***Backend developers**,* dónde los primeros se encargan de desarrollar el código que se ejecutará en un navegador, y los segundos el código y las configuraciones del lado del servidor.
-
-<img src="img/Frontend-and-backend-frameworks.png" width="700">
 
 ## ✉️ Protocolo HTTP
 
