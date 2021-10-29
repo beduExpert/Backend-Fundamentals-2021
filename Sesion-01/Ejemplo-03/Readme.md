@@ -48,5 +48,5 @@ Las historias de usuario están definiendo el comportamiento de lxs usuarixs o e
 
 
 
-[`Atrás: Sesión 03`](../README.md) | [`Siguiente: Reto-04`](../Reto-04)
+[`Atrás: Sesión 03`](../README.md) | [`Siguiente: Reto-02`](../Reto-02)
 

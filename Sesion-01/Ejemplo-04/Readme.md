@@ -53,5 +53,5 @@ Estos cuatro elementos serán nuestros modelos. Y en las sesiones siguiente vere
 
 
 
-[`Atrás: Sesión 03`](../Ejemplo-03) | [`Siguiente: Reto-04`](../README.md)
+[`Atrás`](../Ejemplo-03) | [`Siguiente`](../README.md)
 
