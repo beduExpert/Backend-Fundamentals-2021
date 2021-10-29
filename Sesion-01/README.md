@@ -15,8 +15,8 @@ Antes de comenzar con la implementación de la aplicación de backend es importa
 En esta etapa se tiene que determinar la definición y alcance del proyecto y la organización del desarrollo del mismo, se dan fechas tentativas de entregas parciales. También es importante definir las herramientas que se utilizarán a lo largo del desarrollo del proyecto, tanto las herramientas técnicas (lenguajes de programación, bibliotecas, etc.) así como las de organización.
 
 - [`Ejemplo 01: Alcance y planificación del proyecto`](Ejemplo-01/)
+- [`Reto 01: Calendarización`](Reto-01/)
 - [`Ejemplo 02: Definición de las herramientas`](Ejemplo-02/)
-- [`Reto 01: Definición de las herramientas`](Ejemplo-01/)
 
 ## Diseño de un proyecto
 

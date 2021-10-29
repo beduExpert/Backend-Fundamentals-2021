@@ -1,63 +1,58 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 01`](../README.md) > `Ejemplo 2`
 
-# Ejemplo 2: Peticiones
+# Ejemplo 2: Definición de las herramientas
 
-### Listando animalitos
+**Objetivo:**
 
-Listaremos animales haciendo peticiones a una API pública: 
+- Identificar las herramientas que utilizaremos para el desarrollo del proyecto.
+- Generar un diagrama en donde se muestre la organización del proyecto.
 
-1. Abriremos una nueva pestaña de nuestro navegador
+**Requerimientos:**
 
-2. Abrimos el inspector de elementos y nos dirigiremos a la pestaña *Network*
+- Navegador web y cuaderno o aplicación para tomar notas.
 
-3. Abrimos el [siguiente enlace:](https://petstore.swagger.io/v2/pet/findByStatus?status=available)
+---
 
-4. Observar que es lo que sucede
+## Desarrollo
 
-5. En la pestaña de *Network* dar click en la primera petición, analizar los campos del request y de la respuesta.
+En este ejemplo vamos a construir un diagrama con todas las herramientas que vamos a utilizar para el desarrollo del proyecto utilizando la herramienta [TerraStruct](https://app.terrastruct.com).
 
+1. Abrimos [TerraStruct](https://app.terrastruct.com) en el navegador y creamos una cuenta o iniciamos sesión.
 
-<img src="img/Untitled1.png" width="1000">
+<img src="img/img1.png" alt="mission" >
 
-### Utilizando un cliente de peticiones
+2. En esta aplicación tenemos un lienzo en blanco en el cuál se puede definir el diagrama con la estructura del proyecto. 
 
-1. Elegiremos e instalaremos alguno de los siguientes clientes de peticiones HTTP/HTTPS
-    - [Insomnia Core](https://insomnia.rest/)
-    - [Postman](https://www.postman.com/)
+<img src="img/img2.png" alt="mission" >
 
-2. Añadiremos una nueva mascota haciendo una petición `POST` en el siguiente URL: [https://petstore.swagger.io/v2/pet](https://petstore.swagger.io/v2/pet)
+3. Del lado derecho tenemos un menú con diferentes opciones de elementos para agregar a nuestro diagrama. Utilizaremos principalmente los _Shapes_.
 
-<img src="img/Untitled2.png" width="700">
+<img src="img/img3.png" alt="mission" >
 
-El cuerpo de la petición estará en formato JSON y será cómo el siguiente:
+y los _Icons_
 
-```jsx
-{
-   "id": 989898,
-    "category": {
-      "id": 0,
-      "name": "dogs"
-    },
-    "name": "El Firulais",
-    "photoUrls": [
-    "https://i.pinimg.com/474x/63/96/a2/6396a292169efeb4651278196a81bb6b.jpg"
-    ],
-    "tags": [
-      {
-        "id": 4242,
-        "name": "memes"
-      }
-    ],
-    "status": "available"
-}
-```
+<img src="img/img4.png" alt="mission" >
 
-Consulta la [Documentación](https://petstore.swagger.io/#/) de la API, para que veas como funcionan los servicios de ésta.
+4. Vamos a dibujar el siguiente diagrama
 
-Una vez ejecutada la petición, obtendremos una respuesta `200` si todo ha salido bien
+<img src="img/img5.png" alt="mission" >
 
-<img src="img/Untitled3.png" width="900">
+Y ahora vamos a entender que nos está diciendo.
 
+- El rectángulo que se encuentra en la parte superior izquierda, define la aplicación de _backend_.
+- Dentro del _backend_ tenemos una base de datos de PostgreSQL.
+- Y una API desarrollada en JavaScript con npm y con github como gestor de versiones que se comunica con la base de datos con sequelize.
+- Todo el _backend_ está hosteado en Heroku.
+- El _backend_ se comunica con un cliente a través de Express.js en un navegador.
+- En la parte inferior podemos ver que el equipo de desarrollo utiliza Slack y Trello para la comunicación y organización respectivamente.
+
+Todas estas son las herramientas que exploraremos durante el módulo, en donde cada una nos servira para resolver tareas en especifico.
+
+En el diagrama se puede observar la estructura completa que tendrá nuestro proyecto. Estos diagramas son de gran utilidad ya que representan de forma intuitiva la arquitectura del proyecto que se está desarrollando.
+
+5. Para descargar el diagrama y guardarlo como parte de la documentación, damos click en el menú de hamburguesa > Export y luego seleccionamos la opción a la cuál queramos exportarlo.
+
+<img src="img/img6.png" alt="mission" >
 -------
 
 [`Atrás: Sesión 03`](../README.md) | [`Siguiente: Reto-02`](../Reto-02)
