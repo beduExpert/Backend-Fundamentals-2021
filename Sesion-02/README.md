@@ -1,39 +1,41 @@
-# Sesión 2 - Administración de servidores
+# Sesión 2 - Introducción a Bases de Datos 
 
 # 🎯  Objetivo:
 
-- Gestionar usuarios y permisos de archivos, cómo conectarse, utilizar un servidor remoto por medio de ssh y enviar archivos remotamente con SCP.
+- Crear una base de datos para el proyecto.
+- Poblar la base de datos.
 
-### Secciones:
+---
 
-# 🛠 Prework
+## Diseñando la base de datos
 
-**Objetivo:**
+Para poder construir una base de datos es muy importante que información vamos a guardar en ella y de que forma vamos a estructurarla, de lo contrario podría resultar una base de datos con muchos errores que no funcione como esperamos. Es por esta razón que el proceso de diseño de bases de datos es de suma importancia. A continuación veremos algunas herramientas que nos ayudan en el proceso de diseño de una base de datos.
 
-- Leer el contenido que se muestra a continuación, se que puede parecer mucha información, pero tienes que comprender las bases y por qué suceden las cosas.
-- Resolver las preguntas que se encuentran al final del prework.
+- [`Ejemplo 1: Modelo Entidad Relación y Relacional`](Ejemplo-01/)
+- [`Reto 1: Modelo Entidad Relación y Relacional`](Reto-01/)
 
-# 🕵 Ejemplos:
+## 💻 Sistemas gestores de bases de datos
 
-- [`Ejemplo 1: Usuarios y permisos`](Ejemplo-01/#ejemplo-1-usuarios-y-permisos)
+Son programas que funcionan como interfaz entre lxs usuarixs y las bases de datos. Gestionando los datos, el motor de base de datos, y el esquema de la base para facilitar la organización y manipulación de los datos.En otras palabras, es un software mediante el cual nosotrxs como usuarixs podemos acceder a la base de daos y hacer consultas, manipular los datos, modificar el esquema y en general administrar la base de datos.
 
-- [`Ejemplo 2: SSH`](Ejemplo-02/#ejemplo-2-ssh)
-
-- [`Ejemplo 3: Utilizando el servidor remoto`](Ejemplo-03/#ejemplo-3-utilizando-el-servidor-remoto)
-
-# 💻 Retos:
-
-- [`Reto 01: Permisos actuales de tus archivos`](Reto-01/#reto-1)
-
-- [`Reto 02: Inicir sesión en una máquina remota`](Reto-02/#reto-2)
-
-- [`Reto 03: Crea tu propio archivo en el servidor`](Reto-03/#reto-3)
+Para este modulo estaremos utilizando **PostgreSQL** como gestor de base de datos. 
 
 
-# 🛡 Postwork
+- [`Ejemplo 2: Configuración de postgreSQL`](Ejemplo-02/)
 
-**Objetivo:**
+## Creación de la base de datos
 
-- Aprender a utilizar SCP y conocer FTP cómo protocolo para la transferencia de información a un servidor.
+Ya que tenemos nuestro diseño y nuestro servidor de bases de datos, ahora vamos a crearla, es decir vamos a generar la estructura dentro del servidor. Y también vamos a comenzar a cargar datos a ella, para que nos demos una idea de la estructura que tendrá.
 
-Recuerda que todo lo trabajado en tu prework, así como durante la sesión, puede ser aplicado a tu proyecto personal; Para lo cual, toma las siguientes consideraciones...[`leer mas`](Postwork/#postwork-transferencia-de-archivos-a-un-servidor-scp-y-ftp)
+- [`Ejemplo 3: Creación de una base de datos`](Ejemplo-03/)
+- [`Reto 2: Creación y poblado de tablas`](Reto-02/)
+
+## Consultas a la base de datos
+
+Ahora que nuestra base de datos ya esta lista y tiene información, el paso siguiente es poder acceder a esta información. En este ejemplo veremos como podemos consultar los datos que se encuentran almacenados en la base de datos.
+
+- [`Ejemplo 4: Queries`](Ejemplo-04/)
+- [`Reto 3: Queries`](Reto-03/)
+
+
+

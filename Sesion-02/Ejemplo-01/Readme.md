@@ -1,129 +1,114 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 02: Administración de servidores`](../README.md/#sesión-2---administración-de-servidores) > `Ejemplo 1`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 02: Introducción a Bases de datos`](../README.md/) > `Ejemplo 1`
 
-# Ejemplo 1: Usuarios y permisos
+# Ejemplo 1: Diseño de una base de datos
 
 **Objetivos:**
 
-- Conocer los distintos tipos de usuarios de un sistema operativo UNIX.
-- Entender los diferentes tipos de permisos de un archivo y cómo modificarlos.
+- Aprender los fundamentos de diseño de una base de datos relacional
+- Generar diagramas que nos permitan modelar la base de datos.
 
 **Requerimientos**
 
-Tener **instalado** sistema operativo **Linux** o **MacOS**.
+Un navegador web
 
-## Desarrollo
+# Desarrollo
 
-En UNIX contamos con los siguientes tipos de **usuarios**:
+Para este ejemplo veremos dos diagramas de gran utilidad en el proceso de diseño de una base de datos. Estos diagramas son el Modelo Entidad Relación y el Modelo Relacional. Para poder dibujarlos de forma sencilla se puede utilizar herramientas como [draw.io](draw.io)
 
-Tipo | Explicación
--- | --
-owner (propietario) | Campo B0
-group (grupo) | 	Todos los usuarios que son miembros del mismo grupo.
-others (otros) | Todos los demás usuarios del sistema que no son propietarios ni miembros del grupo.
+## Modelo Entidad Relación
 
-Cada uno de estos usuarios tiene un tipo de permiso específico sobre cada archivo.
+El modelo entidad-relación se basa en tres conceptos clave: 
+- **Entidad**
+- **Atributo** 
+- **Relación**.
 
-Los permisos son:
+Veamos con detalle cada uno de estos y como se adaptan a nuestro proyecto colaborativo.
 
-- `r`: Lectura (**r**ead)
-- `w`: Escritura (**w**rite)
-- `x`: Ejecución (e**x**ecute)
+### Entidad
 
-## Iniciando sesión como usuario root
+La entidad es la representación de un objeto que puede ser real o abstracto. Las entidades son esos modelos que identificamos en la sesión anterior, aquellos que representan actores de nuestro proyecto. Entonces nuestras entidades son:
 
-Para cambiar los privilegios y propietarios de nuestros archivos necesitamos los permisos suficientes.
+- Producto
+- Usuario 
+- Venta 
+- Reseña
 
-Para esto necesitamos **autentificarnos cómo usuarios root**
+En el diagrama una entidad se representa en forma de rectángulos con el nombre de la entidad, como los siguientes:
 
-Para iniciar sesión en **ubuntu con usuario root ingresaremos el siguiente comando:**
+<img src="img/img1.png" width="500">
 
-`su -i` 
+### Atributo 
 
-Seguido de nuestro **password** si éste es requerido.
+Los atributos son los componentes o características que determina una entidad. Representan la información que deseamos guardad de cada entidad. 
 
-**Cuidado:** Al estar autenticados como usuarios root contaremos con todos los privilegios, así que podremos hacer CUALQUIER modificación al sistema operativo.
+Por ejemplo, para la entidad producto tenemos los siguientes atributos:
 
->💡 **Nota:**
->
->Podemos salir de la sesión escribiendo la palabra `exit` y dando enter.
+- Id
+- Nombre
+- Precio
+- Descripción
+- Categoría
 
-## Listando privilegios en los archivos
 
-Cada archivo tiene un **tipo de acceso para cada usuario.**
+En el diagrama los atributos tienen la forma de óvalo y estas conectados a la entidad sobre la cuál se definen,  como se muestra a continuación:
 
-Entraremos a nuestra **carpeta bedu** de los ejemplos anteriores y ejecutaremos el comando:
+<img src="img/img2.png" width="500">
 
-`ls -l`
+El *Id* será el atributo con el cual identificaremos univocamente cada entidad y que mediante relaciones podremos acceder a la entidad. Este atributo se conoce como **clave** y se representa subrayando su nombre.
 
-![src/Untitled.png](src/Untitled.png)
+### Relación 
 
-**Ejemplo**
+Una relación es una asociación entre varias entidades. Por ejemplo, las entidades producto y reseña están relacionadas y el nombre de esta relación es *tiene*
 
-Utilizaremos los valores del archivo `hola.sh`.
+En un diagrama podemos observar una relación en forma de rombo y conectada a las entidades que relaciona:
 
-- **-rw-r--r--** En la primera columna obtendremos una representación de los bits de permisos cuyo primer caracter nos indica el **tipo de archivo puede ser folder** `d`, **archivo regular** `-`, o **symbolic link** `l`, los siguientes 3 caracteres serán los **permisos que el propietario tiene sobre ese archivo**, luego los permisos del grupo y al final los permisos globales.
+<img src="img/img3" width="500">
 
-- **1** – Una cantidad de **enlaces fijos**(hard links). Básicamente, un enlace fijo es un nombre adicional para un archivo existente.
-- **danyparc staff** – Muestra el **propietario** y el **propietario del grupo** del archivo.
+Existen diferentes tipos de relaciones, estas se diferencian por su cardinalidad, es decir el número de registros que relacionan de cada una de las entidades. Y de esta forma tenemos 3 tipos de relaciones:
 
-- **30** – Esto muestra el **tamaño** del archivo.
+**1:1**
 
-- **Mar 21 27:05** – Muestra la **fecha** de la última modificación.
+<img src="img/Screen_Shot_2020-06-13_at_0.07.53.png" width="500">
 
-- **hola.sh** – Proporciona el **nombre** del archivo/carpeta.
+**1:N o N:1**
 
-### Comando `chown`
+<img src="img/Screen_Shot_2020-06-13_at_0.22.03.png" width="500">
 
-El comando `chown` nos permite cambiar al propietario de un archivo
+**N:N**
 
-**Sintaxis:**
+<img src="img/Screen_Shot_2020-06-13_at_0.24.44.png" width="500">
 
-`chown [owner/group owner] [nombre del archivo]`
+Nuestra relación entre producto y reseña es **1:N** pues un producto tiene muchas reseñas pero cada reseña es exclusivamente sobre un producto.
 
-Si tenemos un archivo **«demo.txt»** y queremos que el propietario del archivo sea **«juan»** y que el propietario del grupo sea **«clientes»**, usaríamos este comando:
+## Modelo Relacional
 
-```
-chown juan:clientes demo.txt
-```
+El modelo ER facilita las tareas de diseño conceptual de base de datos pero es necesario traducirlo a un esquema que sea compatible con un **Sistema de Gestión de Base de Datos** como lo es PostgreSQL.
 
-> 💡 **Nota:**
->
-> Para listar los grupos puedes usar el comando `groups` o para ver los grupos a los que un usuario pertenece puedes usar `groups <nombre_de_usuario>`
+El Modelo relacional es utilizado por la mayoría de los SGDB existentes en el mercado (Oracle, SQL Server, MaríaDB, SQLite).
 
-## Cambiando privilegios de un archivo
+En el modelo relacional se utiliza un grupo de **tablas** para representar los datos y las relaciones entre ellos. Cada tabla está compuesta por varias **columnas** que representan los atributos de la entidad y **filas** que serán **registros** o **tuplas**.
 
-### Comando `chmod`
+### Restricciones de integridad
 
-El comando `chmod` nos permite cambiar los privilegios a los archivos.
+La integridad de los datos es la propiedad que asegura que información dada es correcta, al cumplir ciertas aserciones. Las restricciones de integridad son propiedades de la base de datos que se deben satisfacer en cualquier momento entre las cuales están:
 
-Cada tipo de permiso tiene su propio **número**:
+- Integridad de clave primaria
+- Integridad referencial
+- Tratamiento de valores nulos
+- Valores por defecto
 
-- **r** (read) – 4
-- **w** (write) – 2
-- **x** (execute) – 1
+### ¿Cómo pasar del Modelo ER al Modelo Relacional?
 
-estos valores numéricos se suman para **asignar permisos** a un tipo de usuario.
+Del ejemplo de la entidad "*Producto"*
 
-Entonces, para cambiar los permisos de **hola.sh** a estos:
+<img src="img/img4.png" width="500">
 
-**-rwxr–rw- 1 danyparc staff 0 Mar 21 27:05 hola.sh**
+Hemos hablado que el modelo relacional son tablas y columnas, en este ejemplo la entidad *"Producto"* será el nombre de nuestra tabla y cada atributo será una fila.
 
-Ejecutaremos este comando:
+Como lo vimos anteriormente el uso de **claves** es importante ya que se utilizan para definir relaciones. Las tablas se relacionan mediante una ***"relación de clave primaria o de clave foránea"***, dónde:
 
-```bash
-chmod 746 hola.sh
-```
+- **Llave primaria**: Es una columna o conjunto de columnas en una tabla cuyos valores identifican de forma exclusiva un registro de la tabla.
+- **Llave foránea**: Es una columna o conjunto de columnas en una tabla cuyos valores corresponden a los valores de la clave primaria de otra tabla.
 
-Donde **7** es la **suma de los valores numéricos** de los permisos para el propietario, **4** para el **grupo** y **6** para el **público en general**.
 
-Así que tendríamos un archivo dónde el propietario tiene todos los permisos, el grupo solamente puede leer y otros únicamente pueden leer y escribir.
-
-Si quisieramos **cambiar** los permisos de un **folder** junto con todos los archivos que contiene, podemos utilizar la opción `-R` para aplicar el comando de manera recursiva.
-
-```bash
-chmod -R 744 claseDos
-```
-
--------
-
-[`Atrás: Sesión 02`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-02) | [`Siguiente: Reto 01`](../Reto-01)
+[`Atrás: Sesión 02`](../README.md) | [`Siguiente: Reto 01`](../Reto-01)
