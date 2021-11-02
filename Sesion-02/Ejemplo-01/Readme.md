@@ -62,7 +62,7 @@ Una relación es una asociación entre varias entidades. Por ejemplo, las entida
 
 En un diagrama podemos observar una relación en forma de rombo y conectada a las entidades que relaciona:
 
-<img src="img/img3" width="500">
+<img src="img/img3.png" width="500">
 
 Existen diferentes tipos de relaciones, estas se diferencian por su cardinalidad, es decir el número de registros que relacionan de cada una de las entidades. Y de esta forma tenemos 3 tipos de relaciones:
 
