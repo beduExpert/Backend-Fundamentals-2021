@@ -1,3 +1,5 @@
+[`Backend Fundamentals`](../../README.md) > [`Sesión 02: Introducción a Bases de datos`](../README.md/) > `Ejemplo 3`
+
 # Ejemplo 3: Creación de la base de datos
 
 **Objetivo:**
