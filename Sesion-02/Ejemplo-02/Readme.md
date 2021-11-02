@@ -112,4 +112,4 @@ Esto ya creo el servidor para nuestra base de datos, ahora vamos a conectarnos a
  <img src="img/img20.png">
 -------
 
-[`Atrás: Reto 01`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-02/Reto-01) | [`Siguiente: Reto-02`](../Reto-02)
+[`Atrás: Reto 01`](../Reto-01) | [`Siguiente: Ejemplo-03`](../Ejemplo-03)

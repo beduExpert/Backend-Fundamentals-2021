@@ -1,66 +1,77 @@
-# Ejemplo 3: Utilizando el servidor remoto
+# Ejemplo 3: Creación de la base de datos
 
 **Objetivo:**
 
-Utilizar el servidor remoto al que hemos accesado con los comandos aprendidos de ubuntu.
+- Traducir el diseño del ejemplo 1 a una base de datos en PostgreSQL
 
 **Requisitos:**
 
-- El experto debe proveer un servidor con Apache corriendo y con una dirección o ip pública, así cómo  las respectivas credenciales.
-
-- Estar conectado al servidor remoto.
+- PgAdmin
+- Servidor de base de datos en Heroku
+- Diseño de la base de datos completado
 
 ## Desarrollo
 
-1. Una vez dentro del servidor **crearemos** un archivo con **nuestro nombre** y la extensión **html**
+1. En la barra lateral de pgAdmin abrimos **Servers > bedushop > Databases > El nombre de la base de datos > Schemas**
 
-`touch [mi_nombre].html`
+<img src="img/img1.png">
 
-2. Abrimos el archivo con nano o vim y pegamos el siguiente contenido:
+2. Damos click derecho sobre **Tables** y seleccionamos **Create > Table**.
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[tu nombre]</title>
-</head>
-<body>
-	 <h1>¡Hola! soy [tu nombre]</h1>
-	<p>Bienvenido a la soberana república soviética de mi website</p>
-</body>
-</html>
-```
+<img src="img/img2.png">
 
->💡 **Nota:**
->
->No olvides editarlo con tu nombre y guardar los cambios.
+3. Esto abre una nueva ventana en la cual podemos crear una tabla nueva de nuestra base de datos. Recordemos que cada una de las entidades que definimos en el ejemplo 1 corresponde con una tabla en nuestra base de datos. Y los atributos son las columnas de la tabla.
 
-3. Cambiaremos al propietario del archivo con el comando
+<img src="img/img3.png">
 
-`sudo chown root:root [mi-nombre].html`
+4. En este caso definiremos la tabla de productos. Por lo que en el nombre de la tabla colocamos Producto, el resto de las opciones de esa pestaña las dejamos con sus valores por default. 
 
-![img/Untitled.png](img/Untitled.png)
+<img src="img/img4.png">
 
-4. **Cambiaremos los permisos del archivo** para asegurarnos de que **solo el usuario root** lo pueda **modificar**
+5. Vamos a la pestaña de **Columns** y agregamos 5 columnas, cada una para los atributos que definimos para los productos.
 
-`sudo chmod 644 [mi-nombre].html`
+<img src="img/img5.png">
 
-![img/Untitled%201.png](img/Untitled%201.png)
+6. Llenamos las columnas para que queden de la siguiente forma, que corresponde con la entidad que definimos.
 
-5. Ahora moveremos este archivo a la ruta `/var/www/html` con el comando `mv` y con permisos **root:**
+<img src="img/img6.png">
 
-`sudo mv daniel-garcia.html /var/www/html/`
+En este caso seleccionamos el tipo de dato para cada uno de los atributos, en esta [liga](https://www.postgresql.org/docs/9.5/datatype.html) puedes encontrar una lista completa de los tipos de dato de postgreSQL y que representa cada uno. 
 
-6. Si todo ha salido bien **pediremos la url** pública de nuestro servidor, entraremos a ella agregando el nombre de nuestro archivo a la ruta y veremos el [**resultado**](http://ec2-52-43-163-239.us-west-2.compute.amazonaws.com/daniel-garcia.html)
+7. Damos click en **Save** y vemos como se agrega la tabla a nuestro esquema.
 
-Esto renderizará nuestro archivo html.
+<img src="img/img7.png">
 
-![img/Untitled%202.png](img/Untitled%202.png)
+### Poblar la tabla. 
 
-Para salir del servidor y cerrar la conexión ejecutaremos el comando `exit`.
+Al proceso de agregar información a una tabla se le conoce como poblarla. En este caso no contamos con la información de los productos, así que crearemos un conjunto de datos fake que nos servirá para poder poblar nuestra tabla.
 
--------
+8. Entramos a [Mockaroo](https://www.mockaroo.com/) que es la herramienta que usaremos para crear los datos.
 
-[`Atrás: Reto-02`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-02/Reto-02) | [`Siguiente: Reto-03`](../Reto-03)
+<img src="img/img8.png">
+
+9. Ahora le indicaremos como deben ser los registros que tiene que crear, para eso usaremos los mismos atributos de producto para que genere datos que correspondan. Llenamos los campos de la siguiente forma. Vamos a pedir que genere 100 registros en formato CSV. Y damos click en **DOWNLOAD DATA** 
+
+<img src="img/img9.png">
+
+11.Esto va a descargar un archivo CSV que cargaremos a la base de datos que se ve de la siguiente forma.
+
+<img src="img/img11.png">
+
+12. Ahora en pgAdmin vamos a cargar estos datos a la tabla de productos. Damos click derecho sobre el nombre de la tabla y seleccionamos la opción **import/export**
+
+<img src="img/img12.png">
+
+13. Seleccionamos la opción **Import** y buscamos el CSV generado con Mockaroo.
+
+<img src="img/img13.png">
+
+14. Debe aparecer un mensaje e éxito en la carga.
+
+<img src="img/img14.png">
+
+15. Para verificar que realmente se cargaron los datos damos click derecho en el nombre de la tabla **View/Edit data > All Rows** y deben aparecer los 100 registros cargados.
+
+<img src="img/img15.png">
+
+[`Atrás: Ejemplo-02`](../Ejemplo-02) | [`Siguiente: Reto-02`](../Reto-02)
