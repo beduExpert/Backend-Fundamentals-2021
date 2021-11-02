@@ -1,66 +1,84 @@
-# Ejemplo 3: Utilizando el servidor remoto
+# Ejemplo 4: Queries
 
 **Objetivo:**
 
-Utilizar el servidor remoto al que hemos accesado con los comandos aprendidos de ubuntu.
+- Hacer consultas secillas a la base de datos.
 
 **Requisitos:**
 
-- El experto debe proveer un servidor con Apache corriendo y con una dirección o ip pública, así cómo  las respectivas credenciales.
-
-- Estar conectado al servidor remoto.
+- pgAdmin
+- La base de datos para BeduShop
+- Las tablas con datos
 
 ## Desarrollo
 
-1. Una vez dentro del servidor **crearemos** un archivo con **nuestro nombre** y la extensión **html**
+1. Abrimos pgAdmin y entramos a **Servers > bedushop > DBNAME > Schemas > Tables**
 
-`touch [mi_nombre].html`
+<img src="img/img1.png">
 
-2. Abrimos el archivo con nano o vim y pegamos el siguiente contenido:
+2. Damos click derecho sobre la tabla **Producto** y seleccionamos **Query Tool**.
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[tu nombre]</title>
-</head>
-<body>
-	 <h1>¡Hola! soy [tu nombre]</h1>
-	<p>Bienvenido a la soberana república soviética de mi website</p>
-</body>
-</html>
+<img src="img/img2.png"> 
+
+3. Esto va a abrir una nueva pestaña en la que podremos escribir nuestras consultas a la base de datos.
+
+<img src="img/img3.png">
+
+4. En su forma más básica una consulta se compone de:
+
+- Una cláusula `SELECT` que indica los campos de la tabla que se desean obtener.
+- Una cláusula `FROM` que indica de dónde obtener los datos.
+- Una cláusula `WHERE` que representa los filtros que podemos hacerle a los datos.
+
+Por ejemplo, para seleccionar unicamente los nombres de todos los productos la consulta es:
+
+```SQL
+SELECT nombre FROM public."Producto";
 ```
 
->💡 **Nota:**
->
->No olvides editarlo con tu nombre y guardar los cambios.
+La escribimos en el editor de consultas y damos click en el botón de play de la parte superior, esto nos muestra el resultado de nuestra consulta.
 
-3. Cambiaremos al propietario del archivo con el comando
+<img src="img/img4.png">
 
-`sudo chown root:root [mi-nombre].html`
+5. Si queremos obtener todos los campos, en lugar de enlistarlos todos podemos usar un * .
 
-![img/Untitled.png](img/Untitled.png)
+```SQL
+SELECT * FROM public."Producto";
+```
 
-4. **Cambiaremos los permisos del archivo** para asegurarnos de que **solo el usuario root** lo pueda **modificar**
+<img src="img/img5.png">
 
-`sudo chmod 644 [mi-nombre].html`
+6. Ahora filtraremos el nombre y el precio de todos los productos que tengan un precio menor o igual a 500. 
 
-![img/Untitled%201.png](img/Untitled%201.png)
+```SQL
+SELECT nombre, precio 
+FROM public."Producto" 
+WHERE precio <= 500;
+```
 
-5. Ahora moveremos este archivo a la ruta `/var/www/html` con el comando `mv` y con permisos **root:**
+<img src="img/img6.png">
 
-`sudo mv daniel-garcia.html /var/www/html/`
+7. Adicional a la restricción `WHERE`, es posible añadir otras restriccioens, por ejemplo, la restricción `ORDER BY` que permite ordenar los resultados de una consulta de manera ascendente (`ASC`) o descendente (`DESC`) a partir de un campo. Por ejemplo, la siguiente consulta muestra los resultados ordenados de mayor a menor a partir del campo `precio`.
 
-6. Si todo ha salido bien **pediremos la url** pública de nuestro servidor, entraremos a ella agregando el nombre de nuestro archivo a la ruta y veremos el [**resultado**](http://ec2-52-43-163-239.us-west-2.compute.amazonaws.com/daniel-garcia.html)
 
-Esto renderizará nuestro archivo html.
+```SQL
+SELECT nombre, precio 
+FROM public."Producto" 
+WHERE precio <= 500
+ORDER BY precio DESC;
+```
 
-![img/Untitled%202.png](img/Untitled%202.png)
+<img src="img/img7.png">
 
-Para salir del servidor y cerrar la conexión ejecutaremos el comando `exit`.
+8. Otra restricción es `LIMIT` que permite limitar el número de registros en una consulta. Esto es útil principalmente cuando se tienen miles de millones de registros y no se necesitan mostrar todos.
 
--------
 
-[`Atrás: Reto-02`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-02/Reto-02) | [`Siguiente: Reto-03`](../Reto-03)
+```SQL
+SELECT nombre, precio 
+FROM public."Producto"
+LIMIT 5;
+```
+
+<img src="img/img8.png">
+
+[`Atrás: Reto-02`](../Reto-02) | [`Siguiente: Reto-03`](../Reto-03)
