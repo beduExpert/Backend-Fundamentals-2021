@@ -1,9 +1,15 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Arquitectura de software`](../README.md) >[`Ejemplo-02`](../Ejemplo-02) > `Reto 2`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 03: sequelize`](../README.md) >[`Ejemplo-02`](../Ejemplo-02) > `Reto 2`
 
 ### Reto 2
 
-Escribe mínimo **3 historias de usuario** para definir los requerimientos de la aplicación.
+Responde las siguientes preguntas con consultas a la base de datos de BeduShop directamente desde Sequelize.
 
-![https://miro.medium.com/max/2732/1*OXgRHuX1LBXOcWEUL8-oUQ.png](https://miro.medium.com/max/2732/1*OXgRHuX1LBXOcWEUL8-oUQ.png)
+1. ¿Cuál es el top 5 de productos mas caros?
+2. Muestra a los usuarios con nombre John.
+3. ¿Cuáles son las categorías de productos disponibles?
+4. Cuál es la categoría del producto mas barato.
 
-[`Atrás: Ejemplo 02`](../Ejemplo-02) | [`Siguiente: Ejemplo 03`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-03/Ejemplo-03)
+Agrega un registro de cada una de las tablas y verifica en pgAdmin que realmente se hayan agregado.
+
+
+[`Atrás: Ejemplo 02`](../Ejemplo-03) | [`Siguiente: Sesión 03`](../README.md)
