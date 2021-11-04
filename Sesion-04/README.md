@@ -1,45 +1,56 @@
-# Sesión 4 - API
+# Sesión 4 - Express.js
 
 🎯 **Objetivo:**
 
-- Desarrollar una API REST con endpoints para crear, leer, actualizar y eliminar datos por medio de Express y NodeJS. 
+- Comprender el funcionamiento de un Middleware en el desarrollo backend
 
-### Secciones:
+## Middleware
 
-## 🛠 Prework
+Recordemos que los componentes principales del Backend son: **Server**, **Base de Datos** y **Middleware** en esta sesión nos concentraremos en entender cuál es la funcionalidad del **Middleware**.
 
-**Objetivo:**
+En esencia, el middleware es la conexión que existe entre el lado del cliente (la interfaz de usuarix) y el lado del servidor (el servidor y la base de datos). Pensemos en el middleware como la plomería de una casa que se encarga de llevar todos los recursos (Agua, gas, electricidad, etc.) a las personas que la habitan. 
 
-- Comprender la importancia de las APIs y su utilidad en el mundo actual.
+El middleware debe proveer una interfaz de comunicación que se adapte tanto a las necesidades del cliente como las del servidor por lo que debe ser muy flexible. 
 
-**API**
 
-Crear un aplicación tipo Uber o hacer cobros por Internet. **¿Te imaginas cómo podrías hacerlo desde cero?** Demandaría muchísimo trabajo y dinero, por eso es mejor utilizar un servicio que ya exista como lo es Google Maps o conectarse a PayPal...[`leer mas`](Prework/#prework---api)
+## 🎡 API 
 
-## 🕵 Ejemplos:
+<img src="img/api.jpg" align="right" width="250">
 
-- [`Ejemplo 1: Fundamentos de una API REST`](Ejemplo-01/)
+Aunque no lo notemos estamos rodeados de API's 😨, cuando entramos a facebook, cuando mandamos un mensaje en whatsapp (o telegram), cuando googleamos algo, cuando checamos el clima para elegir nuestro outfit, cuando tweeteamos en contra del sistema, cuando pedimos un uber, cuando tenemos un match en tinder, etc. 
 
-- [`Ejemplo 2: Objetos de petición y respuesta de ExpressJS`](Ejemplo-02/)
+En todos esos momentos estamos usando API's sin darnos cuenta. 
 
-- [`Ejemplo 3: Rutas en una API`](Ejemplo-03/)
+### Y a todo esto ¿Qué es una API? 
 
-## 💻 Retos:
+Una API (Application Programming Interface) es un intermediario que le permite a dos aplicaciones interactuar entre sí.
 
-- [`Reto 01:  Ejecutar peticiones con insomnia o postman`](Reto-01/#reto-1)
+Es una aplicación que toma las peticiones hechas por lx clientx y le dice al sistema qué es lo que tiene que hacer, y cuando obtiene una respuesta se la regresa al usuarix.
 
-- [`Reto 02: Creación de un CRUD para los anunciantes, las mascotas y solicitudes`](Reto-02/#reto-2)
+![](img/api2.png)
 
-- [`Reto 03: Crear controladores para mascotas y solicitudes`](Reto-03/#reto-3)
+### ¿Para que sirve una API?
 
-- [`Reto 04: Ejecutar peticiones de  un CRUD con insomnia o postman`](Reto-04/#reto-4)
+Alguna vez te has preguntado como puedes comprar algo por internet sin que una persona genere directamente tu orden. Es decir, como es posible que la aplicación de amazon se comunique con tu banco para hacerte un cobro y al mismo tiempo también interactue con un proveedor para que te manden tu pedido.
 
-## 🛡 Postwork
+Toda esta interacción entre aplicaciones, datos y dispositivos de diferentes orígenes y propósitos es posible gracias a un API, es ese motor que está detrás de escenas haciendo todo el trabajo y que la mayoría del tiempo damos por sentado pero que sin él está interacción entre las aplicaciones no sería posible. 
 
-**Objetivo:**
 
-- Comprender los conceptos fundamentales de las técnicas para el manejo de sesiones y autenticación en una API.
+> Ejemplo: un mesero en un restaurante 🍽
 
-**Sesiones en una API**
+### REST API 
 
-Recuerda que todo lo trabajado en tu prework, así como durante la sesión, puede ser aplicado a tu proyecto personal. Para lo cual, toma las siguientes consideraciones...[`leer mas`](Postwork/#postwork)
+- [`Ejemplo 1`](Ejemplo-01/)
+- [`Reto 01`](Reto-01/#reto-1)
+
+### Obteniendo Información 
+
+- [`Ejemplo 2`](Ejemplo-02/)
+- [`Reto 02`](Reto-02/#reto-2)
+
+### CRUD
+
+- [`Ejemplo 3`](Ejemplo-03/)
+- [`Reto 03`](Reto-03/#reto-3)
+
+

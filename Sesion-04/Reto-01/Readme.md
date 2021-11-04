@@ -1,22 +1,19 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 04: API`](../README.md) >[`Ejemplo-01`](../Ejemplo-01) > `Reto 1`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 04`](../README.md)  > `Reto 1`
 	
-## Ejercicio 1
-
-1. Con tu servidor corriendo vuelve a ejecutar las siguientes peticiones con [insomnia](https://insomnia.rest/download/) o [postman](https://www.postman.com/product/api-client/)
-    - GET [http://localhost:3000/v1/usuarios](http://localhost:3000/v1/usuarios)
-    - POST [http://localhost:3000/v1/usuarios](http://localhost:3000/v1/usuarios)
-    - PUT [http://localhost:3000/v1/usuarios/42](http://localhost:3000/v1/usuarios/42)
-    - DELETE [http://localhost:3000/v1/usuarios/42](http://localhost:3000/v1/usuarios/42)
-
-    Analiza las respuestas y qué es lo que está sucediendo en cada caso.
-
-2. Ahora ejecuta estas peticiones y observa qué es lo que sucede
-    - PUT [http://localhost:3000/v1/usuarios](http://localhost:3000/v1/usuarios)
-    - DELETE [http://localhost:3000/v1/usuarios](http://localhost:3000/v1/usuarios)
- 
-<img src="https://user-images.githubusercontent.com/13757596/87737569-ee019f80-c7a0-11ea-9029-8dcb4b613ec4.png" width="400">
-
-<img src="https://user-images.githubusercontent.com/13757596/87737615-0a9dd780-c7a1-11ea-932e-a28b42d0684e.png" width="400">
+## Reto 1
 
 
-[`Atrás: Reto 01`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-04/Ejemplo-01) | [`Siguiente: Ejemplo 02`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-04/Ejemplo-02)
+1. Define un objeto de objetos en donde almacenes a las constelaciones, cada objeto interno debe tener como llave el nombre de ésta y sus atributos deben ser `abreviatura`, `superficie`, `num_estrellas` y `estr_mas_brillante`. Puedes consultar la información en este [enlace](https://es.wikipedia.org/wiki/Constelación#Constelaciones_de_Ptolomeo). Por ejemplo:
+```javascript
+Andromeda : {
+	abreviatura : 'And',
+	superficie :  722.3,
+	num_estrellas : 152,
+	estr_mas_brillante : 'Alpheratz' 
+}
+```
+1. Agrega al menos 2 constelaciones.
+1. Define una nueva ruta para un `GET` de constelaciones con el nombre `constelaciones`.
+1. Define el servicio que regrese la lista de todas las constelaciones definida en el inciso 1.
+
+[`Atrás`](../Ejemplo-01) | [`Siguiente`](../Ejemplo-02)

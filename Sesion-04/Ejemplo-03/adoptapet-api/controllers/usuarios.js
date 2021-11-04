@@ -29,3 +29,10 @@ function modificarUsuario(req, res) {
 function eliminarUsuario(req, res) {
   res.status(200).send(`Usuario ${req.params.id} eliminado`);
 }
+
+module.exports = {
+  crearUsuario,
+  obtenerUsuarios,
+  modificarUsuario,
+  eliminarUsuario
+}

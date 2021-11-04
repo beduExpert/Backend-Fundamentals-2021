@@ -1,4 +1,4 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 03: API`](../README.md) > `Ejemplo 1`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 04`](../README.md) > `Ejemplo 1`
 
 # Ejemplo 1
 
@@ -14,14 +14,22 @@ Se recomienda tener NodeJS LTS instalado y funcionando correctamente. También e
 
 ### ¿Qué es una API REST?
 
-Una API es un conjunto de funciones y procedimientos que cumplen una o varias funciones con el fin de ser utilizadas por otro *software.* Las siglas API vienen del inglés *Application Programming Interface.* En español sería Interfaz de Programación de Aplicaciones.
+Cuando se habla de REST API, significa utilizar una API para acceder a aplicaciones backend, de manera que esa comunicación se realice con los estandares definidos por el estilo de arquitectura REST.
 
-REST es un acrónimo para **RE**presentational **S**tate **T**ransfer, un estilo de arquitectura pensada para sistemas dedicados a la distribución de *hypermedia*. REST cuenta con los siguientes principios:
+REST es un acrónimo para **RE**presentational **S**tate **T**ransfer, fue pensada para sistemas dedicados a la distribución de *hypermedia*. En REST se siguen los siguientes principios:
 
-- Protocolo cliente/servidor sin estado.
-- Los objetos en REST siempre se manipulan a partir de la URI.
+- Arquitectura clientx/servidor sin estado, es decir, no se almacena la información de las solicitudes, cada solicitud es independiente.
+- Una interfaz uniforme entre los elementos, para que la información se transfiera de forma estandarizada.
 - Acciones concretas (POST, GET, PUT y DELETE) para la transferencia de datos.
-- Uso de hipermedios para la comunicación. Para este caso en específico utilizaremos JSON como el hipermedio para enviar respuestas y recibir peticiones de objetos.
+- Uso de formatos de transferencia para la comunicación. Para este caso en específico utilizaremos JSON como el formato para enviar respuestas y recibir peticiones de objetos. Se puede usar también XLT ó HTML
+- Un sistema en capas que organiza en jerarquías invisibles para lx clientx y cada uno de los servidores  que participan en la recuperación de la información solicitada.
+
+Si bien parece una arquitectura muy restrictiva, esto sirve para que su uso sea mas sencillo. 
+
+Es importante señalar que REST es un conjunto de normas que se pueden implementar a necesidad de la aplicación. 
+
+<!-- 
+PREWORK
 
 ## Preparando nuestro entorno de desarrollo
 
@@ -29,17 +37,14 @@ REST es un acrónimo para **RE**presentational **S**tate **T**ransfer, un estilo
 
 1. Crearemos una nueva carpeta llamada `adoptapet-api` con la siguiente estructura:
 
-    adoptapet-api/
-
-    config/
-
-    models/
-
-    controllers/
-
-    routes/
-
-    app.js
+```
+adoptapet-api/
+├── config/
+├── models/
+├── controllers/
+├── routes/
+└── app.js
+``` 
 
 1. Nos posicionaremos en esa carpeta e iniciaremos un nuevo proyecto con el comando `npm init -y`
 1. Ejecutaremos el siguiente código 
@@ -47,7 +52,7 @@ REST es un acrónimo para **RE**presentational **S**tate **T**ransfer, un estilo
     ```bash
     npm install express body-parser cors
     ```
-
+Express.js es un framework de Node para desarrollo backend.
 1. Instalar nodemon de manera global
 
     ```bash
@@ -65,6 +70,7 @@ REST es un acrónimo para **RE**presentational **S**tate **T**ransfer, un estilo
     "dev": "nodemon ./app.js",
     ```
 
+Le indica a npm de que forma debe ejecutar nuestro programa. De esta forma le indicamos que debe usar nodemon para ejecutarlo en el modo de desarrollo.
 1. Verifica que tu archivo `package.json` luzca similar a esto:
 
     ```json
@@ -89,38 +95,119 @@ REST es un acrónimo para **RE**presentational **S**tate **T**ransfer, un estilo
     }
     ```
 
-    Aquí estarán instaladas las dependencias de nuestro proyecto.
+    Aquí estarán instaladas las dependencias de nuestro proyecto. 
 
-1. Ahora editaremos el archivo `app.js` con el siguiente código:
+Express is a powerful but flexible Javascript framework for creating web servers and APIs. It can be used for everything from simple static file servers to JSON APIs to full production servers.
 
-    ```jsx
-    var express = require('express'),
-        bodyParser = require('body-parser'),
-        cors = require('cors');
+-->
+## Definiendo nuestra API con ExpressJS
 
-    // Objeto global de la app
-    var app = express();
+1. Para este ejemplo utilizaremos el proyecto que crearon en su prework, el cual tiene la siguiente estructura:
 
-    // configuración de middlewares
-    app.use(cors());
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(bodyParser.json());
+```
+adoptapet-api/
+├── config/
+├── models/
+├── controllers/
+├── routes/
+└── app.js
+```
 
-    // Manejando los errores 404
-    app.use(function(req, res, next) {
-      var err = new Error('Not Found');
-      err.status = 404;
-      next(err);
-    });
+Por ahora nos concentraremos en el archivo `app.js` mas adelante (en la siguiente sesión) entenderemos a que corresponde cada directorio.
 
-    // Iniciando el servidor...
-    var server = app.listen(process.env.PORT || 3000, function(){
-      console.log('Escuchando en el puerto ' + server.address().port);
-    });
-    ```
+2. Express es un módulo de Node, así que es necesario importarlo para poder utilizarlo. Una vez importado creamos una instancia de aplicación de express al cual llamaremos `app`.
 
-1. Ingresaremos el comando `npm run dev` y si la configuración es correcta se ejecutará nodemon y veremos algo como esto en nuestra terminal:
+```javascript
+const express = require('express');
+const app = express();
+```
 
-    ![img/Untitled.png](img/Untitled.png)
+3. Con la aplicación que creamos podemos iniciar un servidor que se encargará de escuchar las peticiones que se hagan a nuestra API y responderlas, pero para esto tenemos que indicarle *en dónde escuchar* peticiones dándole un puerto especifico. Para esto contamos con el método `listen()`.
+
+```javascript
+const PORT = 4001;
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
+```
+
+como primer parámetro de `listen()` le pasamos el puerto que va a estar escuchando y como segundo un `callback` que se ejecuta una vez que el servidor está corriendo y listo para recibir peticiones.
+
+<!-- 1. 
+```javascript
+app.use(express.static('public'));
+``` -->
+
+4. Y ahora ... ¿Cómo sabe el servidor como atender las peticiones? Para indicarle al servidor como reaccionar a cada petición se definen una serie de rutas. La respuesta de nuestro servidor dependerá de la ruta a la que se hace la petición y el método HTTP (`GET`, `POST`, etc.) que utiliza. La ruta es parte de la url de petición y va después del *hostname*. La url completa tiene la siguiente estructura:
+
+```
+<dirección del servidor>:<número de puerto>/<ruta de petición>
+```
+
+Por ejemplo, para nuestra aplicación sería
+
+```
+localhost:4001/gods
+```
+
+En donde `gods` es la ruta de petición. Como desarrolladoras y desarrolladores de la API es nuestra tarea decirle al servidor como debe responder en cada una de las rutas. Para esto Express tiene métodos definidos para cada uno de las peticiones HTTP, por ejemplo, si la petición es un GET, usamos el método `app.get()` que funciona de la siguiente forma:
+
+```javascript
+app.get('/gods', (req, res, next) => {
+  // Aquí construimos y enviamos la respuesta 
+});
+```
+
+Analicemos los parámetros:
+
+- `'/gods'` es la ruta de petición que estamos definiendo
+- `(req, res, next) => {...}` es el callback que define el comportamiento. En el callback `req` representa la petición hecha (*request*) mientras que `res` es la respuesta que eventualmente se tiene que enviar.
+
+Si no está definida la ruta sobre la cual se hace la petición, Express enviará un código 404 como respuesta.
+
+1. Para definir el comportamiento del servidor bajo cierta ruta tenemos que construir la respuesta y enviarla al cliente. 
+
+Para cada petición se espera una única respuesta y todas las peticiones deben ser respondidas. Recordemos que `res` modela la respuesta del servidor, y  tiene un método `.send()` que se encarga de enviarla.
+
+> Nota: Seguir con el ejemplo del restaurante, enviando sopas.
+
+<!-- The client is like a customer at a restaurant ordering a large bowl of soup: the request is sent through the wait staff, the kitchen prepares the soup, and after is it prepared, the wait staff returns it to the customer. In the restaurant, it would be unfortunate if the soup never arrived back to the customer, but it would be equally problematic if the customer was given four large bowls of soup and was asked to consume them all at the exact same time. That’s impossible with only two hands! -->
+
+```javascript
+const gods = [
+  { name: 'Zeus' }, 
+  { name: 'Hades' }, 
+  { name: 'Hermes' }
+];
+app.get('/gods', (req, res, next) => {
+  res.send(gods);
+});
+```
+
+En el código anterior estamos enviando como respuesta un arreglo que tiene los nombres de los dioses.
+
+Cuando se haga una petición `GET` a la ruta `/gods` Express buscara todas las definiciones de `app.get()` hasta encontrar una que haga match con la ruta `/gods` y cuando la encuentre ejecutará el callback definido.
+
+5. Ahora vamos a correr la aplicación para poder probarla. Para correrla desde la terminal ejecutamos el siguiente comando:
+
+```bash
+npm run dev
+```
+
+De esta forma estamos inicializando nuestra aplicación en su modo de desarrollo. Y nos muestra el siguiente mensaje:
+
+```bash
+[nodemon] starting `node ./app.js`
+Server is listening on port 4001
+```
+
+6. Prueba la petición que acabamos de definir usando Insomnia.
+
+<img src="img/insomnia.png">
+
+
+<!-- AQUI VA UN SS DE INSOMNIA CON LA PETICION -->
+
+
     
-[`Atrás: Sesión 04`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-04) | [`Siguiente: Ejemplo 02`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-04/Ejemplo-02)
+[`Atrás`](../README.md) | [`Siguiente`](../Reto-01)
