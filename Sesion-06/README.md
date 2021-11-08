@@ -1,4 +1,4 @@
-# Sesión 7 - Seguridad
+# Sesión 6 - Seguridad
 
 🎯 **Objetivo:**
 

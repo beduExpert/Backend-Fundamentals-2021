@@ -2,39 +2,8 @@
 
 🎯 **Objetivo:**
 
-- Utilizar un ORM para manipular una base de datos relacional
 - Publicar una API en producción. 
 - Técnicas y mejores prácticas para publicar un sistema de manera estable.
-
-
-<!-- ## 🧳 Sequelize 
-
-Sequelize es un ORM para Nodejs que nos permite manipular varias bases de datos SQL de una manera bastante sencilla, entre estas bases de datos podemos encontrar: mysql, sqlite, postgres, mssql.
-
-Para instalar sequelize en nuestro proyecto de node solo tenemos que escribir las siguientes lineas en la consola:
-
-```bash
-npm install --save sequelize
-```
-
-Y se tiene que instalar la extensión del gestor de bases de datos que se vaya a utilizar. En este caso **MySQL**. 
-
-```bash
-npm install --save mysql2
-```
-
-Otras opciones son:
-
-- **Postgres** `pg pg-hstore`
-- **SQLite** `sqlite3`
-- **MsSQL** `tedious`
-
-### 🐼 Uso de Sequelize
-
-- [`Ejemplo 1: Configuración y definición`](Ejemplo-00/#ejemplo-1)
-- [`Reto 01: Sequelize`](Reto-00/#reto-1)
- -->
---- 
 
 
 
