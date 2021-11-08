@@ -1,6 +1,6 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 07`](../README.md) > `Ejemplo 1`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 06`](../README.md) > `Ejemplo 1`
 
-# Ejemplo 1
+# Ejemplo 1: Validaciones
 
 ## Objetivo
 

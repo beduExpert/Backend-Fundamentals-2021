@@ -1,9 +1,11 @@
-# Sesión 7 - Autenticación y Manejo de sesiones
+# Sesión 7 - Manejo de Sesiones
 
 🎯 **Objetivo:**
 
 - Definir la funcionalidad de la API con usuarios.
 - Proteger los datos confidenciales.
+
+---
 
 
 ### Routers seguros
