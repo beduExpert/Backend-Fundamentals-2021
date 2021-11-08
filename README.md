@@ -30,8 +30,8 @@ Es recomendable que tengas los siguientes **conocimientos.**
 
 - [`Sesión 05` - Routes](Sesion-05)
 
-- [`Sesión 06` - Manejo de sesiones](Sesion-06)
+- [`Sesión 06` - Seguridad](Sesion-06)
 
-- [`Sesión 07` - Seguridad](Sesion-07)
+- [`Sesión 07` - Manejo de sesiones](Sesion-07)
 
 - [`Sesión 08` - Deploy y Documentación](Sesion-08)
