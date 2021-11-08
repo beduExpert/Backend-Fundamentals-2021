@@ -1,42 +1,25 @@
-# Sesión 6 - Fundamentos de Base de Datos NoSQL (Mongo)
+# Sesión 7 - Autenticación y Manejo de sesiones
 
 🎯 **Objetivo:**
 
-- Reconocer carácterísticas de las bases de datos NoSQL, configurar y utilizar MongoDB.
-- Comprender en qué casos es conveniente utilizar esta B.D. y cómo usarla. 
+- Definir la funcionalidad de la API con usuarios.
+- Proteger los datos confidenciales.
 
-### Secciones:
 
-## 🛠 Prework
+### Autenticación 
 
-**Objetivo:**
+- [`Ejemplo 1: Agregando Validaciones al esquema de Usuario.`](Ejemplo-01/)
 
-- Conocer los fundamentos de las bases de datos no relacionales
+### Seguridad
 
-**SQL vs NoSQL ¿Cuál debo usar?**
+- [`Ejemplo 2: Autenticación y Cifrado de datos`](Ejemplo-02/)
 
-SQL es un sistema de gestión de bases de datos relacional, multihilo y multiusuario con más de seis millones de instalaciones; usado por muchos sitios web grandes y populares, como Wikipedia, Google (no para búsquedas), Facebook, Twitter, Flickr, y YouTube...[`leer mas`](Prework/#prework)
+### Routers seguros
 
-## 🕵 Ejemplos:
+- [`Ejemplo 3: Configuración de PassportJs`](Ejemplo-03/)
 
-- [`Ejemplo 1: Creando un cluster en MongoDB Atlas`](Ejemplo-01/#ejercicio-1)
+### Probando endpoints
 
-- [`Ejemplo 2: Comprender los fundamentos de MongoDB`](Ejemplo-02/#ejemplo-2)
+- [`Ejemplo 04: Servicios por privilegios`](Ejemplo-04)
+- [`Reto 01: Probar los endpoints`](Reto-01)
 
-- [`Ejemplo 3: métodos proporcionados por MongoDB para realizar operaciones CRUD`](Ejemplo-03/#ejemplo-3)
-
-## 💻 Retos:
-
-- [`Reto 01: Crear un clúster en MongoDB Atlas`](Reto-01/#reto-1)
-
-- [`Reto 02: Conectar un clúster en MongoDB Atlas](Reto-02/#reto-2)
-
-- [`Reto 03: Modelo embebido y referencial`](Reto-03/#reto-3)
-
-## 🛡 Postwork
-
-**Objetivo:**
-
-- Comprender en qué situaciones utilizar SQL o NoSQL y sus diferentes aplicaciones.
-
-Recuerda que todo lo trabajado en tu prework, así como durante la sesión, puede ser aplicado a tu proyecto personal. Para lo cual, toma las siguientes consideraciones...[`leer mas`](Postwork/#postwork)

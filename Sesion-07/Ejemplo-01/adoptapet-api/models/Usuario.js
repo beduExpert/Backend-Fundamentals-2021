@@ -48,15 +48,12 @@
     telefono: String,
     bio: String,
     foto: String,
-    tipo: { type: String, enum: ['normal', 'anunciante'] },
+    tipo: { type: String, enum: ["normal", "anunciante"] },
     hash: String, //este campo se utilizará para la sesión
     salt: String, //este campo se utilizará para la sesión
   },
   { timestamps: true }
-);
-
-// usando plugin de validación para que no se repitan correos ni usernames
-UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe" }); 
+); 
 
 // usando plugin de validación para que no se repitan correos ni usernames
 UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe" });
@@ -113,7 +110,7 @@ UsuarioSchema.methods.publicData = function(){
     apellido: this.apellido,
     bio: this.bio,
     foto: this.foto,
-    tipo: this.tipo,
+    tipo: this.tipo,  
     ubicacion: this.ubicacion,
     telefono: this.telefono,
     createdAt: this.createdAt,

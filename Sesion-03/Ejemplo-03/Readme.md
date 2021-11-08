@@ -177,7 +177,7 @@ Las consultas de actualización también aceptan la opción `where`, al igual qu
 Por ejemplo para modificar el producto que acabamos de crear lo hacemos de la siguiente forma:
 
 ```javascript
-Producto.update({ nombre: "Mostera" }, {
+Producto.update({ nombre: "Monstera" }, {
   where: {
     id: 101
   }

@@ -1,163 +1,139 @@
-# Ejemplo 2
+[`Backend Fundamentals`](../../README.md) > [`Sesión 07`](../README.md) > `Ejemplo 4`
+
+# Ejemplo 4
 
 ## Objetivo
 
-Crear un nuevo modelo (Mascota) junto con la lógica de sus controladores
+Definir el controlador de usuarios utilizando el manejo de sesiones.
 
 ## Requerimientos
 
-Contar con el código de la API que se encuentra en desarrollo desde la lección 4.
+Contar con el código de la API que estaba en desarrollo desde la lección 4.
 
 ## Desarrollo
 
-1. Creando modelo Mascota:
+    
+1. Ahora implementaremos los métodos que nos proporciona Mongoose en nuestro controlador <b>usuarios</b>, es decir:  `controllers/usuarios.js`. 
 
-- Abre el archivo:`models/Mascota.js` 
-- En este archivo se encuentra la configuración del modelo <b>Mascota</b> previa a utilizar mongoose.
-- Comenta el código en el archivo e inserta la declaración del esquema <b>Mascota</b>: 
+- Abre el archivo <b>controllers/usuarios.js</b> y comenta el código.
+- Copia el siguiente código. 
+- Analiza las funciones, encontrarás aquellas que te permitirán hacer operaciones <b>CRUD</b> sobre tu modelo Usuario.
+- Recuerda: <b>C - Create, R - Read, U - Update, D - Delete</b>.
 
-```jsx
-const mongoose = require("mongoose");
+    ```jsx
+    // controllers/usuarios.js
+    const mongoose = require("mongoose")
+    const Usuario = mongoose.model("Usuario")
+    const passport = require('passport');
 
-const MascotaSchema = new mongoose.Schema({
-  nombre: {type: String, required: true}, // nombre de la mascota (o titulo del anuncio)
-  categoria: { type: String, enum: ['perro', 'gato', 'otro'] }, // perro | gato | otro
-  fotos: [String], // links a las fotografías
-  descripcion: {type:String, required: true}, // descripción del anuncio
-  anunciante: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'}, // contacto con la persona que anuncia al animalito
-  ubicacion: { type: String }, // muy importante
-  estado:{type: String, enum:['adoptado', 'disponible', 'pendiente']},
-}, { timestamps: true })
+    function crearUsuario(req, res, next) {
+      // Instanciaremos un nuevo usuario utilizando la clase usuario
+      const body = req.body,
+        password = body.password
 
-MascotaSchema.methods.publicData = function(){
-  return {
-    id: this.id,
-    nombre: this.nombre,
-    categoria: this.categoria,
-    fotos: this.fotos,
-    descripcion: this.descripcion,
-    anunciante: this.anunciante,
-    ubicacion: this.ubicacion,
-    estado: this.estado
-  };
-};
+      delete body.password
+      const usuario = new Usuario(body)
+      usuario.crearPassword(password)
+      usuario.save().then(user => {                                         //Guardando nuevo usuario en MongoDB.
+        return res.status(201).json(user.toAuthJSON())
+      }).catch(next)
+    }
 
-mongoose.model('Mascota', MascotaSchema)
-```
+    function obtenerUsuarios(req, res, next) {                              //Obteniendo usuario desde MongoDB.
+      Usuario.findById(req.usuario.id, (err, user) => {
+        if (!user || err) {
+          return res.sendStatus(401)
+        }
+        return res.json(user.publicData());
+      }).catch(next);
+    }
 
-- Para la propiedad categoría utilizaremos un `enum` el cuál nos permite pasar únicamente los valores 'perro', 'gato' u 'otro'.
-- Para la propiedad anunciante, crearemos una referencia el modelo Usuario que contendrá el id de un usuario y nos servirá más adelante.
+    function modificarUsuario(req, res, next) {
+      console.log(req.usuario)
+      Usuario.findById(req.usuario.id).then(user => {
+        if (!user) { return res.sendStatus(401); }
+        let nuevaInfo = req.body
+        if (typeof nuevaInfo.username !== 'undefined')
+          user.username = nuevaInfo.username
+        if (typeof nuevaInfo.bio !== 'undefined')
+          user.bio = nuevaInfo.bio
+        if (typeof nuevaInfo.foto !== 'undefined')
+          user.foto = nuevaInfo.foto
+        if (typeof nuevaInfo.ubicacion !== 'undefined')
+          user.ubicacion = nuevaInfo.ubicacion
+        if (typeof nuevaInfo.telefono !== 'undefined')
+          user.telefono = nuevaInfo.telefono
+        if (typeof nuevaInfo.password !== 'undefined')
+          user.crearPassword(nuevaInfo.password)
+        user.save().then(updatedUser => {                                   //Guardando usuario modificado en MongoDB.
+          res.status(201).json(updatedUser.publicData())
+        }).catch(next)
+      }).catch(next)
+    }
 
-2. Recuerda importar el modelo en `app.js` debajo de dónde importamos el modelo Usuario.
+    function eliminarUsuario(req, res) {
+      // únicamente borra a su propio usuario obteniendo el id del token
+      Usuario.findOneAndDelete({ _id: req.usuario.id }).then(r => {         //Buscando y eliminando usuario en MongoDB.
+        res.status(200).send(`Usuario ${req.params.id} eliminado: ${r}`);
+      })
+    }
 
+    function iniciarSesion(req, res, next) {
+      if (!req.body.email) {
+        return res.status(422).json({ errors: { email: "no puede estar vacío" } });
+      }
 
-```jsx
-...
-require('./models/Usuario');
-require('./config/passport');
-require('./models/Mascota');
-...
-```
+      if (!req.body.password) {
+        return res.status(422).json({ errors: { password: "no puede estar vacío" } });
+      }
 
-3. Modifica las rutas del archivo `routes/mascotas.js`,  agregar las siguientes autorizaciones:
-```jsx
-const router = require('express').Router();
-const {
-  crearMascota,
-  obtenerMascotas,
-  modificarMascota,
-  eliminarMascota
-} = require('../controllers/mascotas')
-var auth = require('./auth');
+      passport.authenticate('local', { session: false }, function (err, user, info) {
+        if (err) { return next(err); }
 
-router.get('/', auth.opcional,obtenerMascotas)
-router.get('/:id', auth.opcional, obtenerMascotas)// nuevo endpoint con todos los detalles de mascota
-router.post('/', auth.requerido, crearMascota)
-router.put('/:id',auth.requerido, modificarMascota)
-router.delete('/:id',auth.requerido, eliminarMascota)
+        if (user) {
+          user.token = user.generarJWT();
+          return res.json({ user: user.toAuthJSON() });
+        } else {
+          return res.status(422).json(info);
+        }
+      })(req, res, next);
+    }
 
-module.exports = router;
-```
+    module.exports = {
+      crearUsuario,
+      obtenerUsuarios,
+      modificarUsuario,
+      eliminarUsuario,
+      iniciarSesion
+    }
+    ```
 
-4. En el controlador mascotas, es decir: `controllers/mascotas.js`, actualiza la función `crearMascota` con el siguiente código:
+7. Por último, actualizar el archivo `routes/usuarios.js` utilizando los middleware de autorización para proteger información sensible de los usuarios.
 
-```jsx
-const mongoose = require('mongoose')
-const Mascota = mongoose.model('Mascota')
+- Abre el archivo de configuración de endopoints de usuarios, es decir: <b>routes/usuarios.js</b>
+- Comenta el código encontrado.
+- Inserta el siguiente codigo:
 
-function crearMascota(req, res, next) {
-  var mascota = new Mascota(req.body)
-  mascota.anunciante = req.usuario.id
-  mascota.estado = 'disponible'
-  mascota.save().then(mascota => {
-    res.status(201).send(mascota)
-  }).catch(next)
-}
+    ```jsx
+    const router = require('express').Router();
+    const {
+      crearUsuario,
+      obtenerUsuarios,
+      modificarUsuario,
+      eliminarUsuario,
+      iniciarSesion
+    } = require('../controllers/usuarios')
+    const auth = require('./auth');
 
-```
+    router.get('/', auth.requerido, obtenerUsuarios)
+    router.get('/:id', auth.requerido, obtenerUsuarios);
+    router.post('/', crearUsuario)
+    router.post('/entrar', iniciarSesion)
+    router.put('/:id', auth.requerido, modificarUsuario)
+    router.delete('/:id', auth.requerido, eliminarUsuario)
 
-5. En el controlador mascotas, es decir: `controllers/mascotas.js`, actualiza la función `obtenerMascotas` con el siguiente código:
+    module.exports = router;
+    ```
+- Analiza el código, observa en que endpoints será necesario el <b>JWT</b> (Su contenido definirá si un usuario tiene o no autorización sobre el endpoint, así como que información puede ver. )
 
-```jsx
-function obtenerMascotas(req, res, next) {
-  Mascota.find().then(mascotas=>{
-    res.send(mascotas)
-  }).catch(next)
-}
-```
-
-### Populate
-
-El método populate nos sirve para *poblar* documentos que son integrados dentro de otros documentos.
-
-6. Cuando queramos obtener una mascota en específico, en el endpoint 'v1/mascotas/:id'. Será necesario mostrar la información de su anunciante, así que agregaremos una condición para que cuándo un id esté presente se agreguen los campos username, nombre, apellido, bio y foto del anunciante.
-
-- De nuevo, actualiza el controlador mascotas, es decir: `controllers/mascotas.js`, muestra los datos del anunciante de una mascota, modificando la función `obtenerMascotas` con el siguiente código:
-
-```jsx
-function obtenerMascotas(req, res, next) {
-  if(req.params.id){
-    Mascota.findById(req.params.id)
-			.populate('anunciante', 'username nombre apellido bio foto').then(mascotas => {
-	      res.send(mascotas)
-	    }).catch(next)
-  } else {
-    Mascota.find().then(mascotas=>{
-      res.send(mascotas)
-    }).catch(next)
-  }
-}
-```
-
-Obtendremos una respuesta como está:
-
-```json
-{
-  "categoria": [
-    "gato"
-  ],
-  "fotos": [
-    "https://images.app.goo.gl/MsX6R9aTWfQKjsvW6"
-  ],
-  "estado": [
-    "disponible"
-  ],
-  "_id": "5ee8f79d2ab51833d2147e26",
-  "nombre": "Kalita",
-  "descripcion": "Gatito bebé encontrado debajo de un carro necesita hogar",
-  "anunciante": {
-    "_id": "5ee7101ee584287c9d4d44ce",
-    "username": "karly",
-    "nombre": "Karla",
-    "apellido": "Ivonne",
-    "bio": "Yo soy Karly, look at me!",
-    "foto": "http://pictures/foto-de-perfil"
-  },
-  "createdAt": "2020-06-16T16:47:25.900Z",
-  "updatedAt": "2020-06-16T16:47:25.900Z",
-  "__v": 0
-}
-```
-7. Recomendación: [`Pasa al Ejemplo 3:`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-07/Ejemplo-03)
-
-[`Atrás: Reto 01`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-07/Ejemplo-03) | [`Siguiente: Reto 02`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-07/Reto-02)
+[`Atrás`](../Ejemplo-03) | [`Siguiente`](../Reto-01)

@@ -1,43 +1,24 @@
-# Sesión 5 - Fundamentos de Base de Datos Relacionales(SQL)
+# Sesión 5 - Routes
 
 🎯 **Objetivo:**
 
-- Configurar una base de datos relacional, en que casos es conveniente utilizarlas, los fundamentos de los modelos de bases de datos relacionales y el lenguaje SQL.
+- Modularizar la API definida en la sesión anterior.
+- Comprender el uso y estructura de un router.
+- Hacer peticiones utilizando rutas.
 
-### Secciones:
+---
 
-## 🛠 Prework
+## Modularización del proyecto
 
-**Objetivo:**
+Hasta este punto todo el contenido del proyecto se encuentra definido en el archivo **app.js** si bien esto puede funcionar para un proyecto pequeño, en el caso de proyectos grandes o incluso medianos como el que estamos realizando no es conveniente estructurarlo de esa forma. Desde la sesión 3 se definió un esqueleto de cómo se va a estructurar nuestro proyecto. En esta sesión vamos a utilizarla para reorganizar los componentes que ya hemos creado.
 
-**¿Qué es una base de datos relacional?**
+- [`Ejemplo 1: Modularización del proyecto`](Ejemplo-02/)
+- [`Reto 01: Modularización`](Reto-02/#reto-2)
 
-- Comprender los fundamentos de las bases de datos y su importancia en los sistemas de software...[`leer mas`](Prework/#qué-es-una-base-de-datos-relacional)
+## Manejo de rutas
 
-## 🕵 Ejemplos:
+Nuestro proyecto ya está estructurado en diferentes carpetas en donde cada carpeta contiene archivos específicos con funcionalidades especificas. Sin embargo esto hizo que el proyecto dejara de funcionar. En este ejemplo lo vamos a corregir con el uso de un Router que nos permitirá controlar el flujo de redireccionamiento. 
 
-- [`Ejemplo 1 - Instalando MySQL`](Ejemplo-01/)
+- [`Ejemplo 2: Configuración de rutas`](Ejemplo-03/)
+- [`Reto 02: Uso de rutas`](Reto-03/#reto-3)
 
-- [`Ejemplo 2 - Diagramas entidad relación y Modelo Relacional`](Ejemplo-02/)
-
-- [`Ejemplo 3 - Ejecutando Queries`](Ejemplo-03/)
-
-## 💻 Retos:
-
-- [`Reto 01: Modelo Entidad Relación`](Reto-01/#reto-1)
-
-- [`Reto 02: Diseño de bases datos relacionales`](Reto-02/#reto-2)
-
-- [`Reto 03: Consultas avanzadas con SQL`](Reto-03/#reto-3)
-
-- [`Reto 04: Creación de la base de datos en SQL para Adoptapet.`](Reto-04/#reto-4)
-
-## 🛡 Postwork
-
-**Objetivo:**
-
-- Reflexionar sobre el alcance de las bases de datos relacionales y la importancia de su implementación.
-
-**Funciones y Procedimientos Almacenados**
-
-Recuerda que todo lo trabajado en tu prework, así como durante la sesión, puede ser aplicado a tu proyecto personal. Para lo cual, toma las siguientes consideraciones...[`leer mas`](Postwork/#postwork)

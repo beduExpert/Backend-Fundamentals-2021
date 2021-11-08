@@ -1,74 +1,136 @@
-# Ejemplo 1 - Instalando MySQL
+[`Backend Fundamentals`](../../README.md) > [`Sesión 05`](../README.md) > `Ejemplo 1`
+
+# Ejemplo 1: Modularización del proyecto.
 
 ## Objetivo
 
-Comprender que es una base de datos relacional e instalar un sevidor de bases de datos relacionales.
+Modularizar el el proyecto para seguir el MVC.
 
 ## Requerimientos
 
-Contar con almacenamiento suficiente y conexión a internet para instalar MySQL.
+Se recomienda tener NodeJS LTS y ExpressJS.
 
 ## Desarrollo
 
-**¿Qué es una base de datos?**
+Con lo que vimos en la sesión anterior ya podemos definir la API completa y los servicios web para completar el CRUD de los modelos definidos en el ejemplo y reto anterior.
 
-El término base de datos se remonta a 1963. Una base de datos se puede definir como un conjunto de información relacionada que se encuentra agrupada ó estructurada. 
+![gif](https://blog-cdn.crowdcontent.com/crowdblog/gif-yay-7.gif)
 
-**¿Qué es un base de datos relacional?**
+El problema con esto es que todo lo hemos definido en el mismo archivo `app.js` y mientras mas servicios o rutas queramos definir se volverá intratable. Pero este no es el único problema de tener toda la API definida en un archivo, vimos también que para que nuestra API sea REST debe implementar el MVC, entonces nuestra API tiene que estar perfectamente modularizada. 
 
-Son bases de datos que almacenan información relacionándola por medio de tablas con columnas para la definición de atributos y filas para definir valores donde cada tabla represente a una entidad u objeto y cada columna a un atributo de esta entidad. Por lo general cada dato de una tabla cuenta con un identificador único, con el cual puede relacionarse con uno o más datos.
+Para lograr esto vamos a usar `Express.Router`, los `Routers` son como pequeñas aplicaciones de `Express` que se encargan de definir el comportamiento para el CRUD de un módulo en especifico. De esta forma se separan los servicios que le corresponden a ese módulo en un `Router` diferente en lugar de tenerlos todos en el archivo `app.js`.
 
-Los fundamentos de las bases de datos relacionales son la teoría de conjuntos.
+En nuestra carpeta `models/` crearemos las clases de nuestras tres entidades con su respectivo nombre de archivo. Revisa que cada archivo tenga un código similar al siguiente
 
-**¿Qué es MySQL?**
+1. Archivo `models/Mascota.js`
 
-MySQL es un sistema para gestionar bases de datos que cuenta con una amplia popularidad.
+```jsx
+// Mascota.js
+/** Clase que representa un animalito a adoptar */
+class Mascota {
+  constructor(id, nombre, categoria, fotos, descripcion, anunciante, ubicacion) {
+    this.id = id;
+    this.nombre = nombre; // nombre de la mascota (o titulo del anuncio)
+    this.categoria = categoria; // perro | gato | otro
+    this.fotos = fotos; // links a las fotografías
+    this.descripcion = descripcion; // descripción del anuncio
+    this.anunciante = anunciante; // contacto con la persona que anuncia al animalito
+    this.ubicacion = ubicacion; // muy importante
+  }
 
-## Instalar MySQL server
+}
 
-### Instalación en Ubuntu
-
-Instala el paquete mysql-server y luego ejecuta el script de seguridad incluido.
-
-```bash
-sudo apt update
-sudo apt install mysql-server
-sudo mysql_secure_installation
+module.exports = Mascota;
 ```
 
-Para asegurar que esté instalado ejecuta
+2. Archivo `models/Usuario.js`
 
-```bash
-sudo mysql
+```jsx
+// Usuario.js
+/** Clase que representa a un usuario de la plataforma*/
+class Usuario {
+  constructor(id, username, nombre, apellido, email, password, tipo) {
+    this.id = id;
+    this.username = username;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.email = email;
+    this.password = password;
+    this.tipo = tipo; // tipo normal o anunciante
+  }
+}
+module.exports = Usuario;
 ```
 
-Y deberás ver una interfaz como esta
+3. Archivo `models/Solicitud.js`
 
-![img/Screen_Shot_2020-06-08_at_6.58.16.png](img/Screen_Shot_2020-06-08_at_6.58.16.png)
+```jsx
+// Solicitud.js
+/** Clase que representa una solicitud de adopción */
+class Solicitud {
+  constructor(id, idMascota, fechaDeCreacion, idUsuarioAnunciante, idUsuarioSolicitante, estado) {
+    this.id = id;
+    this.idMascota = idMascota;
+    this.fechaDeCreacion = fechaDeCreacion;
+    this.idUsuarioAnunciante = idUsuarioAnunciante;
+    this.idUsuarioSolicitante = idUsuarioSolicitante;
+    this.estado = estado;
+  }
 
-### Instalación con Docker
+}
 
-Si tienes [docker](https://docs.docker.com/engine/install/) instalado puedes ejecutar Mysql desde un contenedor instalandolo con el siguiente comando:
-
-```bash
-$ docker run -d -p 33060:3306 --name=mysql-db -e MYSQL_ROOT_PASSWORD=secret mysql
+module.exports = Solicitud;
 ```
 
-- **-d**: Detached Mode es la forma en que indicamos que corra en segundo plano.
-- **-p** : Puerto, el contenedor corre en el puerto 3306 pero hacemos un *bind* para que lo escuchemos en Host el puerto 33061.
-- **–name** : Para no tener que hacer referencia al hash le asignamos un nombre.
-- **-e** : Environment le asignamos **la contraseña**.
+### Creando nuestros controladores
 
-Entra a Mysql con el siguiente comando:
+4. En la carpeta `controllers/` crearemos el archivo `usuarios.js` con la siguiente estructura:
 
-```bash
-docker exec -it mysql-db mysql -p
+```jsx
+/*  Archivo controllers/usuarios.js
+ *  Simulando la respuesta de objetos Usuario
+ *  en un futuro aquí se utilizarán los modelos
+ */
+
+// importamos el modelo de usuarios
+const Usuario = require('../models/Usuario')
+
+function crearUsuario(req, res) {
+  // Instanciaremos un nuevo usuario utilizando la clase usuario
+  var usuario = new Usuario(req.body)
+  res.status(201).send(usuario)
+}
+
+function obtenerUsuarios(req, res) {
+  // Simulando dos usuarios y respondiendolos
+  var usuario1 = new Usuario(1, 'Juan', 'Vega', 'juan@vega.com')
+  var usuario2 = new Usuario(2, 'Monserrat', 'Vega', 'mon@vega.com')
+  res.send([usuario1, usuario2])
+}
+
+function modificarUsuario(req, res) {
+  // simulando un usuario previamente existente que el cliente modifica
+  var usuario1 = new Usuario(req.params.id, 'Juan', 'Vega', 'juan@vega.com')
+  var modificaciones = req.body
+  usuario1 = { ...usuario1, ...modificaciones }
+  res.send(usuario1)
+}
+
+function eliminarUsuario(req, res) {
+  // se simula una eliminación de usuario, regresando un 200
+  res.status(200).send(`Usuario ${req.params.id} eliminado`);
+}
+
+// exportamos las funciones definidas
+module.exports = {
+  crearUsuario,
+  obtenerUsuarios,
+  modificarUsuario,
+  eliminarUsuario
+}
 ```
 
-### Instalación en MacOS
+En el código anterior jugamos con las clases de Javascript para simular el comportamiento esperado de nuestra API en las primeras tres funciones.
 
-1. Dirígete al siguiente [link para descargar MySQL server](https://dev.mysql.com/downloads/mysql/)
-2. Selecciona tu sistema operativo y descarga el archivo `.dmg`. Para instalar de esta manera tal vez sea necesario crear una cuenta en Oracle.
-3. Ejecuta el `.dmg` y sigue los pasos.
 
-[`Atrás: Sesión 05`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-05) | [`Siguiente: Ejemplo 02`](https://github.com/beduExpert/A2-Backend-Fundamentals-2020/tree/master/Sesion-05/Ejemplo-02)
+[`Atrás`](../Reto-01) | [`Siguiente`](../Reto-02)

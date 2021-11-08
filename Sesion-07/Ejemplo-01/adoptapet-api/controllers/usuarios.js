@@ -79,6 +79,8 @@ function modificarUsuario(req, res, next) {
       user.ubicacion = nuevaInfo.ubicacion
     if (typeof nuevaInfo.telefono !== 'undefined')
       user.telefono = nuevaInfo.telefono
+    if (typeof nuevaInfo.tipo !== 'undefined')
+      user.tipo = nuevaInfo.tipo
     if (typeof nuevaInfo.password !== 'undefined')
       user.crearPassword(nuevaInfo.password)
     user.save().then(updatedUser => {                                   //Guardando usuario modificado en MongoDB.
