@@ -20,117 +20,172 @@ El problema con esto es que todo lo hemos definido en el mismo archivo `app.js` 
 
 Para lograr esto vamos a usar `Express.Router`, los `Routers` son como pequeñas aplicaciones de `Express` que se encargan de definir el comportamiento para el CRUD de un módulo en especifico. De esta forma se separan los servicios que le corresponden a ese módulo en un `Router` diferente en lugar de tenerlos todos en el archivo `app.js`.
 
-En nuestra carpeta `models/` crearemos las clases de nuestras tres entidades con su respectivo nombre de archivo. Revisa que cada archivo tenga un código similar al siguiente
-
-1. Archivo `models/Mascota.js`
+1. Primero agregaremos un archivo de configuración para la conexión a la base de datos, dentro de la carpeta `config/` creamos el archivo `db.js` y colocamos en él la conexión con la base de datos que teníamos en `app.js`.
 
 ```jsx
-// Mascota.js
-/** Clase que representa un animalito a adoptar */
-class Mascota {
-  constructor(id, nombre, categoria, fotos, descripcion, anunciante, ubicacion) {
-    this.id = id;
-    this.nombre = nombre; // nombre de la mascota (o titulo del anuncio)
-    this.categoria = categoria; // perro | gato | otro
-    this.fotos = fotos; // links a las fotografías
-    this.descripcion = descripcion; // descripción del anuncio
-    this.anunciante = anunciante; // contacto con la persona que anuncia al animalito
-    this.ubicacion = ubicacion; // muy importante
-  }
+const { Sequelize, DataTypes, Op } = require('sequelize');
 
+const sequelize = new Sequelize(
+  'database',
+  'username', 
+  'password',
+{
+  host: 'host',
+  dialect: 'postgres',
+  native: true,
+  ssl: true
+});
+
+module.exports = sequelize
+```
+2. Modificamos el archivo `app.js` para que utilice esta configuración en lugar de definirla directamente en él.
+
+```jsx
+const { Sequelize, DataTypes, Op } = require('sequelize');
+const express = require('express');
+
+const app = express();
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+const sequelize = require('./config/db')
+
+const PORT = 4001;
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
+
+try {
+  sequelize.authenticate();
+  console.log('Connection has been established successfully.');
+} catch (error) {
+  console.error('Unable to connect to the database:', error);
 }
-
-module.exports = Mascota;
 ```
 
-2. Archivo `models/Usuario.js`
+3. En nuestra carpeta `models/` crearemos los archivos de nuestras entidades con su respectivo nombre en el archivo. Revisa que cada archivo tenga un código similar al siguiente
+
+Archivo `models/Producto.js`
 
 ```jsx
-// Usuario.js
-/** Clase que representa a un usuario de la plataforma*/
-class Usuario {
-  constructor(id, username, nombre, apellido, email, password, tipo) {
-    this.id = id;
-    this.username = username;
-    this.nombre = nombre;
-    this.apellido = apellido;
-    this.email = email;
-    this.password = password;
-    this.tipo = tipo; // tipo normal o anunciante
+// Producto.js
+const { Sequelize, DataTypes, Op } = require('sequelize');
+const sequelize = require('../config/db')
+
+const Producto = sequelize.define('Producto', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true
+  },
+  nombre: {
+    type: DataTypes.TEXT
+  },
+  precio: {
+    type: DataTypes.REAL
+  },
+  cat: {
+    type: DataTypes.TEXT
+  },
+  desc: {
+    type: DataTypes.TEXT
   }
-}
-module.exports = Usuario;
+}, {
+  freezeTableName: true,
+  timestamps: false
+});
+
+module.exports = Producto;
 ```
 
-3. Archivo `models/Solicitud.js`
+4. Archivo `models/Producto.js`
 
 ```jsx
-// Solicitud.js
-/** Clase que representa una solicitud de adopción */
-class Solicitud {
-  constructor(id, idMascota, fechaDeCreacion, idUsuarioAnunciante, idUsuarioSolicitante, estado) {
-    this.id = id;
-    this.idMascota = idMascota;
-    this.fechaDeCreacion = fechaDeCreacion;
-    this.idUsuarioAnunciante = idUsuarioAnunciante;
-    this.idUsuarioSolicitante = idUsuarioSolicitante;
-    this.estado = estado;
+// Producto.js
+/** Constante que representa un producto a vender */
+const Producto = sequelize.define('Producto', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true
+  },
+  nombre: {
+    type: DataTypes.TEXT
+  },
+  precio: {
+    type: DataTypes.REAL
+  },
+  cat: {
+    type: DataTypes.TEXT
+  },
+  desc: {
+    type: DataTypes.TEXT
   }
+}, {
+  freezeTableName: true,
+  timestamps: false
+});
 
-}
-
-module.exports = Solicitud;
+module.exports = Producto;
 ```
 
 ### Creando nuestros controladores
 
-4. En la carpeta `controllers/` crearemos el archivo `usuarios.js` con la siguiente estructura:
+5. En la carpeta `controllers/` crearemos el archivo `productos.js` con la siguiente estructura:
 
 ```jsx
-/*  Archivo controllers/usuarios.js
- *  Simulando la respuesta de objetos Usuario
- *  en un futuro aquí se utilizarán los modelos
- */
+const { Sequelize, DataTypes, Op } = require('sequelize');
+const Producto = require('../models/Producto')
 
-// importamos el modelo de usuarios
-const Usuario = require('../models/Usuario')
-
-function crearUsuario(req, res) {
-  // Instanciaremos un nuevo usuario utilizando la clase usuario
-  var usuario = new Usuario(req.body)
-  res.status(201).send(usuario)
+function crearProducto(req, res) {
+   var body = req.body;
+   Producto.create(body)
+   .then(producto => 
+      res.status(201).send(producto)
+   )
 }
 
-function obtenerUsuarios(req, res) {
-  // Simulando dos usuarios y respondiendolos
-  var usuario1 = new Usuario(1, 'Juan', 'Vega', 'juan@vega.com')
-  var usuario2 = new Usuario(2, 'Monserrat', 'Vega', 'mon@vega.com')
-  res.send([usuario1, usuario2])
+function obtenerProductos(req, res) {
+  Producto.findAll()
+  .then(products =>
+    res.status(201).send(products)
+  )
 }
 
-function modificarUsuario(req, res) {
-  // simulando un usuario previamente existente que el cliente modifica
-  var usuario1 = new Usuario(req.params.id, 'Juan', 'Vega', 'juan@vega.com')
-  var modificaciones = req.body
-  usuario1 = { ...usuario1, ...modificaciones }
-  res.send(usuario1)
+function modificarProducto(req, res) {
+   var body = req.body;
+   var id = req.params.id;
+   Producto.update( body , {
+     where: {
+       id: id
+     }
+   })
+   .then(producto =>
+      res.status(201).send(products)
+   )
 }
 
-function eliminarUsuario(req, res) {
-  // se simula una eliminación de usuario, regresando un 200
-  res.status(200).send(`Usuario ${req.params.id} eliminado`);
+function eliminarProducto(req, res) {
+   var id = req.params.id;
+   Producto.destroy({
+     where: {
+       id: id
+     }
+   })
+   .then(r =>
+      res.status(201).send("Se elimino el producto", id)
+   )
 }
 
 // exportamos las funciones definidas
 module.exports = {
-  crearUsuario,
-  obtenerUsuarios,
-  modificarUsuario,
-  eliminarUsuario
+  crearProducto,
+  obtenerProductos,
+  modificarProducto,
+  eliminarProducto
 }
 ```
-
-En el código anterior jugamos con las clases de Javascript para simular el comportamiento esperado de nuestra API en las primeras tres funciones.
-
 
 [`Atrás`](../Reto-01) | [`Siguiente`](../Reto-02)

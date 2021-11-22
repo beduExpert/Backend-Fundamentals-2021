@@ -14,33 +14,36 @@ Se recomienda tener NodeJS LTS y ExpressJS.
 
 ### Configurando las rutas de nuestra API
 
-En los siguientes pasos crearemos el **esqueleto** de nuestra API para el recurso `usuarios`, declarando las rutas para crear, obtener, actualizar y eliminar usuarios (CRUD).
+En los siguientes pasos crearemos el **esqueleto** de nuestra API para el recurso `productos`, declarando las rutas para crear, obtener, actualizar y eliminar productos (CRUD).
 
-Los siguientes *endpoints* estarán siendo importados en el archivo `index.js` y bajo la ruta `v1/usuarios` de nuestra api.
+Los siguientes *endpoints* estarán siendo importados en el archivo `index.js` y bajo la ruta `v1/productos` de nuestra api.
 
-1. Debajo de la carpeta routes, crea el archivo `usuarios.js`, agrega la siguiente estructura:
+1. Debajo de la carpeta routes, crea el archivo `productos.js`, agrega la siguiente estructura:
 
 ```jsx
 // Estructura del CRUD
+// Estructura del CRUD
 const router = require('express').Router();
 const {
-  crearUsuario,
-  obtenerUsuarios,
-  modificarUsuario,
-  eliminarUsuario
-} = require('../controllers/usuarios')
+  crearProducto,
+  obtenerProductos,
+  modificarProducto,
+  eliminarProducto
+} = require('../controllers/productos')
 
-router.get('/', obtenerUsuarios)
-router.post('/', crearUsuario)
-router.put('/:id', modificarUsuario)
-router.delete('/:id', eliminarUsuario)
+router.get('/', obtenerProductos)
+router.post('/', crearProducto)
+router.put('/:id', modificarProducto)
+router.delete('/:id', eliminarProducto)
+
+module.exports = router;
 
 module.exports = router;
 ```
 
 - Lo que aquí sucedió es que hemos externalizado el código de nuestro router a funciones independientes en nuestra carpeta de controladores.
 
-- Aunque para este caso en particular podríamos seguir trabajando con la lógica de cada *endpoint* dentro del archivo `routes/usuarios.js` cuando los proyectos van creciendo, es conveniente modularizar nuestro código, y una manera de hacerlo es externalizando funciones en los controladores.
+- Aunque para este caso en particular podríamos seguir trabajando con la lógica de cada *endpoint* dentro del archivo `routes/productos.js` cuando los proyectos van creciendo, es conveniente modularizar nuestro código, y una manera de hacerlo es externalizando funciones en los controladores.
 Para hacer peticiones en una ruta (endpoint) en específico, debemos establecer una estructura específica.
 
 - Para esto utilizaremos el Router que nos provee la librería Express.
@@ -53,7 +56,7 @@ var router = require('express').Router();
 
 // definimos el comportamiento en la raíz del endpoint
 router.get('/', (req, res)=>{
-  res.send('welcome to adoptapet api');
+  res.send('welcome to bedushop api');
 });
 
 // exportamos nuestro nuevo router
@@ -96,7 +99,7 @@ Es una buena práctica colocar la versión de nuestra app como una ruta principa
 5. En el archivo `index.js` añadiremos lo siguiente para definir el `Router` de usuarios.
 
 ```jsx
-router.use('/usuarios', require('./usuarios'));
+router.use('/productos', require('./productos'));
 ```
 
 el archivo debe quedar algo así al final.
@@ -108,11 +111,11 @@ router.get('/', (req, res)=>{
   res.send('welcome to adoptapet api');
 })
 
-router.use('/usuarios', require('./usuarios'));
+router.use('/productos', require('./productos'));
 
 /* con el método use de nuestro router estamos indicando 
-* que en la ruta 'v1/usuarios' estarán anidadas las rutas 
-* que vamos a crear en nuestro archivo usuarios.js,
+* que en la ruta 'v1/productos' estarán anidadas las rutas 
+* que vamos a crear en nuestro archivo productos.js,
 * la función require está importando este archivo */
 
 module.exports = router;
