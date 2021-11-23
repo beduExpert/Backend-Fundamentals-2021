@@ -14,45 +14,45 @@
 
     ```jsx
    // User.js
-const { Sequelize, DataTypes, Op } = require('sequelize');
-const sequelize = require('../config/db')
+    const { Sequelize, DataTypes, Op } = require('sequelize');
+    const sequelize = require('../config/db')
 
-const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true
-  },
-  username: {
-    type: DataTypes.TEXT,
-  },
-  nombre: {
-    type: DataTypes.TEXT
-  },
-  apellido: {
-    type: DataTypes.TEXT
-  },
-  email: {
-    type: DataTypes.TEXT
-  },
-  pasword: {
-    type: DataTypes.TEXT
-  },
-  direccion: {
-    type: DataTypes.TEXT
-  },
-  tarjeta: {
-    type: DataTypes.TEXT
-  },
-  tipo: {
-    type: DataTypes.TEXT,
-  }
-}, {
-  freezeTableName: true,
-  timestamps: false
-});
+    const User = sequelize.define('User', {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true
+      },
+      username: {
+        type: DataTypes.TEXT,
+      },
+      nombre: {
+        type: DataTypes.TEXT
+      },
+      apellido: {
+        type: DataTypes.TEXT
+      },
+      email: {
+        type: DataTypes.TEXT
+      },
+      pasword: {
+        type: DataTypes.TEXT
+      },
+      direccion: {
+        type: DataTypes.TEXT
+      },
+      tarjeta: {
+        type: DataTypes.TEXT
+      },
+      tipo: {
+        type: DataTypes.TEXT,
+      }
+    }, {
+      freezeTableName: true,
+      timestamps: false
+    });
 
-module.exports = User;       
+    module.exports = User;       
     ```    
     
 2. Añadiendo validaciones al modelo de <b>Usuario</b>. 
