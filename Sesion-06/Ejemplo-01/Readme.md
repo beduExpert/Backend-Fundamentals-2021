@@ -10,83 +10,126 @@
 
 ## Desarrollo
 
-1. El esquema generado para el modelo <b>Usuario</b> en la sesión anterior, utilizando la clase `Schema` de mongoose se ve de la siguiente forma:
+1. El esquema generado para el modelo <b>Usuario</b> en la sesión anterior se ve de la siguiente forma:
 
     ```jsx
-   // Usuario.js
-   const mongoose = require('mongoose');            //Importando mongoose.
-    //Definiendo el objeto UsuarioSchema con el constructor Schema.
-    //Definiendo cada campo con su respectivo tipo de dato.
-   const UsuarioSchema = new mongoose.Schema({      
-     username: String,                              
-     nombre: String,
-     apellido: String, 
-     email: String,
-     password: String,
-     ubicacion: String,
-     telefono: String,
-     bio: String,
-     foto: String,
-     tipo: String,
-   }, { timestamps: true });  
+   // User.js
+const { Sequelize, DataTypes, Op } = require('sequelize');
+const sequelize = require('../config/db')
 
-   //Define el modelo Usuario, utilizando el esquema UsuarioSchema.
-   mongoose.model("Usuario", UsuarioSchema);        
+const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true
+  },
+  username: {
+    type: DataTypes.TEXT,
+  },
+  nombre: {
+    type: DataTypes.TEXT
+  },
+  apellido: {
+    type: DataTypes.TEXT
+  },
+  email: {
+    type: DataTypes.TEXT
+  },
+  pasword: {
+    type: DataTypes.TEXT
+  },
+  direccion: {
+    type: DataTypes.TEXT
+  },
+  tarjeta: {
+    type: DataTypes.TEXT
+  },
+  tipo: {
+    type: DataTypes.TEXT,
+  }
+}, {
+  freezeTableName: true,
+  timestamps: false
+});
+
+module.exports = User;       
     ```    
-- El modelo ahora no tiene un id ya que por defecto Mongoose le agrega el atributo `_id` a un documento cuando es creado.
-- La opción `{ timestamps: true }` agrega automáticamente la hora y fecha de creación (`createdAt` and `updatedAt`) cada que se crea o actualiza un documento.
     
 2. Añadiendo validaciones al modelo de <b>Usuario</b>. 
 
     ```jsx
-    // Usuario.js
-   const mongoose = require('mongoose');                         //Importando mongoose.
-   const uniqueValidator = require("mongoose-unique-validator"); //Importando módulo mongoose-unique-validator, pendiente de instalar.
+    // User.js
+      const { Sequelize, DataTypes, Op } = require('sequelize');
+      const sequelize = require('../config/db')
+      const crypto = require('crypto'); 
 
-   //Definiendo cada campo con sus tipos de dato y las validaciones sobre este.
-   const UsuarioSchema = new mongoose.Schema({                   
-    username: {                                                  
-      type: String,
-      unique: true, //este campo no se puede repetir
-      lowercase: true,
-      required: [true, "no puede estar vacío"],
-      match: [/^[a-zA-Z0-9]+$/, "es inválido"],
-      index: true,
-    },                                           
-    nombre: { type: String, required: true },
-    apellido: { type: String, required: true },
-    email: {
-      type: String,
-      unique: true, //este campo no se puede repetir
-      lowercase: true,
-      required: [true, "no puede estar vacío"],
-      match: [/\S+@\S+\.\S+/, "es inválido"],
-      index: true,
-    },
-    ubicacion: String,
-    telefono: String,
-    bio: String,
-    foto: String,
-    tipo: { type: String, enum: ['normal', 'anunciante'] },
-    hash: String, //este campo se utilizará para la sesión
-    salt: String, //este campo se utilizará para la sesión
-    },
-    { timestamps: true }
-    );
+      const User = sequelize.define('User', {
+        id: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          primaryKey: true
+        },
+        username: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+          unique: true,
+          validate:{
+              isLowercase: true,
+              is: /^[a-zA-Z0-9]+$/
+          }
+        },
+        nombre: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+        },
+        apellido: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+        },
+        email: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+          unique: true,
+          validate: {
+              isEmail: true,
+          }
+        },
+        salt: {
+          type: DataTypes.TEXT
+        },
+        hash: {
+          type: DataTypes.TEXT
+        }
+        direccion: {
+          type: DataTypes.TEXT
+        },
+        tarjeta: {
+          type: DataTypes.TEXT,
+          validate:{
+              len: 16,
+              isCreditCard: true
+          }
+        },
+        tipo: {
+          type: DataTypes.TEXT,
+          validate:{
+              isIn: [['Comprador', 'Vendedor']]
+          }
+        }
+      }, {
+        freezeTableName: true,
+        timestamps: false
+      });
 
-    // usando plugin de validación para que no se repitan correos ni usernames
-    UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe" }); 
-    mongoose.model("Usuario", UsuarioSchema);    //Define el modelo Usuario, utilizando el esquema UsuarioSchema.
+      module.exports = User;
     ```
 
-    - La opción `{index: true}` optimizará los queries para el campo username e email.
-    - La opción `match` nos permite hacer validaciones sobre la estructura de la cadena de texto utilizando expresiones regulares.
-    - En cada caso se nos permite definir un mensaje de error por si la estructura del usuario no es la esperada.
+  Las validaciones son comprobaciones realizadas en el nivel Sequelize, en JavaScript puro. Pueden ser arbitrariamente complejos si proporciona una función de validación personalizada, o pueden ser uno de los validadores integrados que ofrece Sequelize. Si falla una validación, no se enviará ninguna consulta SQL a la base de datos. Éstas se escriben dentro del objeto `validate`.
 
-3. Se utiliza `uniqueValidator` de mongo para hacer las validaciones sobre `username` y `email` para que no se permitan valores repetidos en estos campos. Para lo cual es necesario instalar el paquete <b>mongoose-unique-validator</b>.
+  Por otro lado, las restricciones son reglas definidas a nivel de SQL. El ejemplo más básico de restricción es una restricción única. Si falla una verificación de restricción, la base de datos arrojará un error y Sequelize enviará este error a JavaScript (en este ejemplo, arrojará un SequelizeUniqueConstraintError). Tenga en cuenta que en este caso se realizó la consulta SQL, a diferencia del caso de las validaciones.
 
-```bash
-npm install mongoose-unique-validator
-```
+  Hay que observar que en la nueva implementación del modeo de usuarios ya no almacenamos la contraseña sino que almacenamos una combinación de atributos `salt` y `hash` que nos ayudarán a guardar de forma segura la contraseña mediante un cifrado que haremos en el próximo ejemplo.
+
+
 
 [`Atrás`](../README.md) | [`Siguiente`](../Ejemplo-02)
