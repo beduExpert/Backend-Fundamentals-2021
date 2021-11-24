@@ -2,13 +2,6 @@
 
 # Postwork
 
-
-
-POSTWORK
-Sesión 01
-Modelado y arquitectura de un proyecto de Backend
-
-
 ## 🎯 Objetivo
 
 - Explorar y describir las herramientas que se utilizaron durante la sesión de work. 

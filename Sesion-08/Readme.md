@@ -38,8 +38,8 @@ Los pasos que en la mayoría de los casos se siguen para lanzar a producción la
 - [`Reto 03: Certificado SSL`](Reto-03/#reto-3) -->
 
 
-## 🛡 Postwork
+---
 
-**Conocer conceptos para cerrar el curso y continuar aprendiendo.**
+## Postwork
 
-Recuerda que todo lo trabajado en tu prework, así como durante la sesión, puede ser aplicado a tu proyecto personal. Para lo cual, toma las siguientes consideraciones...[`leer más`](Postwork/#postwork)
+[`Postwork`](postwork/Readme.md)
