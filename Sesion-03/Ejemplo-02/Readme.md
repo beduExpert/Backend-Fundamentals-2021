@@ -1,151 +1,144 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 2`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 1`
 
-# Ejemplo 2: Definición de Modelos
+# Ejemplo 1: Configuración de Sequelize
 
 **Objetivos**
 
-- Definir los modelos que son la representación de las tablas en Sequelize.
+- Configurar el ORM
+- Definir la conexión con la base de datos.
 
 **Requerimientos**
 
-- Haber concluido el ejemplo anterior.
+- Node.js
+- npm
+- Haber realizado las configuraciones e instalaciones descritas en el prework.
 
 ---
 
+Cuando queremos interactuar con la base de datos desde una aplicación externa, tenemos dos opciones:
 
-Recordemos que estamos usando el patrón Modelo Vista Controlador, para nuestra aplicación la vista es el fronted, y el modelo es la representación de los datos en nuestra aplicación. Para esto usaremos los modelos de Sequelize.
+- Utilizar el lenguaje de consulta nativo de la base de datos.
+- Utilizar un ORM/ ODM (Object Relational Mapping/Object Data Mapping) que representa los datos como objetos del lenguaje de nuestra aplicación, en este caso JavaScript.
 
-Los modelos son la esencia de Sequelize. Un modelo es una abstracción que representa una tabla de la base de datos. En Sequelize, es una clase que extiende Model.
+La principal diferencia es cómo vamos a escribir las consultas. En la primera opción tenemos que escribir las consultas directamente en SQL y utilizar una herramienta capaz de ejecutarlas desde nuestra aplicación. Mientras que en la segunda opción se usa el mismo lenguaje en el que se implementa la aplicación (JavaScript).
 
-El modelo le dice a Sequelize varias cosas sobre la entidad que representa, como el nombre de la tabla en la base de datos, qué columnas tiene así como sus tipos de datos.
+**¿Cuál es la mejor opción? 😮**
 
-Un modelo en Sequelize tiene un nombre. Este nombre no tiene que ser el mismo nombre de la tabla que representa en la base de datos. Por lo general, los modelos tienen nombres en singular (como Usuario), aunque esto es meramente una convención.
+Si nos interesa el desempeño de las consultas (que tan rápido se hacen ⏳) entonces la mejor opción es usar el lenguaje nativo de la base de datos. Esto es debido a que al escribir las consultas directamente estas no pasan por un proceso de traducción lo que aumenta la velocidad en la que se resuelve.
 
-## Definición del modelo
+Pero si queremos facilitar el escribir las consultas, lo mejor es usar un ORM/ ODM pues siempre pensamos y escribimos en el mismo lenguaje. También nos ayudan a simplificar el proceso de validación y verificación de los datos.
 
-Los modelos se pueden definir de dos formas equivalentes en Sequelize:
+Otra ventaja del uso de un ORM/ODM sobre el lenguaje nativo de la base de datos es la seguridad que ofrece, pues un ORM/ODM nos ayuda a prevenir inyección de código y también las instrucciones pasan por distintos filtros antes de ejecutarse directamente en la base de datos. 
 
-- Llamar a `sequelize.define(modelName, atributos, opciones)`
-- Extendiendo `Model` y llamando a `init(atributos, opciones)`
+Usar ORM/ ODM nos ayuda también en el mantenimiento del código, a menos de que el desempeño sea de suma importancia se recomienda mas el uso de estas herramientas.
 
-Una vez definido un modelo, este está disponible en `sequelize.models` por su nombre de modelo.
+Por estas razones (principalmente la simplicidad) vamos a usar un ORM llamado **Sequelize**.
 
-Para aprender vamos a crear un modelo para representar a la tabla Producto. Queremos que nuestro modelo se llame Producto y represente a la tabla correspondiente en nutra base de datos.
+> Nota: Se usa un ORM cuando se trabaja con bases de datos relacionales, mientras que un ODM se usa para manejo de bases de datos no relacionales.
 
-Vamos a utilizar la primera forma de definición de modelos.
+1. Para este ejemplo utilizaremos el proyecto que crearon en su prework, el cual tiene la siguiente estructura:
 
-1. Primero importamos los `Datatypes` directamente desde Sequelize, para esto modificamos la primera linea del archivo **app.js** agregando la importación nueva, quedando como sigue:
-
-```javascript
-const { Sequelize, DataTypes } = require('sequelize');
+```
+adoptapet-api/
+├── config/
+├── models/
+├── controllers/
+├── routes/
+└── app.js
 ```
 
-2. La sintaxis para definir un modelo es la siguiente:
+Aunque en esta sesión estaremos definiendo todo el contenido de la aplicación en el archivo **app.js**, pero mas adelante en el módulo esta estructura ira cobrando mas sentido.
+
+2. **Sequelize** es un ORM que funciona con diferentes gestores de bases de datos SQL. Nosotros lo usaremos con PostgreSQL que es el gestor en el que definimos la base de datos en la sesión anterior. Pero también funciona con **mySQL**, **MariaDB**, **SQLite**, entre otros. Para poder usarse con cada uno de estos gestores es necesario instalar el _driver_ correspondiente a cada uno usando `npm`. A continuación mostramos los _drivers_ disponibles y la instrucción para instalarlos.
+
+```bash
+$ npm install --save pg pg-hstore # Postgres
+$ npm install --save mysql2
+$ npm install --save mariadb
+$ npm install --save sqlite3
+$ npm install --save tedious # Microsoft SQL Server
+```
+
+Nosotros en el prework ya hicimos la instalación de Sequelize y el _diver_ de PostgreSQL.
+
+3. Primero es necesario importar Sequelize en nuestro archivo **app.js**, esto se hace con la siguiente linea que pondremos al principio del archivo.
 
 ```javascript
-const User = sequelize.define('NombreDelModelo', {
-  // Atributos del modelo
-  atributo1: {
-    type: <Tipo de dato del modelo>
-  },
-  atributo2: {
-    type: <Tipo de dato del modelo>
-  }
-  ... 
-}, {
-  // Otras opciones de configuración del modelo
+const { Sequelize } = require('sequelize');
+```
+
+4. Para conectarse a la base de datos, se debe crear una instancia de Sequelize. Esto se hace pasando los parámetros de conexión por separado al constructor Sequelize.
+
+```javascript
+const sequelize = new Sequelize(
+  'database',
+  'username', 
+  'password',
+{
+  host: 'host',
+  dialect: 'postgres',
+  native: true,
+  ssl: true
 });
+
 ```
 
-3. Recordemos que la tabla producto tiene los siguientes atributos:
+5. La información necesaria para conectarnos a la base de datos son las mismas credenciales que encontrábamos en Heroku con las que nos conectamos a pgAdmin. Para encontrarlas seguimos los siguientes pasos:
 
-  - id
-  - nombre
-  - precio
-  - cat
-  - desc
+- Entramos a la [consola de Heroku](https://id.heroku.com/login) en nuestro navegador.
+- Seleccionamos el proyecto **beduchop**
+- Entramos a la pestaña de **Resources**
+- Abrimos el add-on **Heroku Postgres**
+- Abrimos la pestaña de **Settings**
+- Y en la sección de **Database Credentials** damos click en el botón **View Credentials...**
 
-Por lo que la definición del modelo queda como sigue:
+Y de esta forma se despliegan las credenciales necesarias.
+
+6. Definimos la conexión desde nuestra aplicación, en el archivo **app.js** con la instrucción.
 
 ```javascript
-const Producto = sequelize.define('Producto', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true
-  },
-  nombre: {
-    type: DataTypes.TEXT
-  },
-  precio: {
-    type: DataTypes.REAL
-  },
-  cat: {
-    type: DataTypes.TEXT
-  },
-  desc: {
-    type: DataTypes.TEXT
-  }
-}, {
-  freezeTableName: true,
-  timestamps: false
+const sequelize = new Sequelize(
+  'database',
+  'username', 
+  'password',
+{
+  host: 'host',
+  dialect: 'postgres',
+  native: true,
+  ssl: true
 });
+
 ```
 
-Entendamos que esta haciendo la instrucción anterior:
+y la información de nuestro servidor que encontramos en Heroku con la correspondencia siguiente.
 
-- El tipo de dato de cada uno de los atributos es un valor del objeto `Datatypes` que importamos en la primera linea. Para ver una lista completa de los tipos de datos que están disponibles en sequelize consulta el siguiente [enlace](https://sequelize.org/master/manual/model-basics.html#data-types). Es muy importante que estos tipos de dato correspondan tal cual con los definidos en la base de datos.
-- En el caso del id agregamos también la opción `allowNull: false` lo que impide que el campo id tenga valores nulos. 
-- De igual forma se agrego `primaryKey: true` que indica que id es la llave primaria de la tabla.
-- La opción `freezeTableName: true` indica que el nombre del modelo es el mismo que el de la tabla.
-- Y `timestamps: false` se agrega para evitar que se agreguen campos a la tabla en donde se almacena la fecha de la última modificación y la creación de los registros.
+- En lugar de `database` ponemos el Database que encontramos en Heroku.
+- En lugar de `username` ponemos el User que encontramos en Heroku.
+- En lugar de `password` ponemos el Password que encontramos en Heroku.
+- En lugar de `host` ponemos el Host que encontramos en Heroku.
 
-De forma predeterminada, cuando no se proporciona el nombre de la tabla, Sequelize pluraliza automáticamente el nombre del modelo y lo usa como el nombre de la tabla. es decir si el modelo se llama producto sequelize infiere que la tabla se llama productos. Para evitar esto se usa `freezeTableName: true`.
+El resto de las opciones se quedan igual.
 
-Tambien podemos indicarle explícitamente el nombre de la tabla de la siguiente forma:
+7. El paso anterior define la conexión con la base de datos. Ahora podemos usar la función `.authenticate()` para verificar que la conexión sirva. Para esto agregamos el siguiente código al archivo **app.js**.
 
 ```javascript
-sequelize.define('User', {
-  // ... (attributes)
-}, {
-  tableName: 'Employees'
-});
+try {
+  sequelize.authenticate();
+  console.log('La conexion fue exitosa');
+} catch (error) {
+  console.error('Hubo un problema con la conexión', error);
+}
 ```
 
-4. Siguiendo esta misma idea se define el modelo para usuarios como sigue:
+8. Ahora vamos a correr la aplicación, desde la terminal usamos el comando:
 
-```javascript
-const Producto = sequelize.define('Usuario', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true
-  },
-  nombre: {
-    type: DataTypes.TEXT
-  },
-  apellido: {
-    type: DataTypes.REAL
-  },
-  tarjeta: {
-    type: DataTypes.TEXT
-  },
-  direccion: {
-    type: DataTypes.TEXT
-  },
-  email: {
-    type: DataTypes.TEXT
-  },
-  pasword: {
-    type: DataTypes.TEXT
-  },
-  username: {
-    type: DataTypes.TEXT
-  }
-}, {
-  freezeTableName: true,
-  timestamps: false
-});
+```bash
+npm run dev
 ```
 
-[`Atrás: Ejemplo 01`](Ejemplo-01) | [`Siguiente: Reto 01`](../Reto-01)
+el resultado debe ser el siguiente:
+
+<img src="img/img1.png">
+
+[`Atrás: Sesión 03`](../README.md) | [`Siguiente: Reto-01`](../Reto-01)
+

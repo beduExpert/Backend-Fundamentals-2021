@@ -30,12 +30,16 @@ Ya que tenemos nuestro diseño y nuestro servidor de bases de datos, ahora vamos
 - [`Ejemplo 3: Creación de una base de datos`](Ejemplo-03/)
 - [`Reto 2: Creación y poblado de tablas`](Reto-02/)
 
-## Consultas a la base de datos
+<!-- ## Consultas a la base de datos
 
-Ahora que nuestra base de datos ya esta lista y tiene información, el paso siguiente es poder acceder a esta información. En este ejemplo veremos como podemos consultar los datos que se encuentran almacenados en la base de datos.
+Ahora que nuestra base de datos ya esta lista y tiene información, el paso siguiente es poder acceder a esta información. En este ejemplo veremos como podemos consultar los datos que se encuentran almacenados en la base de datos. -->
 
-- [`Ejemplo 4: Queries`](Ejemplo-04/)
-- [`Reto 3: Queries`](Reto-03/)
+## Configuración de bases de datos locales con Docker
+
+Otra forma de trabajar con bases de datos es de forma local, es decir que nuestra computadora sirva como servidor en donde se almacena la base de datos. Esto es útil cuando queremos trabajar con una base de datos de prueba o cuando queremos usar un ambiente de desarrollo puramente local. Para definir un servidor para PostgreSQL usaremos Docker en este ejemplo.
+
+- [`Ejemplo 4: PostgreSQL con Docker`](Ejemplo-04/)
+<!-- - [`Reto 3: Queries`](Reto-03/) -->
 
 
 

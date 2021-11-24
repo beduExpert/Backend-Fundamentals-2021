@@ -1,205 +1,151 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 3`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 2`
 
-# Ejemplo 3: Consultas a la base de datos
+# Ejemplo 2: Definición de Modelos
 
 **Objetivos**
 
-- Hacer consultas a la base de datos usando el ORM.
-- Entender la estructura de una consulta en Sequelize.
-- Ver las diferencias entre las funciones `findOne` y `findAll` para consultas a la base de datos.
+- Definir los modelos que son la representación de las tablas en Sequelize.
 
 **Requerimientos**
 
-- Haber terminado los ejemplos y retos anteriores.
+- Haber concluido el ejemplo anterior.
 
 ---
 
-Nuestra aplicación de _backend_ debe ser capaz de resolver el CRUD completo de cada una de las entidades. En este momento nuestra aplicación solo manipula la base de datos así que vamos a ver como definir las operaciones CRUD usando el ORM, recordemos que CRUD significa:
 
- - **C - Create** insertar nuevos registros
- - **R - Read** consultar los registros existentes
- - **U - Update** modificar registros
- - **D - Delete** eliminar registros
+Recordemos que estamos usando el patrón Modelo Vista Controlador, para nuestra aplicación la vista es el fronted, y el modelo es la representación de los datos en nuestra aplicación. Para esto usaremos los modelos de Sequelize.
 
+Los modelos son la esencia de Sequelize. Un modelo es una abstracción que representa una tabla de la base de datos. En Sequelize, es una clase que extiende Model.
 
-## Insertar registros
+El modelo le dice a Sequelize varias cosas sobre la entidad que representa, como el nombre de la tabla en la base de datos, qué columnas tiene así como sus tipos de datos.
 
-Para crear registros vamos a usar la función `Model.create()` de Sequelize. Que tiene la siguiente sintaxis:
+Un modelo en Sequelize tiene un nombre. Este nombre no tiene que ser el mismo nombre de la tabla que representa en la base de datos. Por lo general, los modelos tienen nombres en singular (como Usuario), aunque esto es meramente una convención.
+
+## Definición del modelo
+
+Los modelos se pueden definir de dos formas equivalentes en Sequelize:
+
+- Llamar a `sequelize.define(modelName, atributos, opciones)`
+- Extendiendo `Model` y llamando a `init(atributos, opciones)`
+
+Una vez definido un modelo, este está disponible en `sequelize.models` por su nombre de modelo.
+
+Para aprender vamos a crear un modelo para representar a la tabla Producto. Queremos que nuestro modelo se llame Producto y represente a la tabla correspondiente en nutra base de datos.
+
+Vamos a utilizar la primera forma de definición de modelos.
+
+1. Primero importamos los `Datatypes` directamente desde Sequelize, para esto modificamos la primera linea del archivo **app.js** agregando la importación nueva, quedando como sigue:
 
 ```javascript
-Model.create({ atributo1: "valor", atributo2: "valor", ...});
+const { Sequelize, DataTypes } = require('sequelize');
 ```
 
-Por ejemplo, para crear un Producto nuevo lo podemos hacer con el siguiente código:
+2. La sintaxis para definir un modelo es la siguiente:
 
 ```javascript
-Product.create({ 
-	id : 101, 
-	nombre: "Planta",
-	precio: 230.0,
-	cat: "Seres vivos",
-	desc: "Planta de interior, con maceta"
-})
-.then(res => { console.log(res) })
-```
-
-Se puede comprobar en pgAdmin que el producto realmente se agrego a la base de datos. 
-
-## Consultar Registros
-
-Para hacer consultas a la base de datos, tenemos 2 funciones:
-
-- `Model.findOne()` que regresa el primer registro resultante de la consulta.
-- `Model.findAll()` que regresa todos los registros resultantes de la consulta.
-
-Para seleccionar solo algunos atributos, puede usar la opción de `attributes`:
-
-```javascript
-Model.findAll({
-  attributes: ['foo', 'bar']
+const User = sequelize.define('NombreDelModelo', {
+  // Atributos del modelo
+  atributo1: {
+    type: <Tipo de dato del modelo>
+  },
+  atributo2: {
+    type: <Tipo de dato del modelo>
+  }
+  ... 
+}, {
+  // Otras opciones de configuración del modelo
 });
 ```
 
-Que sería equivalente a la consulta:
+3. Recordemos que la tabla producto tiene los siguientes atributos:
 
-```sql
-SELECT foo, bar FROM Model;
-```
+  - id
+  - nombre
+  - precio
+  - cat
+  - desc
 
-También podemos renombrar los atributos en el resultado de la siguiente forma:
+Por lo que la definición del modelo queda como sigue:
 
 ```javascript
-Model.findAll({
-  attributes: ['foo', ['bar', 'baz'], 'qux']
+const Producto = sequelize.define('Producto', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true
+  },
+  nombre: {
+    type: DataTypes.TEXT
+  },
+  precio: {
+    type: DataTypes.REAL
+  },
+  cat: {
+    type: DataTypes.TEXT
+  },
+  desc: {
+    type: DataTypes.TEXT
+  }
+}, {
+  freezeTableName: true,
+  timestamps: false
 });
 ```
 
-Que sería equivalente a la consulta:
+Entendamos que esta haciendo la instrucción anterior:
 
-```sql
-SELECT foo, bar AS baz, qux FROM Model;
-```
+- El tipo de dato de cada uno de los atributos es un valor del objeto `Datatypes` que importamos en la primera linea. Para ver una lista completa de los tipos de datos que están disponibles en sequelize consulta el siguiente [enlace](https://sequelize.org/master/manual/model-basics.html#data-types). Es muy importante que estos tipos de dato correspondan tal cual con los definidos en la base de datos.
+- En el caso del id agregamos también la opción `allowNull: false` lo que impide que el campo id tenga valores nulos. 
+- De igual forma se agrego `primaryKey: true` que indica que id es la llave primaria de la tabla.
+- La opción `freezeTableName: true` indica que el nombre del modelo es el mismo que el de la tabla.
+- Y `timestamps: false` se agrega para evitar que se agreguen campos a la tabla en donde se almacena la fecha de la última modificación y la creación de los registros.
 
-También podemos agregar condiciones a nuestra consulta con la clausula `where`. La opción `where` se utiliza para filtrar la consulta. Hay muchos operadores para usar para la cláusula where, disponibles como Símbolos de `Op`.
+De forma predeterminada, cuando no se proporciona el nombre de la tabla, Sequelize pluraliza automáticamente el nombre del modelo y lo usa como el nombre de la tabla. es decir si el modelo se llama producto sequelize infiere que la tabla se llama productos. Para evitar esto se usa `freezeTableName: true`.
 
-Para usarlos tenemos que importarlos en nuestro archivo directamente desde Sequelize, por lo que modificamos la primera linea del archivo **app.js** para incluir esa importación, quedando como:
-
-```javascript
-const { Sequelize, DataTypes, Op } = require('sequelize');
-```
-Por ejemplo para encontrar todos los productos con precio de 300 la consulta es:
+Tambien podemos indicarle explícitamente el nombre de la tabla de la siguiente forma:
 
 ```javascript
-Producto.findAll({
-	where: {
-		precio : 300
-	}
-})
-.then(products =>
-	console.log("All products:", JSON.stringify(products, null, 2))
-)
+sequelize.define('User', {
+  // ... (attributes)
+}, {
+  tableName: 'Employees'
+});
 ```
 
-Que sería equivalente a la consulta:
-
-```sql
-SELECT * FROM Producto WHERE precio = 300;
-```
-
-Pero si queremos los productos con precio mayor o igual a 350. Usamos el código:
+4. Siguiendo esta misma idea se define el modelo para usuarios como sigue:
 
 ```javascript
-Producto.findAll({
-	where: {
-		precio : {
-			[Op.gte] : 350
-		}
-	}
-})
-.then(products =>
-	console.log("All products:", JSON.stringify(products, null, 2))
-)
-```
-
-Que sería equivalente a la consulta:
-
-```sql
-SELECT * FROM Producto WHERE precio >= 300;
-```
-
-También podemos limitar el número de registros resultante con la sentencia `limit`. Por ejemplo queremos 10 productos con precios mayores o iguales a 350, lo que se resuelve como:
-
-```javascript
-Producto.findAll({
-	limit: 10,
-	where: {
-		precio : {
-			[Op.gte] : 350
-		}
-	}
-})
-.then(products =>
-	console.log("All products:", JSON.stringify(products, null, 2))
-)
-```
-Que sería equivalente a la consulta:
-
-```sql
-SELECT * FROM Producto WHERE precio >= 350 LIMIT 10;
-```
-
-Y podemos ordenar los resultados con la clausula `order`. Por ejemplo si queremos los 10 productos mas caros se resuelve con:
-
-```javascript
-Producto.findAll({
-	limit: 10,
-	order : [['precio' , 'ASC']]
-})
-.then(products =>
-	console.log("All products:", JSON.stringify(products, null, 2))
-)
-```
-
-Que sería equivalente a la consulta:
-
-```sql
-SELECT * FROM Producto LIMIT 10 ORDER BY precio;
-```
-
-La opción de orden toma un arreglo de elementos para ordenar la consulta. Estos elementos son en sí mismos arreglos de la forma `[columna, dirección]`. La dirección puede ser una de las siguiente  opciones `ASC`, `DESC` o `NULLS FIRST`.
-
-## Modificar registros
-
-Para modificar registros usamos la función `Model.update()`
-
-Las consultas de actualización también aceptan la opción `where`, al igual que las consultas de lectura que se muestran arriba.
-
-Por ejemplo para modificar el producto que acabamos de crear lo hacemos de la siguiente forma:
-
-```javascript
-Producto.update({ nombre: "Monstera" }, {
-  where: {
-    id: 101
+const Producto = sequelize.define('Usuario', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true
+  },
+  nombre: {
+    type: DataTypes.TEXT
+  },
+  apellido: {
+    type: DataTypes.REAL
+  },
+  tarjeta: {
+    type: DataTypes.TEXT
+  },
+  direccion: {
+    type: DataTypes.TEXT
+  },
+  email: {
+    type: DataTypes.TEXT
+  },
+  pasword: {
+    type: DataTypes.TEXT
+  },
+  username: {
+    type: DataTypes.TEXT
   }
-})
-.then(res => { console.log(res) })
-```
-
-## Eliminar registros
-
-Para modificar registros usamos la función `Model.destroy()`
-
-Las consultas de eliminación también aceptan la opción `where`, al igual que las consultas anteriores.
-
-Por ejemplo para eliminar el mismo producto, se hace de la siguiente forma:
-
-```javascript
-Product.destroy({
-  where: {
-    id: 101
-  }
-})
-.then(res => { console.log(res) })
+}, {
+  freezeTableName: true,
+  timestamps: false
+});
 ```
 
 [`Atrás: Ejemplo 01`](Ejemplo-01) | [`Siguiente: Reto 01`](../Reto-01)

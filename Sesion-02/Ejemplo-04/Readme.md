@@ -1,86 +1,63 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 02: Introducción a Bases de datos`](../README.md/) > `Ejemplo 4`
 
-# Ejemplo 4: Queries
+# Ejemplo 4: Postgres en Docker
 
 **Objetivo:**
 
-- Hacer consultas secillas a la base de datos.
+- Levantar un servidor de bases de datos de PostgreSQL usando Docker.
 
 **Requisitos:**
 
-- pgAdmin
-- La base de datos para BeduShop
-- Las tablas con datos
+- Docker instalado
 
 ## Desarrollo
 
-1. Abrimos pgAdmin y entramos a **Servers > bedushop > DBNAME > Schemas > Tables**
+### ¿Qué es Docker?
+
+Según la documentación oficial, Docker es una  *"plataforma abierta para desarrollar, enviar y ejecutar aplicaciones. Docker le permite separar las aplicaciones de su infraestructura. Con Docker, se puede administrar la infraestructura de la misma manera se administran las aplicaciones "*.
+
+Para comprender completamente Docker, también debemos hablar sobre la diferencia entre Docker y una máquina virtual (VM). En una máquina virtual se puede tener varios sistemas operativos ejecutándose en el mismo hardware, mientras que Docker virtualiza el sistema operativo. Por lo tanto, la gran diferencia entre las máquinas virtuales y los contenedores de Docker es que los primeros pueden tener varios sistemas operativos (invitados) en el mismo hardware, a través de, por ejemplo, VMWare (que se denomina hipervisor). Mientras que cuando se instala Docker, se usa Docker Engine para crear entidades aisladas en el sistema operativo. Estas entidades se denominan contenedores. Por lo tanto, Docker permite automatizar la implementación de aplicaciones en estos contenedores.
+
+En el prework ya instalamos Docker, ahora lo usaremos para definir nuestro servidor de PostgreSQL. 
+
+1. Ejecutamos en la terminal el siguiente comando:
+
+```docker
+docker run --name postgres-db -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+```
+
+Entendamos que hace este comando:
+
+- La última sección del comando toma la imagen de Docker 'postgres' mas reciente desde **Docker Hub**.
+- `-d` significa que habilita Docker para ejecutar el contenedor en segundo plano.
+- `-p` más los números de puerto significa que asigna el puerto de contenedores 5432 al puerto externo 5432; esto le permite conectarse a él desde el exterior del contenedor.
+- `POSTGRES_PASSWORD` establece la contraseña que le da acceso a su base de datos.
+- la propiedad `—name` le da a su contenedor un nombre y significa que puede encontrarlo fácilmente.
+
+2. Ahora podemos conectarnos al servidor que acabamos de crear desd *PgAdmin4*. Lo abrimos.
 
 <img src="img/img1.png">
 
-2. Damos click derecho sobre la tabla **Producto** y seleccionamos **Query Tool**.
+3. Damos click derecho en **Server** y seleccionamos la opción de **create > Server...**
 
-<img src="img/img2.png"> 
+<img src="img/img2.png">
 
-3. Esto va a abrir una nueva pestaña en la que podremos escribir nuestras consultas a la base de datos.
+4. Agregamos un nombre al nuevo servidor.
 
 <img src="img/img3.png">
 
-4. En su forma más básica una consulta se compone de:
+5. En la pestaña de **Connection** y lo llenamos con los siguientes datos
 
-- Una cláusula `SELECT` que indica los campos de la tabla que se desean obtener.
-- Una cláusula `FROM` que indica de dónde obtener los datos.
-- Una cláusula `WHERE` que representa los filtros que podemos hacerle a los datos.
-
-Por ejemplo, para seleccionar unicamente los nombres de todos los productos la consulta es:
-
-```SQL
-SELECT nombre FROM public."Producto";
-```
-
-La escribimos en el editor de consultas y damos click en el botón de play de la parte superior, esto nos muestra el resultado de nuestra consulta.
+ - Host: localhost
+ - Port: 5432
+ - User: postgres
+ - Password: docker
 
 <img src="img/img4.png">
 
-5. Si queremos obtener todos los campos, en lugar de enlistarlos todos podemos usar un * .
-
-```SQL
-SELECT * FROM public."Producto";
-```
+6. Y podemos ver que estamos conectados a nuestro nuevo servidor. Este servidor funciona de la misma forma que el servidor definido en Heroku con la diferencia de que solo se puede acceder a él desde la computadora en donde se creo.
 
 <img src="img/img5.png">
 
-6. Ahora filtraremos el nombre y el precio de todos los productos que tengan un precio menor o igual a 500. 
-
-```SQL
-SELECT nombre, precio 
-FROM public."Producto" 
-WHERE precio <= 500;
-```
-
-<img src="img/img6.png">
-
-7. Adicional a la restricción `WHERE`, es posible añadir otras restriccioens, por ejemplo, la restricción `ORDER BY` que permite ordenar los resultados de una consulta de manera ascendente (`ASC`) o descendente (`DESC`) a partir de un campo. Por ejemplo, la siguiente consulta muestra los resultados ordenados de mayor a menor a partir del campo `precio`.
-
-
-```SQL
-SELECT nombre, precio 
-FROM public."Producto" 
-WHERE precio <= 500
-ORDER BY precio DESC;
-```
-
-<img src="img/img7.png">
-
-8. Otra restricción es `LIMIT` que permite limitar el número de registros en una consulta. Esto es útil principalmente cuando se tienen miles de millones de registros y no se necesitan mostrar todos.
-
-
-```SQL
-SELECT nombre, precio 
-FROM public."Producto"
-LIMIT 5;
-```
-
-<img src="img/img8.png">
 
 [`Atrás: Reto-02`](../Reto-02) | [`Siguiente: Reto-03`](../Reto-03)

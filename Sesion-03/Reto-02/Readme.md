@@ -1,15 +1,11 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 03: sequelize`](../README.md) >[`Ejemplo-02`](../Ejemplo-02) > `Reto 2`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) >[`Ejemplo-01`](../Ejemplo-01) > `Reto 1`
+	
+## Reto 1
 
-### Reto 2
+1. Siguiendo el ejemplo anterior, definir los modelos para las tablas Venta y Descripción.
 
-Responde las siguientes preguntas con consultas a la base de datos de BeduShop directamente desde Sequelize.
+Para esto es necesario definir las algunos atributos como llaves foráneas, verifica en la documentación como lograr eso. 
 
-1. ¿Cuál es el top 5 de productos mas caros?
-2. Muestra a los usuarios con nombre John.
-3. ¿Cuáles son las categorías de productos disponibles?
-4. Cuál es la categoría del producto mas barato.
+También es importante utilizar los tipos de dato correspondientes en cada atributo.
 
-Agrega un registro de cada una de las tablas y verifica en pgAdmin que realmente se hayan agregado.
-
-
-[`Atrás: Ejemplo 02`](../Ejemplo-03) | [`Siguiente: Sesión 03`](../README.md)
+[`Atrás: Ejemplo 01`](../Ejemplo-02) | [`Siguiente: Ejemplo 02`](../Ejemplo-03)
