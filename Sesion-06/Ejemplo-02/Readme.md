@@ -36,29 +36,30 @@ Contar con el código de la API
   - Primero vamos a definir un método que nos permita almacenar la contraseña del usuario en la base de datos, de tal forma que este protegida. Este método cifrará la contraseña usando una función *hash*. 
 
 ```jsx 
-UsuarioSchema.methods.crearPassword = function (password) {
-  this.salt = crypto.randomBytes(16).toString("hex"); // generando una "sal" random para cada usuario
-  this.hash = crypto
-  .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
-  .toString("hex"); // generando un hash utilizando la salt
-};
+User.crearPassword = function (password) {
+    this.salt = crypto.randomBytes(16).toString("hex"); // generando una "salt" random para cada usuario
+    this.hash = crypto
+    .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
+    .toString("hex"); // generando un hash utilizando la salt
+    return this.hash
+}
 ```
 
   - Como la contraseña no está almacenada literalmente en la base de datos se define un método que verifica que la contraseña proporcionada en el proceso de inicio de sesión corresponda con la de la base de datos. Para esto cometemos la posible contraseña al mismo proceso de cifrado que la contraseña real antes de ser guardada y si el resultado es el mismo entonces sabemos que se trata de la misma cadena.
 
 ```jsx 
-UsuarioSchema.methods.validarPassword = function (password) {
+User.validarPassword = function (password) {
   const hash = crypto
     .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
     .toString("hex");
   return this.hash === hash;
-};
+}
 ```
 
   - Definimos también un método que genera el **JWT** para el manejo de sesiones con un tiempo de caducidad de 60 días.
 
 ```jsx
-UsuarioSchema.methods.generarJWT = function() {
+User.generarJWT = function() {
   const today = new Date();
   const exp = new Date(today);
   exp.setDate(today.getDate() + 60); // 60 días antes de expirar
@@ -68,49 +69,22 @@ UsuarioSchema.methods.generarJWT = function() {
     username: this.username,
     exp: parseInt(exp.getTime() / 1000),
   }, secret);
-};
+}
 ```
 
   - Un método que nos regrese una representación en JSON del usuario ya autenticado.
 
 ```jsx
-UsuarioSchema.methods.toAuthJSON = function(){
-      return {
+User.toAuthJSON = function(){
+    return {
         username: this.username,
         email: this.email,
         token: this.generarJWT()
-      };
     };
+}
 ```
 
-3. Por último de define el método `publicData()` y el modelo.
-
-```jsx
-
-/**
-* Devuelve la representación de un usuario, sólo datos públicos
-*/
-UsuarioSchema.methods.publicData = function(){
-  return {
-    id: this.id,
-    username: this.username,
-    email: this.email,
-    nombre: this.nombre,
-    apellido: this.apellido,
-    bio: this.bio,
-    foto: this.foto,
-    tipo: this.tipo,
-    ubicacion: this.ubicacion,
-    telefono: this.telefono,
-    createdAt: this.createdAt,
-    updatedAt: this.updatedAt
-  };
-};
-
-mongoose.model("Usuario", UsuarioSchema);
-```
-
-4. Instalamos las dependencias necesarias.
+3. Instalamos las dependencias necesarias.
 
 ```bash
 npm install crypto jsonwebtoken passport passport-local express-jwt
