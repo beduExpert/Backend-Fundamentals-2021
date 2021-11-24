@@ -1,6 +1,6 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 3`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 4`
 
-# Ejemplo 3: Consultas a la base de datos
+# Ejemplo 4: Consultas a la base de datos
 
 **Objetivos**
 

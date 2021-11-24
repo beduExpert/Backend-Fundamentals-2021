@@ -1,6 +1,6 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 2`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 3`
 
-# Ejemplo 2: Definición de Modelos
+# Ejemplo 3: Definición de Modelos
 
 **Objetivos**
 
@@ -148,4 +148,4 @@ const Producto = sequelize.define('Usuario', {
 });
 ```
 
-[`Atrás: Ejemplo 01`](Ejemplo-01) | [`Siguiente: Reto 01`](../Reto-01)
+[`Atrás: Ejemplo 02`](../Ejemplo-02) | [`Siguiente: Reto 03`](../Reto-03)

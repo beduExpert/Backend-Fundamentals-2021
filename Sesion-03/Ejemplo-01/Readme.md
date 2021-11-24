@@ -1,6 +1,6 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 3`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 1`
 
-# Ejemplo 3: Consultas a la base de datos
+# Ejemplo 1: Consultas a la base de datos
 
 **Objetivos**
 
@@ -202,4 +202,4 @@ Product.destroy({
 .then(res => { console.log(res) })
 ```
 
-[`Atrás: Ejemplo 01`](Ejemplo-01) | [`Siguiente: Reto 01`](../Reto-01)
+[`Atrás: Ejemplo 01`](../README.md) | [`Siguiente: Reto 01`](../Reto-01)

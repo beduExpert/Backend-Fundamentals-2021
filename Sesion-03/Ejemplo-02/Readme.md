@@ -1,6 +1,6 @@
-[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 1`
+[`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 2`
 
-# Ejemplo 1: Configuración de Sequelize
+# Ejemplo 2: Configuración de Sequelize
 
 **Objetivos**
 
@@ -140,5 +140,5 @@ el resultado debe ser el siguiente:
 
 <img src="img/img1.png">
 
-[`Atrás: Sesión 03`](../README.md) | [`Siguiente: Reto-01`](../Reto-01)
+[`Atrás: Reto 01`](../Reto-01) | [`Siguiente: Reto-01`](../Reto-02)
 
