@@ -37,11 +37,11 @@ Contar con el código de la API
 
 ```jsx 
 User.crearPassword = function (password) {
-    this.salt = crypto.randomBytes(16).toString("hex"); // generando una "salt" random para cada usuario
-    this.hash = crypto
-    .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
+    salt = crypto.randomBytes(16).toString("hex"); // generando una "salt" random para cada usuario
+    hash = crypto
+    .pbkdf2Sync(password, salt, 10000, 512, "sha512")
     .toString("hex"); // generando un hash utilizando la salt
-    return this.hash
+    return { salt : salt, hash: hash }
 }
 ```
 
@@ -59,14 +59,14 @@ User.validarPassword = function (password) {
   - Definimos también un método que genera el **JWT** para el manejo de sesiones con un tiempo de caducidad de 60 días.
 
 ```jsx
-User.generarJWT = function() {
+User.generarJWT = function(user) {
   const today = new Date();
   const exp = new Date(today);
   exp.setDate(today.getDate() + 60); // 60 días antes de expirar
 
   return jwt.sign({
-    id: this._id,
-    username: this.username,
+    id: user._id,
+    username: user.username,
     exp: parseInt(exp.getTime() / 1000),
   }, secret);
 }
@@ -75,11 +75,11 @@ User.generarJWT = function() {
   - Un método que nos regrese una representación en JSON del usuario ya autenticado.
 
 ```jsx
-User.toAuthJSON = function(){
+User.toAuthJSON = function(user){
     return {
-        username: this.username,
-        email: this.email,
-        token: this.generarJWT()
+        username: user.username,
+        email: user.email,
+        token: User.generarJWT(user)
     };
 }
 ```

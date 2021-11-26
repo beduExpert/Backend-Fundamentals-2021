@@ -29,22 +29,21 @@ Passport es un paquete de autenticación para simplificar el manejo de sesiones 
 2. Crea un nuevo archivo `config/passport.js`con lo siguiente  
 
     ```jsx
-    const passport = require('passport');                       //Importando passport, middleware para autenticación.
-    const LocalStrategy = require('passport-local').Strategy;   //Importando estrategia autenticación. --> passport-local
-    const mongoose = require('mongoose');
-    const Usuario = mongoose.model('Usuario');
+      const passport = require('passport');                       //Importando passport, middleware para autenticación.
+      const LocalStrategy = require('passport-local').Strategy;   //Importando estrategia autenticación. --> passport-local
+      const Usuario = require('../models/Users')
 
-    passport.use(new LocalStrategy({                            //Configurando elementos utilizados para habilitar sesión.
-      usernameField: 'email',
-      passwordField: 'password'
-    }, function (email, password, done) {
-      Usuario.findOne({ email: email }).then(function (user) {
-        if (!user || !user.validarPassword(password)) {
-          return done(null, false, { errors: { 'email o contraseña': 'equivocado(a)' } });
-        }
-        return done(null, user);
-      }).catch(done);
-    }));
+      passport.use(new LocalStrategy({                            //Configurando elementos utilizados para habilitar sesión.
+        usernameField: 'email',
+        passwordField: 'password'
+      }, function (email, password, done) {
+        Usuario.findOne({ where : { email: email }}).then(function (user) {
+          if (!user || !user.validarPassword(password)) {
+            return done(null, false, { errors: { 'email o contraseña': 'equivocado(a)' } });
+          }
+          return done(null, user);
+        }).catch(done);
+      }));
     ```
 
     `LocalStrategy` inspecciona los campos `username` y `password` de las peticiones que vienen del frontend, esperando que la petición tenga el siguiente formato:
@@ -68,37 +67,37 @@ Passport es un paquete de autenticación para simplificar el manejo de sesiones 
 - Copia el siguiente código en el archivo recién creado.
 
     ```jsx
-    const jwt = require('express-jwt');
-    const secret = require('../config').secret;
+      const jwt = require('express-jwt');
+      const secret = require('../config').secret;
 
 
-    // Obtenemos el jwt del header de la petición y verificamos su existencia.
-    function getTokenFromHeader(req) {
-      if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token' ||
-        req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-        return req.headers.authorization.split(' ')[1];
+      // Obtenemos el jwt del header de la petición y verificamos su existencia.
+      function getTokenFromHeader(req) {
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token' ||
+          req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+          return req.headers.authorization.split(' ')[1];
+        }
+
+        return null;
       }
 
-      return null;
-    }
+      const auth = {
+        requerido: jwt({
+          secret: secret,
+          algorithms: ['HS256'],
+          userProperty: 'usuario',
+          getToken: getTokenFromHeader
+        }),
+        opcional: jwt({
+          secret: secret,
+          algorithms: ['HS256'],
+          userProperty: 'usuario',
+          credentialsRequired: false,
+          getToken: getTokenFromHeader
+        })
+      };
 
-    const auth = {
-      requerido: jwt({
-        secret: secret,
-        algorithms: ['HS256'],
-        userProperty: 'usuario',
-        getToken: getTokenFromHeader
-      }),
-      opcional: jwt({
-        secret: secret,
-        algorithms: ['HS256'],
-        userProperty: 'usuario',
-        credentialsRequired: false,
-        getToken: getTokenFromHeader
-      })
-    };
-
-    module.exports = auth;
+      module.exports = auth;
     ```
 
     - El *middleware* `requerido` se utilizará para endpoints donde se requiera tener una sesión y `opcional` donde no sean necesarios.
