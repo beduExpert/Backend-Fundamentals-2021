@@ -4,28 +4,30 @@
 
 Es momento de probar los endpoints recien creados en el API, así que ejecuta el servidor y realiza las siguientes tareas.
 
-1. Utilizando insomnia, prueba el endpoint que te permitirá <b>crear una cuenta de usuario en adoptapet</b> ( es decir, en el endpoint `POST [/v1/usuarios](http://localhost:3000/v1/usuarios)` ), guarda el <b>JWT</b> que te devuelve la petición.
+1. Utilizando insomnia, prueba el endpoint que te permitirá <b>crear una cuenta de usuario en bedushop</b> ( es decir, en el endpoint `POST [/v1/usuarios](http://localhost:3000/v1/usuarios)` ), guarda el <b>JWT</b> que te devuelve la petición.
 
  - Puedes utilizar el siguiente ejemplo <b>json</b> como base para hacer tu petición:
 
-		{
-			"username":"midory",
-			"nombre":"midory",
-			"apellido":"romero",
-			"email":"midoryr@gmail.com",
-			"password":"midory",
-			"ubicacion":"cdmx",	
-			"telefono":"3312333",
-			"bio":"constante anunciante",
-			"foto":"",
-			"tipo":"anunciante"
-		}  
+```json
+{
+	"id": 100,
+ 	"username":"jaeem006",
+ 	"nombre":"Javier",
+ 	"apellido":"Enriquez",
+ 	"email":"jem@gmail.com",
+ 	"password":"hola",
+ 	"telefono":"3312333",
+ 	"direccion":"direccion",
+ 	"tarjeta":"6666555544443333",
+ 	"tipo":"Vendedor"
+ } 
+```  
 
 - No olvides guardar el <b>JWT</b>:
 
- ![img/JWT.png](img/JWT.png)
+ ![img/JWT.png](img/img1.png)
 
-2. Ahora prueba el endpoint para obtener la información del usuario recien creado. Utiliza el endpoint `GET [/v1/usuarios](http://localhost:3000/v1/usuarios)`. 
+2. Ahora prueba el endpoint para obtener la información del usuario recien creado. Utiliza el endpoint `GET http://localhost:4001/v1/usuarios`. 
 
 - <b>Nota:</b>
 	
@@ -41,9 +43,16 @@ Es momento de probar los endpoints recien creados en el API, así que ejecuta el
  
  - Resultado de búsqueda:
  
-  ![img/UsuarioEncontrado.png](img/UsuarioEncontrado.png)
+  ![img/UsuarioEncontrado.png](img/img2.png)
 
 3. Al igual que lo hiciste en los puntos anteriores, prueba el endpoint que te permitirá modificar los datos de un usuario. Intenta cambiar el nombre y password del usuario creado en los puntos anteriores.
+ 
+[](img/img3.png)
+
+4. ahora elimina el usuario con el método `DELETE`.
+
+[](img/img4.png)
+
 5. Ahora pregúntate: ¿en qué caso necesitaríamos conocer información sobre otro usuario?
 6. Si el usuario no tiene la propiedad `tipo` cuando es creado en una petición POST, ¿podemos hacer algo para asignarle un tipo?
 
