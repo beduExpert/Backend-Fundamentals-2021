@@ -47,11 +47,11 @@ Es momento de probar los endpoints recien creados en el API, así que ejecuta el
 
 3. Al igual que lo hiciste en los puntos anteriores, prueba el endpoint que te permitirá modificar los datos de un usuario. Intenta cambiar el nombre y password del usuario creado en los puntos anteriores.
  
-[](img/img3.png)
+![](img/img3.png)
 
 4. ahora elimina el usuario con el método `DELETE`.
 
-[](img/img4.png)
+![](img/img4.png)
 
 5. Ahora pregúntate: ¿en qué caso necesitaríamos conocer información sobre otro usuario?
 6. Si el usuario no tiene la propiedad `tipo` cuando es creado en una petición POST, ¿podemos hacer algo para asignarle un tipo?
