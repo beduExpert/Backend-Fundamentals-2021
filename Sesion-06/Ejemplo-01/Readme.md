@@ -51,7 +51,7 @@
       timestamps: false
     });
     module.exports = User;       
-    ```    
+```    
 
 2. Añadiendo validaciones al modelo de <b>Usuario</b>.
 
