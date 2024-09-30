@@ -1,58 +1,74 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 01`](../README.md) > `Ejemplo 2`
 
-# Ejemplo 2: Definición de las herramientas
+# Ejemplo 2: Módulos en Node.js
 
 **Objetivo:**
 
-- Identificar las herramientas que utilizaremos para el desarrollo del proyecto.
-- Generar un diagrama en donde se muestre la organización del proyecto.
-
-**Requerimientos:**
-
-- Navegador web y cuaderno o aplicación para tomar notas.
+Comprender cómo funcionan los módulos en Node.js, tanto los módulos internos como la creación de módulos personalizados.
 
 ---
 
 ## Desarrollo
 
-En este ejemplo vamos a construir un diagrama con todas las herramientas que vamos a utilizar para el desarrollo del proyecto utilizando la herramienta [TerraStruct](https://app.terrastruct.com).
+### 1. **¿Qué son los Módulos en Node.js?**
+- **Concepto**: Un módulo es una pieza de código encapsulada en un archivo. En Node.js, cada archivo es un módulo.
+- **Tipos de Módulos**:
+  - **Módulos internos**: Proporcionados por Node.js (ej. `fs`, `http`).
+  - **Módulos externos**: Paquetes instalados vía NPM.
+  - **Módulos personalizados**: Creación de tus propios módulos.
 
-1. Abrimos [TerraStruct](https://app.terrastruct.com) en el navegador y creamos una cuenta o iniciamos sesión.
+### 2. **Uso de Módulos Internos (Built-in)**
 
-<img src="img/img1.png" alt="mission" >
+#### **Ejemplo 1: Usar el módulo `os`**
+1. En tu archivo `index.js`, agrega el siguiente código:
+   ```javascript
+   const os = require('os');
 
-2. En esta aplicación tenemos un lienzo en blanco en el cuál se puede definir el diagrama con la estructura del proyecto. 
+   console.log('Sistema operativo:', os.platform());
+   console.log('Memoria libre:', os.freemem());
+   console.log('Arquitectura:', os.arch());
+   ```
 
-<img src="img/img2.png" alt="mission" >
+2. Ejecuta el archivo:
+   ```bash
+   node index.js
+   ```
 
-3. Del lado derecho tenemos un menú con diferentes opciones de elementos para agregar a nuestro diagrama. Utilizaremos principalmente los _Shapes_.
+#### **Ejemplo 2: Usar el módulo `fs` (Sistema de archivos)**
+1. Leer un archivo usando el módulo `fs`:
+   ```javascript
+   const fs = require('fs');
 
-<img src="img/img3.png" alt="mission" >
+   fs.readFile('index.js', 'utf8', (err, data) => {
+     if (err) {
+       console.error('Error al leer el archivo:', err);
+       return;
+     }
+     console.log('Contenido del archivo:\n', data);
+   });
+   ```
 
-y los _Icons_
+### 3. **Creación de Módulos Personalizados**
+1. Crear un archivo `math.js` con el siguiente código:
+   ```javascript
+   function sumar(a, b) {
+     return a + b;
+   }
 
-<img src="img/img4.png" alt="mission" >
+   function restar(a, b) {
+     return a - b;
+   }
 
-4. Vamos a dibujar el siguiente diagrama
+   module.exports = { sumar, restar };
+   ```
 
-<img src="img/img5.png" alt="mission" >
+2. En el archivo `index.js`, importar y usar el módulo `math.js`:
+   ```javascript
+   const math = require('./math');
 
-Y ahora vamos a entender que nos está diciendo.
-
-- El rectángulo que se encuentra en la parte superior izquierda, define la aplicación de _backend_.
-- Dentro del _backend_ tenemos una base de datos de PostgreSQL.
-- Y una API desarrollada en JavaScript con npm y con github como gestor de versiones que se comunica con la base de datos con sequelize.
-- Todo el _backend_ está hosteado en Heroku.
-- El _backend_ se comunica con un cliente a través de Express.js en un navegador.
-- En la parte inferior podemos ver que el equipo de desarrollo utiliza Slack y Trello para la comunicación y organización respectivamente.
-
-Todas estas son las herramientas que exploraremos durante el módulo, en donde cada una nos servira para resolver tareas en especifico.
-
-En el diagrama se puede observar la estructura completa que tendrá nuestro proyecto. Estos diagramas son de gran utilidad ya que representan de forma intuitiva la arquitectura del proyecto que se está desarrollando.
-
-5. Para descargar el diagrama y guardarlo como parte de la documentación, damos click en el menú de hamburguesa > Export y luego seleccionamos la opción a la cuál queramos exportarlo.
-
-<img src="img/img6.png" alt="mission" >
+   console.log('Suma:', math.sumar(2, 3));
+   console.log('Resta:', math.restar(5, 2));
+   ```
 
 -------
 

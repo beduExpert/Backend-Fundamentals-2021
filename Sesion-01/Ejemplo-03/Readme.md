@@ -1,51 +1,49 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 01`](../README.md) > `Ejemplo 3`
 
-# Ejemplo 3: Requerimientos de un proyecto
+# Ejemplo 3: Introducción a NPM (Node Package Manager)
 
 **Objetivo:**
 
-- Definir de forma clara los requerimientos funcionales de un proyecto.
+ Aprender a manejar dependencias en Node.js utilizando NPM, y comprender la estructura del archivo `package.json`
 
-**Requerimientos:**
+--- 
+## Desarrollo
+### 1. **¿Qué es NPM?**
+- **NPM**: Es el gestor de paquetes de Node.js, que permite instalar bibliotecas de terceros, gestionar dependencias y compartir módulos propios.
+- **Comandos básicos de NPM**:
+  - `npm init`: Inicializa un proyecto con un archivo `package.json`.
+  - `npm install`: Instala paquetes y dependencias.
+  - `npm install <paquete>`: Instala un paquete específico.
+  - `npm uninstall <paquete>`: Desinstala un paquete.
 
-- Papel y lapiz.
+### 2. **Uso de Paquetes de NPM**
+
+#### **Instalar un paquete externo**
+1. Instalar el paquete `moment` para manejar fechas:
+   ```bash
+   npm install moment
+   ```
+
+2. Usar `moment` en tu código:
+   ```javascript
+   const moment = require('moment');
+
+   const ahora = moment().format('MMMM Do YYYY, h:mm:ss a');
+   console.log('Fecha y hora actuales:', ahora);
+   ```
+
+#### **Instalar paquetes de desarrollo**
+- Para instalar paquetes solo para el entorno de desarrollo, se puede usar la opción `--save-dev`:
+   ```bash
+   npm install nodemon --save-dev
+   ```
+
+3. **Uso de `package.json`**:
+   - Al instalar paquetes, las dependencias se agregan automáticamente en `package.json`.
+   - Puedes ver todas las dependencias del proyecto en el apartado `"dependencies"`.
 
 
-<img src="img/scrum_board.svg" alt="PostItHistoriaUsuario" align="right" width="450" > 
-
-Los requerimientos nos dicen como desarrolladorxs que es lo que tenemos que tomar en cuenta a la hora de crear una aplicación o programa. Son las especificaciones que nos proporciona el cliente sobre que se espera del software que vamos a desarrollar.
-
-Describen a muy alto nivel las especificaciones y funcionalidades del sistema. 
-
-Por ejemplo nosotros vamos a desarrollar un proyecto llamado BeduShop, que será una aplicación web que permita a la gente vender y comprar productos, a grandes rasgos los requerimientos son los siguientes:
-
-- Publicar productos en venta.
-- Visualizar los productos que están en disponibles.
-- Permitir a los usuarios escribir valoraciones sobre los productos que compraron.
-- Que los vendedores puedan dar de alta y baja productos.
-
-Estos requerimientos están basados directamente en los objetos del proyecto descritos en el [ejemplo 1](../Ejemplo-01), sin embargo en esta ocasión ya están escritos de una forma un poco mas cercana a la implementación.
-
-Es importante que la definición de estos requerimientos esté libre de ambigüedad, de esa forma tanto el cliente como el equipo de desarrollo tendrán el mismo contexto sobre lo que se espera de la aplicación. Por lo que es necesario definir una metodología que nos permita describir estos requerimientos de tal forma que sean comprensibles para las personas involucradas y fácilmente traducibles a código.
-
-## Historias de usuario
-
-Para describir los requerimientos de un sistema a menudo se usan historias de usuarix que son **descripciones cortas** y **simples** de una funcionalidad contada desde la perspectiva de la persona que la desea (usuarix o clientx del sistema). 
-
-Estas historias tienen una **estructura simple**
-
-*"Como **[rol de usuario]** quiero **[objetivo]** para **[beneficio]**"*
-
-Y son utilizadas por varias metodologías para poder comprender mejor los requerimientos y alinearlos con el negocio.
-
-***Ejemplo:***
-
-- *Como usuaria de BeduShop, quiero ver a todos los productos en venta para poder elegir los que más me gusten.*
-
-- *Como vendedora de BeduShop, quiero agregar nuevos productos, para poder aumentar mi catalogo de opciones*
-
-Las historias de usuario están definiendo el comportamiento de lxs usuarixs o entidades dentro de la aplicación y nos permiten determinar cuales son las funciones de cada uno. Posteriormente estas historias se traducen a funcionalidades de nuestro sistema.
-
+---
 
 
 [`Atrás: Sesión 03`](../README.md) | [`Siguiente: Reto-02`](../Reto-02)

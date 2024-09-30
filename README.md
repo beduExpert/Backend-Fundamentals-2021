@@ -20,11 +20,11 @@ Es recomendable que tengas los siguientes **conocimientos.**
 
 # 📋 Temario
 
-- [`Sesión 01` - Modelado y arquitectura del Backend](Sesion-01/)
+- [`Sesión 01` - Introducción a Node.js y NPM](Sesion-01/)
 
 - [`Sesión 02` - Introducción a bases de datos](Sesion-02)
 
-- [`Sesión 03` - Sequelize](Sesion-03)
+- [`Sesión 03` - Mongoose](Sesion-03)
 
 - [`Sesión 04` - Express.js](Sesion-04)
 
