@@ -26,9 +26,9 @@ Es recomendable que tengas los siguientes **conocimientos.**
 
 - [`Sesión 03` - Mongoose](Sesion-03)
 
-- [`Sesión 04` - Express.js](Sesion-04)
+- [`Sesión 04` - Express.js 101](Sesion-04)
 
-- [`Sesión 05` - Routes](Sesion-05)
+- [`Sesión 05` - Express.js 102](Sesion-05)
 
 - [`Sesión 06` - Seguridad](Sesion-06)
 

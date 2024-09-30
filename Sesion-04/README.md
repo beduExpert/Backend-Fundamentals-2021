@@ -1,8 +1,10 @@
-# Sesión 4 - Express.js
+# Sesión 4 - Express.js 101
 
 🎯 **Objetivo:**
 
-- Comprender el funcionamiento de un Middleware en el desarrollo backend
+Al final de la clase, los estudiantes serán capaces de utilizar Express.js para crear aplicaciones web basadas en Node.js. Aprenderán a manejar rutas, middleware, peticiones y respuestas HTTP, y a conectar una base de datos MongoDB utilizando Mongoose.
+
+---
 
 ## Middleware
 
@@ -38,17 +40,17 @@ Toda esta interacción entre aplicaciones, datos y dispositivos de diferentes or
 
 > Ejemplo: un mesero en un restaurante 🍽
 
-### REST API 
+### Ejemplo 1: Introducción a Express.js y Creación de un Servidor
 
 - [`Ejemplo 1`](Ejemplo-01/)
 - [`Reto 01`](Reto-01/#reto-1)
 
-### Obteniendo Información 
+### Ejemplo  2: Manejo de Rutas y Parámetros en Express
 
 - [`Ejemplo 2`](Ejemplo-02/)
 - [`Reto 02`](Reto-02/#reto-2)
 
-### CRUD
+### Ejemplo 3: Middleware en Express
 
 - [`Ejemplo 3`](Ejemplo-03/)
 - [`Reto 03`](Reto-03/#reto-3)

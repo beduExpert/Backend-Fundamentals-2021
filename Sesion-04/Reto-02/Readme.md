@@ -2,14 +2,9 @@
 	
 ## Reto 2
 
-1. Crea nuevos servicios **dinámicos** de búsqueda de constelaciones por:
- - nombre
- - abreviatura
+1. Crea una ruta `/usuario/:id` que responda con "Bienvenido, usuario con ID: (id)", donde `id` es dinámico y proviene de la URL.
+2. Crea una ruta `/productos` que acepte un query parameter `categoria` y responda con el mensaje "Mostrando productos de la categoría: (categoria)".
 
-> Hint:
-> Define primero una función que busque un elemento dentro de un objeto por cierto atributo.
-
-2. Prueba que funcionen en Insomnia
 
 
 [`Atrás`](../Ejemplo-02) | [`Siguiente`](../Ejemplo-03)
