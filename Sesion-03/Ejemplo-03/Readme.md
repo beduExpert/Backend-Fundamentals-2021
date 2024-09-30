@@ -1,151 +1,64 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) > `Ejemplo 3`
 
-# Ejemplo 3: Definición de Modelos
+# Ejemplo 3: Operaciones CRUD con Mongoose
 
 **Objetivos**
 
-- Definir los modelos que son la representación de las tablas en Sequelize.
-
-**Requerimientos**
-
-- Haber concluido el ejemplo anterior.
+ Realizar operaciones CRUD usando Mongoose para interactuar con MongoDB
 
 ---
 
 
-Recordemos que estamos usando el patrón Modelo Vista Controlador, para nuestra aplicación la vista es el fronted, y el modelo es la representación de los datos en nuestra aplicación. Para esto usaremos los modelos de Sequelize.
+### 1. **Crear (Create)**:
+- Guardar un nuevo documento utilizando `.save()` o `.create()`.
 
-Los modelos son la esencia de Sequelize. Un modelo es una abstracción que representa una tabla de la base de datos. En Sequelize, es una clase que extiende Model.
+### **Ejemplo**:
+- Crear un nuevo producto:
+  ```javascript
+  const Producto = mongoose.model('Producto', productoSchema);
 
-El modelo le dice a Sequelize varias cosas sobre la entidad que representa, como el nombre de la tabla en la base de datos, qué columnas tiene así como sus tipos de datos.
+  Producto.create({
+    nombre: 'Tablet',
+    precio: 300,
+    stock: 10,
+    categoria: 'Electrónica'
+  })
+  .then(() => console.log('Producto creado'))
+  .catch(err => console.error(err));
+  ```
 
-Un modelo en Sequelize tiene un nombre. Este nombre no tiene que ser el mismo nombre de la tabla que representa en la base de datos. Por lo general, los modelos tienen nombres en singular (como Usuario), aunque esto es meramente una convención.
+### 2. **Leer (Read)**:
+- **Métodos de lectura**: `.find()`, `.findOne()`, y `.findById()`.
 
-## Definición del modelo
+### **Ejemplo**:
+- Leer productos con un precio mayor a 500:
+  ```javascript
+  Producto.find({ precio: { $gt: 500 } })
+    .then(productos => console.log(productos))
+    .catch(err => console.error(err));
+  ```
 
-Los modelos se pueden definir de dos formas equivalentes en Sequelize:
+### 3. **Actualizar (Update)**:
+- **Métodos de actualización**: `.updateOne()`, `.updateMany()`, `.findByIdAndUpdate()`.
 
-- Llamar a `sequelize.define(modelName, atributos, opciones)`
-- Extendiendo `Model` y llamando a `init(atributos, opciones)`
+### **Ejemplo**:
+- Actualizar el stock de un producto:
+  ```javascript
+  Producto.findByIdAndUpdate('ID_DEL_PRODUCTO', { stock: 15 }, { new: true })
+    .then(producto => console.log('Producto actualizado', producto))
+    .catch(err => console.error(err));
+  ```
 
-Una vez definido un modelo, este está disponible en `sequelize.models` por su nombre de modelo.
+### 4. **Eliminar (Delete)**:
+- **Métodos de eliminación**: `.deleteOne()`, `.deleteMany()`, `.findByIdAndDelete()`.
 
-Para aprender vamos a crear un modelo para representar a la tabla Producto. Queremos que nuestro modelo se llame Producto y represente a la tabla correspondiente en nutra base de datos.
+### **Ejemplo**:
+- Eliminar un producto por su ID:
+  ```javascript
+  Producto.findByIdAndDelete('ID_DEL_PRODUCTO')
+    .then(() => console.log('Producto eliminado'))
+    .catch(err => console.error(err));
+  ```
 
-Vamos a utilizar la primera forma de definición de modelos.
-
-1. Primero importamos los `Datatypes` directamente desde Sequelize, para esto modificamos la primera linea del archivo **app.js** agregando la importación nueva, quedando como sigue:
-
-```javascript
-const { Sequelize, DataTypes } = require('sequelize');
-```
-
-2. La sintaxis para definir un modelo es la siguiente:
-
-```javascript
-const User = sequelize.define('NombreDelModelo', {
-  // Atributos del modelo
-  atributo1: {
-    type: <Tipo de dato del modelo>
-  },
-  atributo2: {
-    type: <Tipo de dato del modelo>
-  }
-  ... 
-}, {
-  // Otras opciones de configuración del modelo
-});
-```
-
-3. Recordemos que la tabla producto tiene los siguientes atributos:
-
-  - id
-  - nombre
-  - precio
-  - cat
-  - desc
-
-Por lo que la definición del modelo queda como sigue:
-
-```javascript
-const Producto = sequelize.define('Producto', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true
-  },
-  nombre: {
-    type: DataTypes.TEXT
-  },
-  precio: {
-    type: DataTypes.REAL
-  },
-  cat: {
-    type: DataTypes.TEXT
-  },
-  desc: {
-    type: DataTypes.TEXT
-  }
-}, {
-  freezeTableName: true,
-  timestamps: false
-});
-```
-
-Entendamos que esta haciendo la instrucción anterior:
-
-- El tipo de dato de cada uno de los atributos es un valor del objeto `Datatypes` que importamos en la primera linea. Para ver una lista completa de los tipos de datos que están disponibles en sequelize consulta el siguiente [enlace](https://sequelize.org/master/manual/model-basics.html#data-types). Es muy importante que estos tipos de dato correspondan tal cual con los definidos en la base de datos.
-- En el caso del id agregamos también la opción `allowNull: false` lo que impide que el campo id tenga valores nulos. 
-- De igual forma se agrego `primaryKey: true` que indica que id es la llave primaria de la tabla.
-- La opción `freezeTableName: true` indica que el nombre del modelo es el mismo que el de la tabla.
-- Y `timestamps: false` se agrega para evitar que se agreguen campos a la tabla en donde se almacena la fecha de la última modificación y la creación de los registros.
-
-De forma predeterminada, cuando no se proporciona el nombre de la tabla, Sequelize pluraliza automáticamente el nombre del modelo y lo usa como el nombre de la tabla. es decir si el modelo se llama producto sequelize infiere que la tabla se llama productos. Para evitar esto se usa `freezeTableName: true`.
-
-Tambien podemos indicarle explícitamente el nombre de la tabla de la siguiente forma:
-
-```javascript
-sequelize.define('User', {
-  // ... (attributes)
-}, {
-  tableName: 'Employees'
-});
-```
-
-4. Siguiendo esta misma idea se define el modelo para usuarios como sigue:
-
-```javascript
-const Producto = sequelize.define('Usuario', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true
-  },
-  nombre: {
-    type: DataTypes.TEXT
-  },
-  apellido: {
-    type: DataTypes.REAL
-  },
-  tarjeta: {
-    type: DataTypes.TEXT
-  },
-  direccion: {
-    type: DataTypes.TEXT
-  },
-  email: {
-    type: DataTypes.TEXT
-  },
-  pasword: {
-    type: DataTypes.TEXT
-  },
-  username: {
-    type: DataTypes.TEXT
-  }
-}, {
-  freezeTableName: true,
-  timestamps: false
-});
-```
 
 [`Atrás: Ejemplo 02`](../Ejemplo-02) | [`Siguiente: Reto 03`](../Reto-03)

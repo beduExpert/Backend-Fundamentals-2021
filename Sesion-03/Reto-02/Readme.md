@@ -1,11 +1,9 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 03: Sequelize`](../README.md) >[`Ejemplo-01`](../Ejemplo-01) > `Reto 1`
 	
-## Reto 1
+## Reto 2
 
-1. Siguiendo el ejemplo anterior, definir los modelos para las tablas Venta y Descripción.
+1. Crea un CRUD completo para el modelo `Usuario`. Define las operaciones de creación, lectura, actualización y eliminación de usuarios.
+2. Realiza una consulta para obtener todos los usuarios mayores de 25 años y actualiza sus datos.
 
-Para esto es necesario definir las algunos atributos como llaves foráneas, verifica en la documentación como lograr eso. 
-
-También es importante utilizar los tipos de dato correspondientes en cada atributo.
 
 [`Atrás: Ejemplo 01`](../Ejemplo-02) | [`Siguiente: Ejemplo 02`](../Ejemplo-03)
