@@ -1,11 +1,10 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 02: Introducción a Bases de datos`](../README.md/) > `Ejemplo 1`
 
-# Ejemplo 1: Diseño de una base de datos
+# Ejemplo 1: Instalación y Configuración de MongoDB
 
 **Objetivos:**
 
-- Aprender los fundamentos de diseño de una base de datos relacional
-- Generar diagramas que nos permitan modelar la base de datos.
+Aprender a instalar MongoDB localmente, configurar MongoDB Compass, y crear un cluster en MongoDB Atlas para trabajar con bases de datos en la nube.
 
 **Requerimientos**
 
@@ -13,102 +12,42 @@ Un navegador web
 
 # Desarrollo
 
-Para este ejemplo veremos dos diagramas de gran utilidad en el proceso de diseño de una base de datos. Estos diagramas son el Modelo Entidad Relación y el Modelo Relacional. Para poder dibujarlos de forma sencilla se puede utilizar herramientas como [draw.io](draw.io)
+MongoDB Atlas es el servicio en la nube de MongoDB que te permite crear y gestionar clusters sin necesidad de instalar MongoDB en tu máquina local.
 
-## Modelo Entidad Relación
+#### **Paso 1: Crear una cuenta en MongoDB Atlas**
+1. Visitar [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+2. Hacer clic en "Sign Up" y crear una cuenta.
+   - Puedes usar tu cuenta de Google, GitHub o registrarte con tu correo electrónico.
+   
+3. Una vez registrado, accede a la plataforma.
 
-El modelo entidad-relación se basa en tres conceptos clave: 
-- **Entidad**
-- **Atributo** 
-- **Relación**.
+#### **Paso 2: Crear un Cluster en MongoDB Atlas**
 
-Veamos con detalle cada uno de estos y como se adaptan a nuestro proyecto colaborativo.
+1. **Crear un Cluster**:
+   - En el panel de control de MongoDB Atlas, hacer clic en el botón **"Build a Cluster"**.
+   - Seleccionar el proveedor de nube que prefieras (AWS, GCP o Azure).
+   - Escoger la región más cercana o adecuada.
+   - En la opción de **Cluster Tier**, seleccionar la opción gratuita (M0 Free Tier), ideal para aprendizaje.
+   - Hacer clic en **"Create Cluster"**.
 
-### Entidad
+2. **Configurar la Base de Datos y la Red**:
+   - **Crear un usuario**: Atlas pedirá crear un usuario para la base de datos. Elige un nombre de usuario y contraseña. Es importante que guardes esta información para conectarte más tarde.
+   - **Permitir acceso desde cualquier IP**: Configura la opción de red permitiendo el acceso desde cualquier IP (`0.0.0.0/0`) o especifica la IP de tu máquina si quieres más seguridad.
+   - Espera unos minutos hasta que el cluster esté listo.
 
-La entidad es la representación de un objeto que puede ser real o abstracto. Las entidades son esos modelos que identificamos en la sesión anterior, aquellos que representan actores de nuestro proyecto. Entonces nuestras entidades son:
+#### **Paso 3: Conectar MongoDB Atlas a MongoDB Compass**
 
-- Producto
-- Usuario 
-- Venta 
-- Reseña
+1. **Obtener la URI de conexión**:
+   - Cuando tu cluster esté listo, hacer clic en el botón **"Connect"** en el panel de control de Atlas.
+   - Seleccionar la opción **"Connect using MongoDB Compass"**.
+   - Copiar la URI de conexión proporcionada (se verá algo como esto: `mongodb+srv://<username>:<password>@cluster0.mongodb.net/myFirstDatabase`).
+   
+2. **Conectar desde MongoDB Compass**:
+   - Abrir MongoDB Compass.
+   - Pegar la URI de conexión que has copiado.
+   - Sustituir `<username>` y `<password>` por los valores del usuario y contraseña que creaste.
+   - Hacer clic en **"Connect"** para conectarte al cluster en MongoDB Atlas.
 
-En el diagrama una entidad se representa en forma de rectángulos con el nombre de la entidad, como los siguientes:
-
-<img src="img/img1.png" width="500">
-
-### Atributo 
-
-Los atributos son los componentes o características que determina una entidad. Representan la información que deseamos guardad de cada entidad. 
-
-Por ejemplo, para la entidad producto tenemos los siguientes atributos:
-
-- Id
-- Nombre
-- Precio
-- Descripción
-- Categoría
-
-
-En el diagrama los atributos tienen la forma de óvalo y estas conectados a la entidad sobre la cuál se definen,  como se muestra a continuación:
-
-<img src="img/img2.png" width="500">
-
-El *Id* será el atributo con el cual identificaremos univocamente cada entidad y que mediante relaciones podremos acceder a la entidad. Este atributo se conoce como **clave** y se representa subrayando su nombre.
-
-### Relación 
-
-Una relación es una asociación entre varias entidades. Por ejemplo, las entidades producto y reseña están relacionadas y el nombre de esta relación es *tiene*
-
-En un diagrama podemos observar una relación en forma de rombo y conectada a las entidades que relaciona:
-
-<img src="img/img3.png" width="500">
-
-Existen diferentes tipos de relaciones, estas se diferencian por su cardinalidad, es decir el número de registros que relacionan de cada una de las entidades. Y de esta forma tenemos 3 tipos de relaciones:
-
-**1:1**
-
-<img src="img/Screen_Shot_2020-06-13_at_0.07.53.png" width="500">
-
-**1:N o N:1**
-
-<img src="img/Screen_Shot_2020-06-13_at_0.22.03.png" width="500">
-
-**N:N**
-
-<img src="img/Screen_Shot_2020-06-13_at_0.24.44.png" width="500">
-
-Nuestra relación entre producto y reseña es **1:N** pues un producto tiene muchas reseñas pero cada reseña es exclusivamente sobre un producto.
-
-## Modelo Relacional
-
-El modelo ER facilita las tareas de diseño conceptual de base de datos pero es necesario traducirlo a un esquema que sea compatible con un **Sistema de Gestión de Base de Datos** como lo es PostgreSQL.
-
-El Modelo relacional es utilizado por la mayoría de los SGDB existentes en el mercado (Oracle, SQL Server, MaríaDB, SQLite).
-
-En el modelo relacional se utiliza un grupo de **tablas** para representar los datos y las relaciones entre ellos. Cada tabla está compuesta por varias **columnas** que representan los atributos de la entidad y **filas** que serán **registros** o **tuplas**.
-
-### Restricciones de integridad
-
-La integridad de los datos es la propiedad que asegura que información dada es correcta, al cumplir ciertas aserciones. Las restricciones de integridad son propiedades de la base de datos que se deben satisfacer en cualquier momento entre las cuales están:
-
-- Integridad de clave primaria
-- Integridad referencial
-- Tratamiento de valores nulos
-- Valores por defecto
-
-### ¿Cómo pasar del Modelo ER al Modelo Relacional?
-
-Del ejemplo de la entidad "*Producto"*
-
-<img src="img/img4.png" width="500">
-
-Hemos hablado que el modelo relacional son tablas y columnas, en este ejemplo la entidad *"Producto"* será el nombre de nuestra tabla y cada atributo será una fila.
-
-Como lo vimos anteriormente el uso de **claves** es importante ya que se utilizan para definir relaciones. Las tablas se relacionan mediante una ***"relación de clave primaria o de clave foránea"***, dónde:
-
-- **Llave primaria**: Es una columna o conjunto de columnas en una tabla cuyos valores identifican de forma exclusiva un registro de la tabla.
-- **Llave foránea**: Es una columna o conjunto de columnas en una tabla cuyos valores corresponden a los valores de la clave primaria de otra tabla.
 
 
 [`Atrás: Sesión 02`](../README.md) | [`Siguiente: Reto 01`](../Reto-01)
