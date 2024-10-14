@@ -16,12 +16,11 @@
 ## Integración de Express con MongoDB y Mongoose
 
 - [`Ejemplo 2`](Ejemplo-02/)
-- [`Reto 02`](Reto-02/)
 
 ## Crear Rutas para el CRUD en Express con Mongoose
 
 - [`Ejemplo 3`](Ejemplo-03/)
-- [`Reto 03`](Reto-03/)
+- [`Reto 02`](Reto-02/)
 
 ---
 
