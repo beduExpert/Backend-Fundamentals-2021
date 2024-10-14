@@ -1,7 +1,8 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 06`](../README.md) > `Reto 1`
 
-# Reto 1: Validaciones
+# Reto 1
 
-Siguiendo el ejemplo anterior realiza el mismo proceso de validación para la preparación de los datos para protegerlos en la base de datos sobre el campo de tarjeta de credito de los usuarios.
+1. Crea una ruta para registrar usuarios donde se almacenen las contraseñas cifradas usando `bcrypt`.
+2. Añade el cifrado de otro campo sensible (ej. número de tarjeta) usando `crypto`.
 
 [`Atrás: Ejemplo 01`](../Ejemplo-01) | [`Siguiente: Ejemplo 02`](../Ejemplo-02)

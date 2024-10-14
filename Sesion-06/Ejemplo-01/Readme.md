@@ -1,135 +1,68 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 06`](../README.md) > `Ejemplo 1`
 
-# Ejemplo 1: Validaciones
+# Ejemplo 1: Protección de Datos Sensibles y Cifrado en la Base de Datos
 
 ## Objetivo
 
-- Completar el esquema descrito para usuarios en la sesión anterior con restricciones y seguridad.
-
-## Requerimientos
+Implementar técnicas para proteger y cifrar datos sensibles en la base de datos, como contraseñas y otros datos personales.
 
 ## Desarrollo
 
-1. El esquema generado para el modelo <b>Usuario</b> en la sesión anterior se ve de la siguiente forma:
+### 1. **Cifrado de Contraseñas**
+- **¿Por qué no almacenar contraseñas en texto plano?**
+  - Si una base de datos es comprometida, las contraseñas en texto plano pueden ser utilizadas inmediatamente.
+  
+- **Hashing de contraseñas con `bcrypt.js`**:
+  - **`bcrypt`** es una librería que aplica un algoritmo de hashing con un "salt", haciendo que el hash de la contraseña sea único incluso si dos usuarios tienen la misma contraseña.
 
-```jsx
-   // User.js
-    const { Sequelize, DataTypes, Op } = require('sequelize');
-    const sequelize = require('../config/db')
-    const User = sequelize.define('User', {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true
-      },
-      username: {
-        type: DataTypes.TEXT,
-      },
-      nombre: {
-        type: DataTypes.TEXT
-      },
-      apellido: {
-        type: DataTypes.TEXT
-      },
-      email: {
-        type: DataTypes.TEXT
-      },
-      pasword: {
-        type: DataTypes.TEXT
-      },
-      direccion: {
-        type: DataTypes.TEXT
-      },
-      tarjeta: {
-        type: DataTypes.TEXT
-      },
-      tipo: {
-        type: DataTypes.TEXT,
-      }
-    }, {
-      freezeTableName: true,
-      timestamps: false
-    });
-    module.exports = User;       
-```    
+### **Instalar `bcrypt.js` y crear hash de contraseñas**:
+1. Instalar la librería:
+   ```bash
+   npm install bcryptjs
+   ```
 
-2. Añadiendo validaciones al modelo de <b>Usuario</b>.
+2. Hash de la contraseña antes de almacenarla en la base de datos:
+   ```javascript
+   const bcrypt = require('bcryptjs');
 
-```jsx
-// User.js
-const { Sequelize, DataTypes, Op } = require('sequelize');
-const sequelize = require('../config/db')
+   // Hash de una contraseña
+   const salt = await bcrypt.genSalt(10);
+   const hashedPassword = await bcrypt.hash(req.body.password, salt);
+   ```
+
+3. Comparar la contraseña proporcionada por el usuario con la almacenada:
+   ```javascript
+   const isMatch = await bcrypt.compare(req.body.password, usuario.hashedPassword);
+   if (!isMatch) return res.status(400).send('Contraseña incorrecta');
+   ```
+
+### 2. **Cifrado de otros datos sensibles**
+- En algunas aplicaciones, además de las contraseñas, otros datos como información financiera o médica también deben ser cifrados.
+  
+- **Cifrado simétrico y asimétrico**:
+  - **Simétrico**: Mismo clave para cifrar y descifrar (ejemplo: `crypto` de Node.js).
+  - **Asimétrico**: Claves públicas y privadas (ejemplo: RSA).
+
+### **Uso de la librería `crypto` de Node.js**:
+```javascript
 const crypto = require('crypto');
-const jwt = require('jsonwebtoken'); 
-const secret = require('../config').secret;  
 
-const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  username: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-    unique: true,
-    validate:{
-        isLowercase: true,
-        is: /^[a-zA-Z0-9]+$/
-    }
-  },
-  nombre: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  apellido: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-    unique: true,
-    validate: {
-        isEmail: true,
-    }
-  },
-  salt: {
-    type: DataTypes.TEXT
-  },
-  hash: {
-    type: DataTypes.TEXT
-  },
-  direccion: {
-    type: DataTypes.TEXT
-  },
-  tarjeta: {
-    type: DataTypes.TEXT,
-    validate:{
-        len: 16,
-    }
-  },
-  tipo: {
-    type: DataTypes.TEXT,
-    validate:{
-        isIn: [['Comprador', 'Vendedor']]
-    }
-  }
-}, {
-  freezeTableName: false,
-  timestamps: false
-});
+// Crear una clave aleatoria
+const secret = 'miClaveSecreta';
+const cipher = crypto.createCipher('aes-256-cbc', secret);
 
-module.exports = User;
+// Cifrar datos
+let encrypted = cipher.update('datos sensibles', 'utf8', 'hex');
+encrypted += cipher.final('hex');
+
+// Descifrar datos
+const decipher = crypto.createDecipher('aes-256-cbc', secret);
+let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+decrypted += decipher.final('utf8');
+
+console.log('Datos cifrados:', encrypted);
+console.log('Datos descifrados:', decrypted);
 ```
-
-  Las validaciones son comprobaciones realizadas en el nivel Sequelize, en JavaScript puro. Pueden ser arbitrariamente complejos si proporciona una función de validación personalizada, o pueden ser uno de los validadores integrados que ofrece Sequelize. Si falla una validación, no se enviará ninguna consulta SQL a la base de datos. Éstas se escriben dentro del objeto `validate`.
-
-  Por otro lado, las restricciones son reglas definidas a nivel de SQL. El ejemplo más básico de restricción es una restricción única. Si falla una verificación de restricción, la base de datos arrojará un error y Sequelize enviará este error a JavaScript (en este ejemplo, arrojará un SequelizeUniqueConstraintError). Tenga en cuenta que en este caso se realizó la consulta SQL, a diferencia del caso de las validaciones.
-
-  Hay que observar que en la nueva implementación del modeo de usuarios ya no almacenamos la contraseña sino que almacenamos una combinación de atributos `salt` y `hash` que nos ayudarán a guardar de forma segura la contraseña mediante un cifrado que haremos en el próximo ejemplo.
-
 
 
 [`Atrás`](../README.md) | [`Siguiente`](../Ejemplo-02)
