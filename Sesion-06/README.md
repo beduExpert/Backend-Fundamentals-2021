@@ -32,7 +32,7 @@ Cuando se trabaja con información sensible o confidencial es importante que tra
 - [`Reto 2`](Reto-02/)
 
 
-### Módulo 6: Validación de Datos con MongoDB y Mongoose
+### Validación de Datos con MongoDB y Mongoose
 
 - [`Ejemplo 3`](Ejemplo-03/)
 - [`Reto 3`](Reto-03/)

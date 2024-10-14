@@ -2,7 +2,7 @@
 
 🎯 **Objetivo:**
 
-Al final de la clase, los estudiantes serán capaces de utilizar Express.js para crear aplicaciones web basadas en Node.js. Aprenderán a manejar rutas, middleware, peticiones y respuestas HTTP, y a conectar una base de datos MongoDB utilizando Mongoose.
+Al final de la sesión, los estudiantes serán capaces de utilizar Express.js para crear aplicaciones web basadas en Node.js. Aprenderán a manejar rutas, middleware, peticiones y respuestas HTTP, y a conectar una base de datos MongoDB utilizando Mongoose.
 
 ---
 
