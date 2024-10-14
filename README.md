@@ -34,4 +34,4 @@ Es recomendable que tengas los siguientes **conocimientos.**
 
 - [`Sesión 07` - Autenticación y Protección](Sesion-07)
 
-- [`Sesión 08` - Deploy y Documentación](Sesion-08)
+- [`Sesión 08` - Arquitectura de Microservicios y Documentación](Sesion-08)

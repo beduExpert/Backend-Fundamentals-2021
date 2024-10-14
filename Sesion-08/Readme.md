@@ -1,42 +1,41 @@
-# Sesión 8 - Deploy
+# Sesión 8 - Arquitectura de Microservicios y Documentación
 
 🎯 **Objetivo:**
 
-- Publicar una API en producción. 
-- Técnicas y mejores prácticas para publicar un sistema de manera estable.
+En esta sesión, los estudiantes aprenderán los conceptos y técnicas fundamentales para diseñar y desarrollar una arquitectura basada en **microservicios** con Node.js y MongoDB. Además, se enfocarán en cómo documentar APIs distribuidas de forma efectiva y explorar métodos de comunicación entre microservicios.
+
+---
+
+1. **Monolito vs. Microservicios**:
+   - **Arquitectura monolítica**: Todas las funcionalidades de la aplicación están en un solo código base. Problemas de escalabilidad, mantenimiento y flexibilidad.
+   - **Arquitectura de microservicios**: Separación de funcionalidades en servicios independientes que pueden escalar y gestionarse de forma aislada.
+   
+2. **Ventajas de los microservicios**:
+   - Despliegue independiente de servicios.
+   - Mayor escalabilidad horizontal.
+   - Separación clara de responsabilidades (cada servicio tiene una funcionalidad única).
+
+3. **Componentes clave en un ecosistema de microservicios**:
+   - **API Gateway**: Punto central para la gestión de solicitudes entrantes y enrutamiento a los microservicios correspondientes.
+   - **Base de datos distribuida**: Diferentes servicios pueden usar bases de datos especializadas (ej: un servicio con MongoDB y otro con PostgreSQL).
+   - **Mensajería y comunicación**: Herramientas como RabbitMQ, Kafka, o gRPC para la comunicación entre servicios.
+
+4. **Ejemplos reales de uso de microservicios**:
+   - **Netflix, Uber, Amazon**: Ejemplos de empresas que han adoptado la arquitectura de microservicios para escalar sus operaciones.
+
+### Diseño de Microservicios con Node.js y MongoDB
+
+- [`Ejemplo 1`](Ejemplo-01/)
+- [`Reto 01: Deploy`](Reto-01/)
+
+###  Comunicación entre Microservicios
+
+- [`Ejemplo 2`](Ejemplo-02/)
 
 
+###   Documentación de una API
 
-## 🪂 Deployment
-
-![](img/launch.png)
-
-Uno de los procesos mas importantes en el desarrollo de API es el **deploy** de ésta, es decir, el proceso que se da cuando terminamos de desarrollarla y  la hacemos publica para que las personas la utilicen.
-
-Los pasos que en la mayoría de los casos se siguen para lanzar a producción las API son:
-
-1. **Desarrollo** el crear la API, todo el proceso que hemos hecho hasta ahora.
-2. **Testing** probar que la API en realidad funcione, encontrar y corregir *bugs* 🪲.
-3. **Preparación** el código con el que trabajamos en la etapa de desarrollo no es necesariamente el que se va a subir al servidor, tiene que pasar por una serie de transformaciones que lo hacen mas compacto y manejable.
-4. **Launch** lazar la API, para este paso se recomienda usar herramientas como *Heroku* que simplifican este proceso. 
-5. **Uso** comenzar a utilizar la API ya en producción.
-
-### ⚒ Preparación 
-
-- [`Ejemplo 1: Preparando nuestra API para producción`](Ejemplo-01/#ejemplo-1---preparando-nuestra-api-para-producción)
-- [`Reto 01: Deploy`](Reto-01/#reto-1)
-
-
-### 🚀 Launch 
-
-- [`Ejemplo 2: Deploy con Heroku`](Ejemplo-02/#ejemplo-2---deploy-con-heroku)
-<!-- - [`Reto 02: Deploy de tu API`](Reto-02/#reto-2)  -->
-
-<!-- ###  Uso 
-
-- [`Ejemplo 3: Demostración - Publicación en Dominio`](Ejemplo-03/#ejemplo-3---últimos-pasos)
-- [`Reto 03: Certificado SSL`](Reto-03/#reto-3) -->
-
+- [`Ejemplo 3`](Ejemplo-03/)
 
 ---
 

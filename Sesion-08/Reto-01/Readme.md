@@ -1,17 +1,8 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 08`](../Readme.md) > `Reto 1`
 
-`Backend Fundamentals` > `S08 - Deploy` 
-	
-## Reto 1
+# Reto 1
 
-1. Una vez que hayas verificado que el consumo de variables de entorno esté en orden, si aún no lo has hecho, **inicializa un nuevo repositorio de git** con el proyecto de adoptapet.
-2.  **Es importante que antes de hacer push actualices el archivo `.gitignore`** agregando la carpeta `node_modules/` y tu archivo `env.sh`  
-3. Una vez hecho lo anterior sube tu repositorio a tu cuenta de **github.** Para el siguiente reto será importante que tengas este repo actualizado y listo.
-
-## Nota:
-
-- En caso de ser necesario, puedes descargar el proyecto completo adjunto.
-
-![image](https://miro.medium.com/max/1200/1*pmCYFW7bPmEaysG2dl27IA.png)
+1. Crear dos microservicios: uno de usuarios y otro de productos, cada uno con su propia base de datos en MongoDB.  
+2. Desarrollar operaciones CRUD básicas para ambos servicios.
 
 [`Atrás`](../Ejemplo-01) | [`Siguiente`](../Ejemplo-02)
