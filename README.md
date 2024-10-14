@@ -30,8 +30,8 @@ Es recomendable que tengas los siguientes **conocimientos.**
 
 - [`Sesión 05` - Express.js 102](Sesion-05)
 
-- [`Sesión 06` - Seguridad](Sesion-06)
+- [`Sesión 06` - Seguridad del Backend](Sesion-06)
 
-- [`Sesión 07` - Manejo de sesiones](Sesion-07)
+- [`Sesión 07` - Autenticación y Protección](Sesion-07)
 
 - [`Sesión 08` - Deploy y Documentación](Sesion-08)
