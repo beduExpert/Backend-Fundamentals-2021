@@ -1,8 +1,8 @@
 [`Backend Fundamentals`](../../README.md) > [`Sesión 05`](../README.md) > `Reto 1`
 	
-## Reto 1: Modularización
+## Reto 1
 
-Crear el controador con la estructura CRUD para las mascotas de manera similar a lo que hicimos con el archivo routes/usuarios.js, no olvides usar el modelo que ya definimos para mascota.
-
+1. Crea un enrutador para manejar rutas relacionadas con productos. Define una ruta para obtener detalles de un producto.
+2. Implementa un middleware de manejo de errores que devuelva una respuesta personalizada cuando ocurra un error.
 
 [`Atrás`](../Ejemplo-02) | [`Siguiente`](../Ejemplo-03)
